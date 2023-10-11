@@ -1,0 +1,24 @@
+﻿@model Laboratorium2.Models.BirthModel;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@* <form action="Result" method="post">
+    <input type="text" name="Name" />
+    <input type="date" name="Date" />
+
+    <br />
+    <input type="submit" value="Wyślij!" />
+</form> 
+*@
+
+
+<form asp-action="Result" method="post">
+    <input asp-for="Name" />
+    <input asp-for="Date" />
+
+    <br />
+    <input type="submit" value="Wyślij!" />
+</form>
