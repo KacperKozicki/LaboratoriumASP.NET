@@ -1,0 +1,30 @@
+﻿@model Album
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<h1>Szczegóły dotyczące Albumu nr: @Model.Id </h1>
+
+
+
+
+<p> <strong>Nazwa albumu:</strong> @Model.Name</p>
+<p> <strong>Zespół / artysta:</strong> @Model.BandOrArtist</p>
+<p> <strong>Lista utworów:</strong> </p>
+    <ol>
+        @for (var i = 0; i < Model.Tracklist.Count; i++)
+        {
+        <li>@Model.Tracklist[i] </li>
+        }
+    </ol>
+<p> <strong>Data wydania:</strong> @Model.ReleaseDate</p>
+<p> <strong>Czas trwania:</strong> @Model.Duration</p>
+<p> <strong>Notowania:</strong> @Model.ChartRanking</p>
+
+
+
+
+
+<a class="btn btn-primary" asp-action="Index">Powrót</a>

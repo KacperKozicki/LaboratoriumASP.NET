@@ -1,0 +1,41 @@
+﻿@model List<Album>
+
+<h1>Lista albumów</h1>
+<a class="btn btn-primary" asp-controller="Album" asp-action="Create">Dodaj album</a>
+
+<table class="table">
+    <tr>
+        <th>Nazwa albumu</th>
+        <th>Zespół / wykonawca</th>
+        <th>Spis piosenek</th>
+        @* <th>Notowanie</th>
+        <th>Data wydania</th>
+        <th>Czas trwania</th> *@
+    </tr>
+
+    @foreach (var album in Model)
+    {
+        <tr>
+            <td>@album.Name</td>
+            <td>@album.BandOrArtist</td>
+
+            <td>
+                <ul>
+                    @foreach (var song in album.Tracklist)
+                    {
+                        <li>@song</li>
+                    }
+                </ul>
+            </td>
+
+            @* <td>@album.ChartRanking</td>
+            <td>@album.ReleaseDate</td>
+            <td>@album.Duration</td> *@
+            <td>
+                <a class="btn btn-outline-secondary" asp-controller="Album" asp-action="Update" asp-route-id="@album.Id">Edit</a>
+                <a class="btn btn-outline-info" asp-controller="Album" asp-action="Details" asp-route-id="@album.Id">Szczegóły</a>
+                <a class="btn btn-outline-danger" asp-controller="Album" asp-action="Delete" asp-route-id="@album.Id">Usuń</a>
+            </td>
+        </tr>
+    }
+</table>
