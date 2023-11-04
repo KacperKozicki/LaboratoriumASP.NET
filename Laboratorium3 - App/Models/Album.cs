@@ -5,28 +5,36 @@ namespace Laboratorium3___App.Models
 {
     public class Album
     {
+        [HiddenInput]
+        public DateTime Created { get; set; }
 
         [HiddenInput]
-        public int Id { get; set; } // Unique identifier for the album
+        public int Id { get; set; } 
 
         [Required(ErrorMessage = "Musisz podać nazwę albumu!")]
         [StringLength(maximumLength: 70, ErrorMessage = "Zbyt długa nazwa albumu, max 70 znaków")]
-        public string Name { get; set; } // Name of the album
+        [Display(Name = "Nazwa albumu")]
+        public string Name { get; set; } 
 
         [Required(ErrorMessage = "Musisz podać nazwę wykonawcy!")]
         [StringLength(maximumLength: 70, ErrorMessage = "Zbyt długa nazwa wykonawcy, max 70 znaków")]
-        public string BandOrArtist { get; set; } // Name of the band or artist
+        [Display(Name = "Zespół / Artysta")]
+        public string BandOrArtist { get; set; }
 
         [Required(ErrorMessage = "Musisz podać conajmniej jeden utwór!")]
-        public List<string> Tracklist { get; set; } // List of songs on the album
+        [MinLength(1, ErrorMessage = "Musisz podać conajmniej jeden utwór!")]
+        [Display(Name = "Lista piosenek")]
+        public List<string> Tracklist { get; set; }
 
+        [Display(Name = "Notowania")]
+        public AlbumChartRanking ChartRanking { get; set; } 
 
-        public string? ChartRanking { get; set; } // Chart ranking (e.g., Billboard 200)
         [DataType(DataType.Date)]
-        public DateTime? ReleaseDate { get; set; } // Release date of the album
-        public TimeSpan? Duration { get; set; } // Duration of the album
+        [Display(Name = "Data wydania")]
+        public DateTime? ReleaseDate { get; set; }
+        [Display(Name = "Czas trwania")]
+        public TimeSpan? Duration { get; set; }
 
-        // Constructor to initialize the properties
         public Album()
         {
             Tracklist = new List<string>();

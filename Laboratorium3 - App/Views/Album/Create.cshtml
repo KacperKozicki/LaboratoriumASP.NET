@@ -4,6 +4,9 @@
     ViewData["Title"] = "Create Album";
 }
 
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
 <h2>Dodaj Album</h2>
 
 <form asp-controller="Album" asp-action="Create" method="post">
@@ -12,52 +15,49 @@
     
 
     <div class="mb-3">
-        <label class="font-weight-bold" asp-for="Name">Nazwa albumu:</label>
+        <label class="font-weight-bold" asp-for="Name"></label>
         <input asp-for="Name" class="form-control" placeholder="Np.: Najemnik"   />
         <span class="text-danger" asp-validation-for="Name"></span>
     </div>
     <div class="mb-3">
-        <label class="font-weight-bold"  asp-for="BandOrArtist">Zespół/Artysta:</label>
+        <label class="font-weight-bold"  asp-for="BandOrArtist"></label>
         <input asp-for="BandOrArtist" class="form-control" placeholder="Np.: Dżem"   />
         <span class="text-danger" asp-validation-for="BandOrArtist"></span>
     </div>
 
     <div class="mb-3">
-        <label>Lista utworów:</label>
+        <label class="font-weight-bold" asp-for="Tracklist"></label>
         <div id="tracklistContainer">
-            <input name="Tracklist[0]" class=" form-control mb-1" placeholder="Np.: Wehikuł czasu" />
-            <span class="text-danger" asp-validation-for="Tracklist[0]"></span>
+            <input name="Tracklist[0]" class=" form-control mb-1" placeholder="Np.: Wehikuł czasu"  />
+            <span asp-validation-for="Tracklist[0]" class="text-danger"></span>
 
         </div>
         <div class="mt-2">
-            <button type="button" class="btn btn-info text-white font-weight-bold" id="addTracklist">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
-                </svg>
+            <button type="button" class="btn btn-secondary text-white font-weight-bold" id="addTracklist">
                 Dodaj kolejny
             </button>
 
         </div>
+        <span asp-validation-for="Tracklist" class="text-danger"></span> <!-- Walidacja dla całej listy piosenek -->
+
     </div>
 
     <div class="mb-3">
-        <label class="font-weight-bold"  asp-for="ReleaseDate">Data wydania:</label>
+        <label class="font-weight-bold"  asp-for="ReleaseDate"></label>
         <input asp-for="ReleaseDate" class="form-control" />
         <span class="text-danger" asp-validation-for="ReleaseDate"></span>
 
     </div>
     <div class="mb-3">
-        <label class="font-weight-bold" asp-for="Duration">Czas trwania:</label>
+        <label class="font-weight-bold" asp-for="Duration"></label>
         <input asp-for="Duration" class="form-control" />
         <span class="text-danger" asp-validation-for="Duration"></span>
 
 
     </div>
     <div class="mb-3">
-        <label class="font-weight-bold" asp-for="ChartRanking">Notowanie:</label>
-        <textarea asp-for="ChartRanking" class="form-control"></textarea>
-        <span class="text-danger" asp-validation-for="ChartRanking"></span>
-
+        <label class="font-weight-bold" asp-for="ChartRanking"></label>
+        <select class="form-control" asp-for="ChartRanking" asp-items="@Html.GetEnumSelectList<AlbumChartRanking>()"></select>
     </div>
 
     <button type="submit" class="btn btn-primary">Dodaj</button>
@@ -73,7 +73,11 @@
         var input = document.createElement("input");
         input.name = "Tracklist[" + tracklistIndex + "]";
         input.className = "form-control mb-1";
+        input.placeholder = "Np.: Wehikuł czasu";
         tracklistContainer.appendChild(input);
         tracklistIndex++;
     });
 </script>
+</div>
+</div>
+</div>

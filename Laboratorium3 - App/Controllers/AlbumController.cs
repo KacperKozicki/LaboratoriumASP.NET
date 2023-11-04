@@ -8,14 +8,17 @@ namespace Laboratorium3___App.Controllers
 {
     public class AlbumController : Controller
     {
+       private readonly IAlbumService _albumService;
 
-        static readonly Dictionary<int, Album> _albums = new Dictionary<int, Album>();
-        int id = 1;
+       public AlbumController(IAlbumService albumService)
+        {
+            _albumService = albumService;
+        }
 
         public IActionResult Index()
         {
-            var albums = _albums.Values.ToList(); 
-            return View(albums); 
+            List<Album> albums = _albumService.FindAll();
+            return View(albums);
         }
 
         [HttpGet]
@@ -29,28 +32,22 @@ namespace Laboratorium3___App.Controllers
         {
             if (ModelState.IsValid)
             {
-                do
-                {
-                    model.Id = id++;
-                } while (_albums.ContainsKey(model.Id));
-
-                model.Tracklist = model.Tracklist.Where(item => !string.IsNullOrWhiteSpace(item)).ToList();
-                
-                _albums.Add(model.Id, model);
-
+                _albumService.Add(model);
                 return RedirectToAction("Index");
-
             }
-            return View(); 
-
-           
+            return View(); // ponowne wyświetlenie formualrza po dodaniu jeśli są błędy
         }
 
 
         [HttpGet]
         public IActionResult Update(int id)
         {
-            return View(_albums[id]);
+            Album albums = _albumService.FindById(id);
+            if (albums == null)
+            {
+                return NotFound();
+            }
+            return View(albums);
         }
 
         [HttpPost]
@@ -58,7 +55,7 @@ namespace Laboratorium3___App.Controllers
         {
             if (ModelState.IsValid)
             {
-                _albums[model.Id] = model;       //przypisanie nowych danych
+                _albumService.Update(model);       //przypisanie nowych danych
                 return RedirectToAction("Index");
             }
             return View();
@@ -68,20 +65,30 @@ namespace Laboratorium3___App.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            return View(_albums[id]);
+            Album albums = _albumService.FindById(id);
+            if (albums == null)
+            {
+                return NotFound();
+            }
+            return View(albums);
         }
 
         [HttpPost]
         public IActionResult Delete(Contact model)
         {
-            _albums.Remove(model.Id);
+            _albumService.Delete(model.Id);
             return RedirectToAction("Index");
         }
 
         [HttpGet]
         public IActionResult Details(int id)
         {
-            return View(_albums[id]);
+            Album albums = _albumService.FindById(id);
+            if (albums == null)
+            {
+                return NotFound();
+            }
+            return View(albums);
         }
 
     }
