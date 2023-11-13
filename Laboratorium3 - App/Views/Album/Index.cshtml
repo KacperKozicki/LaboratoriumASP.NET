@@ -20,12 +20,19 @@
             <td>@album.BandOrArtist</td>
 
             <td>
-                <ul>
-                    @foreach (var song in album.Tracklist)
-                    {
-                        <li>@song</li>
-                    }
-                </ul>
+                @if (album.Tracklist != null && album.Tracklist.Any())
+                {
+                    <ul>
+                        @foreach (var song in album.Tracklist)
+                        {
+                            <li>@song</li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p>No tracklist available</p>
+                }
             </td>
 
             
