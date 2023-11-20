@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using Data.Entities;
+using System.Reflection;
 
 namespace Laboratorium3___App.Models;
 public class MemoryAlbumService : IAlbumService
@@ -32,6 +33,11 @@ public class MemoryAlbumService : IAlbumService
     public List<Album> FindAll()
     {
         return _items.Values.ToList();
+    }
+
+    public List<GenreEntity> FindAllGenres()
+    {
+        throw new NotImplementedException();
     }
 
     public Album? FindById(int id)

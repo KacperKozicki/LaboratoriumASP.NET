@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
 namespace Laboratorium3___App.Models
@@ -34,6 +36,19 @@ namespace Laboratorium3___App.Models
         public DateTime? ReleaseDate { get; set; }
         [Display(Name = "Czas trwania")]
         public TimeSpan? Duration { get; set; }
+
+
+
+
+
+        //[ValidateNever]
+        //public string OrganizationName { get; set; }
+        public int? GenreId { get; set; }
+        [ValidateNever]
+        public string GenreName { get; set; }
+        [ValidateNever]
+        public List<SelectListItem> Genres { get; set; }
+
 
         public Album()
         {

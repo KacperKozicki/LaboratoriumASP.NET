@@ -24,7 +24,13 @@ namespace Laboratorium3___App.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            Album model = new Album();
+            model.Genres = _albumService.FindAllGenres().Select(eo => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
+            {
+                Text = eo.Name,
+                Value = eo.Id.ToString(),
+            }).ToList();
+            return View(model);
         }
 
         [HttpPost]
@@ -42,23 +48,39 @@ namespace Laboratorium3___App.Controllers
         [HttpGet]
         public IActionResult Update(int id)
         {
+           
+
             Album albums = _albumService.FindById(id);
             if (albums == null)
             {
                 return NotFound();
             }
+
+            albums.Genres = _albumService.FindAllGenres().Select(eo => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+            {
+                Text = eo.Name,
+                Value = eo.Id.ToString(),
+            }).ToList();
+
             return View(albums);
         }
 
         [HttpPost]
         public IActionResult Update(Album model)
         {
-            if (ModelState.IsValid)
+            model.Genres = _albumService.FindAllGenres().Select(eo => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
             {
-                _albumService.Update(model);       //przypisanie nowych danych
+                Text = eo.Name,
+                Value = eo.Id.ToString(),
+            }).ToList();
+            if (ModelState.IsValid)
+
+            {
+                _albumService.Update(model); // przypisanie nowych danych
                 return RedirectToAction("Index");
             }
-            return View();
+
+            return View(model);      
         }
 
 
@@ -83,12 +105,28 @@ namespace Laboratorium3___App.Controllers
         [HttpGet]
         public IActionResult Details(int id)
         {
+
             Album albums = _albumService.FindById(id);
+
             if (albums == null)
             {
                 return NotFound();
             }
+
+            var organization = _albumService.FindAllGenres()
+                .FirstOrDefault(eo => eo.Id == albums.GenreId);
+
+            albums.GenreName = organization?.Name; // Ustaw nazwę organizacji
+
             return View(albums);
+
+
+            //Album albums = _albumService.FindById(id);
+            //if (albums == null)
+            //{
+            //    return NotFound();
+            //}
+            //return View(albums);
         }
 
     }

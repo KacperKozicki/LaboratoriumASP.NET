@@ -50,26 +50,45 @@ namespace Laboratorium3___App.Controllers
         }
 
         [HttpGet]
-        public IActionResult Update(int id) 
+        public IActionResult Update(int id)
         {
             Contact contact = _contactService.FindById(id);
+
             if (contact == null)
             {
                 return NotFound();
             }
+
+            contact.Organizations = _contactService.FindAllOrganizations().Select(eo => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+            {
+                Text = eo.Name,
+                Value = eo.Id.ToString(),
+            }).ToList();
+
             return View(contact);
         }
+
 
         [HttpPost]
         public IActionResult Update(Contact model)
         {
-            if(ModelState.IsValid)
+            model.Organizations = _contactService.FindAllOrganizations().Select(eo => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
             {
-                _contactService.Update(model);       //przypisanie nowych danych
-                return RedirectToAction("Index");  
+                Text = eo.Name,
+                Value = eo.Id.ToString(),
+            }).ToList();
+            if (ModelState.IsValid)
+            
+            {
+                _contactService.Update(model); // przypisanie nowych danych
+                return RedirectToAction("Index");
             }
-            return View();
+
+           
+
+            return View(model);
         }
+
 
         [HttpGet]
         public IActionResult Delete(int id) 
@@ -93,11 +112,20 @@ namespace Laboratorium3___App.Controllers
         public IActionResult Details(int id)
         {
             Contact contact = _contactService.FindById(id);
+
             if (contact == null)
             {
                 return NotFound();
             }
+
+            var organization = _contactService.FindAllOrganizations()
+                .FirstOrDefault(eo => eo.Id == contact.OrganizationId);
+
+            contact.OrganizationName = organization?.Name; // Ustaw nazwę organizacji
+
             return View(contact);
         }
+
+
     }
 }

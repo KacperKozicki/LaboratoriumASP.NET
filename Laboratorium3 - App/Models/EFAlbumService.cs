@@ -49,6 +49,11 @@ namespace Laboratorium3___App.Models
             return albums.Select(e => AlbumMapper.FromEntity(e)).ToList();
         }
 
+        public List<GenreEntity> FindAllGenres()
+        {
+            return _context.Genres.ToList();
+        }
+
         public Album? FindById(int id)
         {
             AlbumEntity? find = _context.Albums.Find(id);

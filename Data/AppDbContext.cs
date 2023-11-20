@@ -11,6 +11,8 @@ namespace Data
         public DbSet<AlbumEntity> Albums { get; set; }
         public DbSet<TrackEntity> Tracks { get; set; } 
         public DbSet<OrganizationEntity> Organizations { get; set; }
+        public DbSet<GenreEntity> Genres { get; set; }
+
 
         private string DbPath { get; set; }
 
@@ -31,6 +33,11 @@ namespace Data
                 .WithMany(o => o.Contacts)
                 .HasForeignKey(c => c.OrganizationId);
 
+            modelBuilder.Entity<AlbumEntity>()
+                .HasOne(c => c.Genre)
+                .WithMany(o => o.Albums)
+                .HasForeignKey(c => c.GenreId);
+
 
             //dodanie organizacji
             modelBuilder.Entity<OrganizationEntity>()
@@ -40,8 +47,57 @@ namespace Data
                         Id = 1,
                         Name = "WSEI",
                         Description = "Uczelnia",
+                    },
+                    new OrganizationEntity()
+                    {
+                        Id = 2,
+                        Name = "UJ",
+                        Description = "Uczelnia",
+                    },
+                    new OrganizationEntity()
+                    {
+                        Id = 3,
+                        Name = "AGH",
+                        Description = "Uczelnia",
+                    },
+                    new OrganizationEntity()
+                    {
+                        Id = 4,
+                        Name = "NOKIA",
+                        Description = "Firma",
                     }
                 );
+
+
+            //dodanie organizacji
+            modelBuilder.Entity<GenreEntity>()
+                .HasData(
+                    new GenreEntity()
+                    {
+                        Id = 1,
+                        Name = "Rock",
+                        Description = "Lorem",
+                    },
+                    new GenreEntity()
+                    {
+                        Id = 2,
+                        Name = "Jazz",
+                        Description = "Lorem",
+                    },
+                    new GenreEntity()
+                    {
+                        Id = 3,
+                        Name = "Clasic",
+                        Description = "Lorem",
+                    },
+                    new GenreEntity()
+                    {
+                        Id = 4,
+                        Name = "Pop",
+                        Description = "Lorem",
+                    }
+                );
+
 
             modelBuilder.Entity<TrackEntity>().HasKey(t => t.Id);
             modelBuilder.Entity<TrackEntity>().HasOne(t => t.Album).WithMany(a => a.Tracklist).HasForeignKey(t => t.AlbumEntityId);
@@ -57,7 +113,20 @@ namespace Data
             modelBuilder.Entity<OrganizationEntity>()
                 .OwnsOne(o => o.Adress)
                 .HasData(
-                new { OrganizationEntityId = 1, City = "Kraków", Street = "Św. Filipa 17", PostalCode = "31-150" });
+                new { OrganizationEntityId = 1, City = "Kraków", Street = "Św. Filipa 17", PostalCode = "31-150" },
+                new { OrganizationEntityId = 2, City = "Kraków", Street = "Gołębia 24", PostalCode = "31-007" },
+                new { OrganizationEntityId = 3, City = "Kraków", Street = "al. Adama Mickiewicza 30", PostalCode = "31-059" },
+                new { OrganizationEntityId = 4, City = "Kraków", Street = "Michała Bobrzyńskiego 46", PostalCode = "31-348" });
+
+
+            modelBuilder.Entity<GenreEntity>()
+                .OwnsOne(o => o.History)
+                .HasData(
+                new { GenreEntityId = 1, YearOfOrigin = 1951, Founder = "Alan Freed", Country = "USA" },
+                new { GenreEntityId = 2, YearOfOrigin = 1951, Founder = "Ray Charles", Country = "USA" },
+                new { GenreEntityId = 3, YearOfOrigin = 1750, Founder = "Johann Sebastian Bach", Country = "Germany" },
+                new { GenreEntityId = 4, YearOfOrigin = 1960, Founder = "Michael Joseph Jackson", Country = "USA" }
+                );
 
 
             modelBuilder.Entity<AlbumEntity>().HasData(
@@ -68,7 +137,8 @@ namespace Data
                     BandOrArtist = "Artist1",
                     ReleaseDate = new DateTime(2022, 1, 1),
                     Created = DateTime.Now,
-                    ChartRanking = 1
+                    ChartRanking = 1,
+                    GenreId=1
                 },
                 new AlbumEntity()
                 {
@@ -77,7 +147,9 @@ namespace Data
                     BandOrArtist = "Artist2",
                     ReleaseDate = new DateTime(2021, 11, 1),
                     Created = DateTime.Now,
-                    ChartRanking = 3
+                    ChartRanking = 3,
+                    GenreId = 2
+
                 });
 
             modelBuilder.Entity<TrackEntity>().HasData(

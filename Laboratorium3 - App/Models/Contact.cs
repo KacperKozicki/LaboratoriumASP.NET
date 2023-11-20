@@ -35,6 +35,9 @@ namespace Laboratorium3___App.Models
         public int? OrganizationId { get; set; }
 
         [ValidateNever]
+        public string OrganizationName { get; set; }
+
+        [ValidateNever]
         public List<SelectListItem> Organizations { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Laboratorium3___App.Models;
+﻿using Data.Entities;
+
+namespace Laboratorium3___App.Models;
 
 public interface IAlbumService
 {
@@ -7,4 +9,7 @@ public interface IAlbumService
     void Update(Album book);
     List<Album> FindAll();
     Album? FindById(int id);
+
+    List<GenreEntity> FindAllGenres();
+
 }

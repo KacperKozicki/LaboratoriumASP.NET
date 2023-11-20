@@ -58,6 +58,11 @@
          <select class="form-control" asp-for="ChartRanking" asp-items="@Html.GetEnumSelectList<AlbumChartRanking>()"></select>
     </div>
 
+    <div class="mb-3">
+        <label asp-for="GenreId">Gatunek</label>
+        <select class="form-control" asp-for="GenreId" asp-items="@Model.Genres"></select>
+    </div>
+
     <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
     <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
 </form>

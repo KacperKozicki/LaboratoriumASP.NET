@@ -17,6 +17,8 @@ namespace Laboratorium3___App.Models
                 Duration = model.Duration,
                 ChartRanking = (int)model.ChartRanking,
                 Tracklist = model.Tracklist?.Select(track => new TrackEntity { Name = track }).ToList() ?? new List<TrackEntity>(),
+                GenreId = (int)model.GenreId,
+
             };
         }
 
@@ -32,6 +34,8 @@ namespace Laboratorium3___App.Models
                 Duration = entity.Duration,
                 ChartRanking = (AlbumChartRanking)entity.ChartRanking,
                 Tracklist = entity.Tracklist?.Select(track => track.Name).ToList() ?? new List<string>(),
+                GenreId = entity.GenreId,
+
             };
         }
     }

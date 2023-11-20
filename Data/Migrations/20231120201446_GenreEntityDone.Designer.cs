@@ -3,6 +3,7 @@ using System;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231120201446_GenreEntityDone")]
+    partial class GenreEntityDone
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.13");
@@ -61,7 +64,7 @@ namespace Data.Migrations
                             Id = 1,
                             BandOrArtist = "Artist1",
                             ChartRanking = 1,
-                            Created = new DateTime(2023, 11, 20, 21, 19, 35, 948, DateTimeKind.Local).AddTicks(1410),
+                            Created = new DateTime(2023, 11, 20, 21, 14, 46, 472, DateTimeKind.Local).AddTicks(3801),
                             GenreId = 1,
                             Name = "Album1",
                             ReleaseDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -71,7 +74,7 @@ namespace Data.Migrations
                             Id = 2,
                             BandOrArtist = "Artist2",
                             ChartRanking = 3,
-                            Created = new DateTime(2023, 11, 20, 21, 19, 35, 948, DateTimeKind.Local).AddTicks(1438),
+                            Created = new DateTime(2023, 11, 20, 21, 14, 46, 472, DateTimeKind.Local).AddTicks(3827),
                             GenreId = 2,
                             Name = "Album2",
                             ReleaseDate = new DateTime(2021, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -122,7 +125,7 @@ namespace Data.Migrations
                         {
                             Id = 1,
                             Birth = new DateTime(2000, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Created = new DateTime(2023, 11, 20, 21, 19, 35, 945, DateTimeKind.Local).AddTicks(7683),
+                            Created = new DateTime(2023, 11, 20, 21, 14, 46, 470, DateTimeKind.Local).AddTicks(552),
                             Email = "adam@wsei.edu.pl",
                             Name = "Adam",
                             OrganizationId = 1,
@@ -133,7 +136,7 @@ namespace Data.Migrations
                         {
                             Id = 2,
                             Birth = new DateTime(1999, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Created = new DateTime(2023, 11, 20, 21, 19, 35, 945, DateTimeKind.Local).AddTicks(7742),
+                            Created = new DateTime(2023, 11, 20, 21, 14, 46, 470, DateTimeKind.Local).AddTicks(599),
                             Email = "ewa@wsei.edu.pl",
                             Name = "Ewa",
                             OrganizationId = 1,
@@ -165,13 +168,13 @@ namespace Data.Migrations
                         {
                             Id = 1,
                             Description = "Lorem",
-                            Name = "Rock"
+                            Name = "RockAndRoll"
                         },
                         new
                         {
                             Id = 2,
                             Description = "Lorem",
-                            Name = "Jazz"
+                            Name = "Jezz"
                         },
                         new
                         {

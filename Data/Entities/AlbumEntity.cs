@@ -34,6 +34,8 @@ namespace Data.Entities
 
         // You might need to change this based on your requirements
         public DateTime Created { get; set; }
+        public GenreEntity Genre { get; set; }
+        public int GenreId { get; set; }
     }
 
     

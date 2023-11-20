@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231114134905_organizationEntity")]
-    partial class organizationEntity
+    [Migration("20231120201936_GenreEntityDones")]
+    partial class GenreEntityDones
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,6 +40,9 @@ namespace Data.Migrations
                     b.Property<TimeSpan?>("Duration")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("GenreId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(70)
@@ -51,6 +54,8 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GenreId");
+
                     b.ToTable("albums");
 
                     b.HasData(
@@ -59,7 +64,8 @@ namespace Data.Migrations
                             Id = 1,
                             BandOrArtist = "Artist1",
                             ChartRanking = 1,
-                            Created = new DateTime(2023, 11, 14, 14, 49, 5, 267, DateTimeKind.Local).AddTicks(1931),
+                            Created = new DateTime(2023, 11, 20, 21, 19, 35, 948, DateTimeKind.Local).AddTicks(1410),
+                            GenreId = 1,
                             Name = "Album1",
                             ReleaseDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -68,7 +74,8 @@ namespace Data.Migrations
                             Id = 2,
                             BandOrArtist = "Artist2",
                             ChartRanking = 3,
-                            Created = new DateTime(2023, 11, 14, 14, 49, 5, 267, DateTimeKind.Local).AddTicks(1949),
+                            Created = new DateTime(2023, 11, 20, 21, 19, 35, 948, DateTimeKind.Local).AddTicks(1438),
+                            GenreId = 2,
                             Name = "Album2",
                             ReleaseDate = new DateTime(2021, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
@@ -118,7 +125,7 @@ namespace Data.Migrations
                         {
                             Id = 1,
                             Birth = new DateTime(2000, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Created = new DateTime(2023, 11, 14, 14, 49, 5, 265, DateTimeKind.Local).AddTicks(9130),
+                            Created = new DateTime(2023, 11, 20, 21, 19, 35, 945, DateTimeKind.Local).AddTicks(7683),
                             Email = "adam@wsei.edu.pl",
                             Name = "Adam",
                             OrganizationId = 1,
@@ -129,12 +136,57 @@ namespace Data.Migrations
                         {
                             Id = 2,
                             Birth = new DateTime(1999, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Created = new DateTime(2023, 11, 14, 14, 49, 5, 265, DateTimeKind.Local).AddTicks(9187),
+                            Created = new DateTime(2023, 11, 20, 21, 19, 35, 945, DateTimeKind.Local).AddTicks(7742),
                             Email = "ewa@wsei.edu.pl",
                             Name = "Ewa",
                             OrganizationId = 1,
                             Phone = "293443823478",
                             Priority = 2
+                        });
+                });
+
+            modelBuilder.Entity("Data.Entities.GenreEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("genres");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Lorem",
+                            Name = "Rock"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Lorem",
+                            Name = "Jazz"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Lorem",
+                            Name = "Clasic"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "Lorem",
+                            Name = "Pop"
                         });
                 });
 
@@ -162,6 +214,24 @@ namespace Data.Migrations
                             Id = 1,
                             Description = "Uczelnia",
                             Name = "WSEI"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Uczelnia",
+                            Name = "UJ"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Uczelnia",
+                            Name = "AGH"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "Firma",
+                            Name = "NOKIA"
                         });
                 });
 
@@ -224,6 +294,17 @@ namespace Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Data.Entities.AlbumEntity", b =>
+                {
+                    b.HasOne("Data.Entities.GenreEntity", "Genre")
+                        .WithMany("Albums")
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Genre");
+                });
+
             modelBuilder.Entity("Data.Entities.ContactEntity", b =>
                 {
                     b.HasOne("Data.Entities.OrganizationEntity", "Ogranization")
@@ -233,6 +314,66 @@ namespace Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Ogranization");
+                });
+
+            modelBuilder.Entity("Data.Entities.GenreEntity", b =>
+                {
+                    b.OwnsOne("Data.Models.History", "History", b1 =>
+                        {
+                            b1.Property<int>("GenreEntityId")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<string>("Country")
+                                .IsRequired()
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("Founder")
+                                .IsRequired()
+                                .HasColumnType("TEXT");
+
+                            b1.Property<int>("YearOfOrigin")
+                                .HasColumnType("INTEGER");
+
+                            b1.HasKey("GenreEntityId");
+
+                            b1.ToTable("genres");
+
+                            b1.WithOwner()
+                                .HasForeignKey("GenreEntityId");
+
+                            b1.HasData(
+                                new
+                                {
+                                    GenreEntityId = 1,
+                                    Country = "USA",
+                                    Founder = "Alan Freed",
+                                    YearOfOrigin = 1951
+                                },
+                                new
+                                {
+                                    GenreEntityId = 2,
+                                    Country = "USA",
+                                    Founder = "Ray Charles",
+                                    YearOfOrigin = 1951
+                                },
+                                new
+                                {
+                                    GenreEntityId = 3,
+                                    Country = "Germany",
+                                    Founder = "Johann Sebastian Bach",
+                                    YearOfOrigin = 1750
+                                },
+                                new
+                                {
+                                    GenreEntityId = 4,
+                                    Country = "USA",
+                                    Founder = "Michael Joseph Jackson",
+                                    YearOfOrigin = 1960
+                                });
+                        });
+
+                    b.Navigation("History")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Data.Entities.OrganizationEntity", b =>
@@ -268,6 +409,27 @@ namespace Data.Migrations
                                     City = "Kraków",
                                     PostalCode = "31-150",
                                     Street = "Św. Filipa 17"
+                                },
+                                new
+                                {
+                                    OrganizationEntityId = 2,
+                                    City = "Kraków",
+                                    PostalCode = "31-007",
+                                    Street = "Gołębia 24"
+                                },
+                                new
+                                {
+                                    OrganizationEntityId = 3,
+                                    City = "Kraków",
+                                    PostalCode = "31-059",
+                                    Street = "al. Adama Mickiewicza 30"
+                                },
+                                new
+                                {
+                                    OrganizationEntityId = 4,
+                                    City = "Kraków",
+                                    PostalCode = "31-348",
+                                    Street = "Michała Bobrzyńskiego 46"
                                 });
                         });
 
@@ -289,6 +451,11 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.Entities.AlbumEntity", b =>
                 {
                     b.Navigation("Tracklist");
+                });
+
+            modelBuilder.Entity("Data.Entities.GenreEntity", b =>
+                {
+                    b.Navigation("Albums");
                 });
 
             modelBuilder.Entity("Data.Entities.OrganizationEntity", b =>

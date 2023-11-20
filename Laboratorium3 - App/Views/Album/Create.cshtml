@@ -59,6 +59,12 @@
         <label class="font-weight-bold" asp-for="ChartRanking"></label>
         <select class="form-control" asp-for="ChartRanking" asp-items="@Html.GetEnumSelectList<AlbumChartRanking>()"></select>
     </div>
+                
+    <div class="mb-3">
+        <label asp-for="GenreId">Gatunek</label>            
+        <select class="form-control" asp-for="GenreId" asp-items="@Model.Genres"></select>
+    </div>
+
 
     <button type="submit" class="btn btn-primary">Dodaj</button>
     <button type="reset" class="btn btn-danger">Resetuj</button>
