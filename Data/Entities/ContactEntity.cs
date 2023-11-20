@@ -7,8 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Data.Models;
 using Microsoft.EntityFrameworkCore.Sqlite;
-
 namespace Data.Entities
 {
     [Table("contacts")]
@@ -34,5 +34,9 @@ namespace Data.Entities
         public DateTime? Birth { get; set; }
 
         public int Priority { get; set; }
+        public OrganizationEntity Ogranization {  get; set; }
+        public int OrganizationId { get; set; }
+
+
     }
 }

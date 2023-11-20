@@ -12,6 +12,8 @@ namespace Laboratorium3___App.Models
             _context = context;
         }
 
+       
+
         public int Add(Contact contact)
         {
             var e = _context.Contacts.Add(ContactMapper.ToEntity(contact));
@@ -36,6 +38,11 @@ namespace Laboratorium3___App.Models
            return _context.Contacts.Select(e=>ContactMapper.FromEntity(e)).ToList();
         }
 
+        public List<OrganizationEntity> FindAllOrganizations()
+        {
+            return _context.Organizations.ToList();
+        }
+
         public Contact? FindById(int id)
         {
             ContactEntity? find = _context.Contacts.Find(id);
@@ -47,8 +54,21 @@ namespace Laboratorium3___App.Models
 
         public void Update(Contact contact)
         {
-            _context.Contacts.Update(ContactMapper.ToEntity(contact));
-            _context.SaveChanges();
+            var existingEntity = _context.Contacts.Find(contact.Id);
+
+            if (existingEntity != null)
+            {
+                var updatedEntity = ContactMapper.ToEntity(contact);
+
+                _context.Entry(existingEntity).CurrentValues.SetValues(updatedEntity);
+
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new KeyNotFoundException("Contact not found");
+            }
         }
+
     }
 }

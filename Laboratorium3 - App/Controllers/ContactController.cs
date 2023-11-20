@@ -26,7 +26,13 @@ namespace Laboratorium3___App.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            Contact model = new Contact();
+            model.Organizations=_contactService.FindAllOrganizations().Select(eo=>new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
+            {
+                Text=eo.Name,
+                Value=eo.Id.ToString(),
+            }).ToList();
+            return View(model);
         }
 
 

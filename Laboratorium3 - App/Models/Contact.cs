@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
 namespace Laboratorium3___App.Models
@@ -29,5 +31,10 @@ namespace Laboratorium3___App.Models
 
         [Display(Name = "Ważność")]
         public Priority Priority { get; set; }
+
+        public int? OrganizationId { get; set; }
+
+        [ValidateNever]
+        public List<SelectListItem> Organizations { get; set; }
     }
 }

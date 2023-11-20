@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231112134448_AddTracks")]
-    partial class AddTracks
+    [Migration("20231114134905_organizationEntity")]
+    partial class organizationEntity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,8 +35,7 @@ namespace Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("created");
+                        .HasColumnType("TEXT");
 
                     b.Property<TimeSpan?>("Duration")
                         .HasColumnType("TEXT");
@@ -60,7 +59,7 @@ namespace Data.Migrations
                             Id = 1,
                             BandOrArtist = "Artist1",
                             ChartRanking = 1,
-                            Created = new DateTime(2023, 11, 12, 14, 44, 48, 528, DateTimeKind.Local).AddTicks(1386),
+                            Created = new DateTime(2023, 11, 14, 14, 49, 5, 267, DateTimeKind.Local).AddTicks(1931),
                             Name = "Album1",
                             ReleaseDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -69,7 +68,7 @@ namespace Data.Migrations
                             Id = 2,
                             BandOrArtist = "Artist2",
                             ChartRanking = 3,
-                            Created = new DateTime(2023, 11, 12, 14, 44, 48, 528, DateTimeKind.Local).AddTicks(1391),
+                            Created = new DateTime(2023, 11, 14, 14, 49, 5, 267, DateTimeKind.Local).AddTicks(1949),
                             Name = "Album2",
                             ReleaseDate = new DateTime(2021, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
@@ -98,6 +97,9 @@ namespace Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("OrganizationId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Phone")
                         .HasMaxLength(12)
                         .HasColumnType("TEXT");
@@ -107,6 +109,8 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("OrganizationId");
+
                     b.ToTable("contacts");
 
                     b.HasData(
@@ -114,9 +118,10 @@ namespace Data.Migrations
                         {
                             Id = 1,
                             Birth = new DateTime(2000, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Created = new DateTime(2023, 11, 12, 14, 44, 48, 528, DateTimeKind.Local).AddTicks(1202),
+                            Created = new DateTime(2023, 11, 14, 14, 49, 5, 265, DateTimeKind.Local).AddTicks(9130),
                             Email = "adam@wsei.edu.pl",
                             Name = "Adam",
+                            OrganizationId = 1,
                             Phone = "127813268163",
                             Priority = 1
                         },
@@ -124,11 +129,39 @@ namespace Data.Migrations
                         {
                             Id = 2,
                             Birth = new DateTime(1999, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Created = new DateTime(2023, 11, 12, 14, 44, 48, 528, DateTimeKind.Local).AddTicks(1266),
+                            Created = new DateTime(2023, 11, 14, 14, 49, 5, 265, DateTimeKind.Local).AddTicks(9187),
                             Email = "ewa@wsei.edu.pl",
                             Name = "Ewa",
+                            OrganizationId = 1,
                             Phone = "293443823478",
                             Priority = 2
+                        });
+                });
+
+            modelBuilder.Entity("Data.Entities.OrganizationEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("organizations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Uczelnia",
+                            Name = "WSEI"
                         });
                 });
 
@@ -191,6 +224,57 @@ namespace Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Data.Entities.ContactEntity", b =>
+                {
+                    b.HasOne("Data.Entities.OrganizationEntity", "Ogranization")
+                        .WithMany("Contacts")
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ogranization");
+                });
+
+            modelBuilder.Entity("Data.Entities.OrganizationEntity", b =>
+                {
+                    b.OwnsOne("Data.Models.Address", "Adress", b1 =>
+                        {
+                            b1.Property<int>("OrganizationEntityId")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("PostalCode")
+                                .IsRequired()
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("Street")
+                                .IsRequired()
+                                .HasColumnType("TEXT");
+
+                            b1.HasKey("OrganizationEntityId");
+
+                            b1.ToTable("organizations");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrganizationEntityId");
+
+                            b1.HasData(
+                                new
+                                {
+                                    OrganizationEntityId = 1,
+                                    City = "Kraków",
+                                    PostalCode = "31-150",
+                                    Street = "Św. Filipa 17"
+                                });
+                        });
+
+                    b.Navigation("Adress")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Data.Entities.TrackEntity", b =>
                 {
                     b.HasOne("Data.Entities.AlbumEntity", "Album")
@@ -205,6 +289,11 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.Entities.AlbumEntity", b =>
                 {
                     b.Navigation("Tracklist");
+                });
+
+            modelBuilder.Entity("Data.Entities.OrganizationEntity", b =>
+                {
+                    b.Navigation("Contacts");
                 });
 #pragma warning restore 612, 618
         }
