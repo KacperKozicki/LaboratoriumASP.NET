@@ -1,11 +1,13 @@
 ﻿using Data.Entities;
 using Data.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Sqlite;
 
 namespace Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<IdentityUser>
     {
         public DbSet<ContactEntity> Contacts { get; set; }
         public DbSet<AlbumEntity> Albums { get; set; }
@@ -28,6 +30,42 @@ namespace Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+            PasswordHasher<IdentityUser> ph = new PasswordHasher<IdentityUser>();
+
+            var user = new IdentityUser
+            {
+                Id = Guid.NewGuid().ToString(),
+                UserName = "admin",
+                Email = "admin@wsei.pl",
+                EmailConfirmed = true,
+               
+            };
+            user.PasswordHash=ph.HashPassword(user, "Admin!123");
+
+
+
+            modelBuilder.Entity<IdentityUser>()
+                .HasData(user);
+
+            var adminRole = new IdentityRole
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = "admin",
+                NormalizedName = "admin",
+            };
+
+            modelBuilder.Entity<IdentityRole>()
+                .HasData(adminRole);
+
+            modelBuilder.Entity<IdentityUserRole<string>>()
+                .HasData(
+                new IdentityUserRole<string>()
+                {
+                    RoleId = adminRole.Id,
+                    UserId = user.Id,
+                });
+
             modelBuilder.Entity<ContactEntity>()
                 .HasOne(c => c.Ogranization)
                 .WithMany(o => o.Contacts)
