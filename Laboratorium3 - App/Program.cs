@@ -1,7 +1,8 @@
-using Data;
+﻿using Data;
 using Laboratorium3___App.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using System.Xml.Linq;
 
 namespace Laboratorium3___App
 {
@@ -10,33 +11,29 @@ namespace Laboratorium3___App
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-                        var connectionString = builder.Configuration.GetConnectionString("AppDbContextConnection") ?? throw new InvalidOperationException("Connection string 'AppDbContextConnection' not found.");
+            builder.Services.AddRazorPages();//
+            builder.Services.AddControllersWithViews();//
 
-            builder.Services.AddControllersWithViews();
-            builder.Services.AddRazorPages();
-            builder.Services.AddSession();
             builder.Services.AddTransient<IContactService, EFContactService>();
 
+            builder.Services.AddDefaultIdentity<IdentityUser>()       // dodać
+                .AddEntityFrameworkStores<Data.AppDbContext>();
 
-
-            // Add services to the container.
-            builder.Services.AddControllersWithViews();
-            //builder.Services.AddSingleton<IContactService, MemoryContactService>();
-            builder.Services.AddTransient<IContactService, EFContactService>();
-            //builder.Services.AddSingleton<IAlbumService, MemoryAlbumService>();
             builder.Services.AddTransient<IAlbumService, EFAlbumService>();
 
             builder.Services.AddDbContext<AppDbContext>();
 
-                        builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<AppDbContext>();
+            
 
             builder.Services.AddSingleton<IDateTimeProvider, CurrentDateTimeProvider>();
 
 
-            
 
+            builder.Services.AddMemoryCache();                        // dodać
+            builder.Services.AddSession();
 
+            //builder.Services.AddSingleton<IContactService, MemoryContactService>();
+            //builder.Services.AddSingleton<IAlbumService, MemoryAlbumService>();
 
 
             var app = builder.Build();
@@ -51,11 +48,12 @@ namespace Laboratorium3___App
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseSession();
             app.MapRazorPages();
-            app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",

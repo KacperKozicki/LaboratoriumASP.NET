@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Laboratorium3___App.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "admin")]
     public class ContactController : Controller
     {
         private readonly IContactService _contactService;

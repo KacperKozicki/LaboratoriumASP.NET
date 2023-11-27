@@ -265,12 +265,12 @@ namespace Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "56e3508a-9b4b-451b-8aca-569e2f515b26", "1930e8a6-9b8e-4048-98a8-9f93d16932ef", "admin", "admin" });
+                values: new object[] { "6f1c80f9-a42d-45ae-9791-e0e743bac355", "6f1c80f9-a42d-45ae-9791-e0e743bac355", "admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "21fb3f5b-1e3f-44bd-8503-010f58bce5d3", 0, "3e7ec5d2-4186-456f-936b-f7330e97f82d", "admin@wsei.pl", true, false, null, null, null, "AQAAAAEAACcQAAAAEPUHj81FeYXn10lYS4OXFbxKxw1uJbabbcHdXviTQanHa808Lucqw1JGk95UotJf7w==", null, false, "1590c5e9-0e7c-4e08-9160-b3a10553c36b", false, "admin" });
+                values: new object[] { "96573a99-08ce-4c52-accb-e2677fca98a6", 0, "1db0a6e5-35c5-401e-a572-8fae0e221f9b", "adam@wsei.edu.pl", true, false, null, null, "ADMIN", "AQAAAAEAACcQAAAAECt0Q+jTEkjk1ya3A0zazmFooEZMvXe/Th6mY6xHAlocPJZI2wC5C8VWCaAud26v9g==", null, false, "ae79d113-247c-4aaf-9e5b-6c37d067831f", false, "adam" });
 
             migrationBuilder.InsertData(
                 table: "genres",
@@ -297,15 +297,15 @@ namespace Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "56e3508a-9b4b-451b-8aca-569e2f515b26", "21fb3f5b-1e3f-44bd-8503-010f58bce5d3" });
+                values: new object[] { "6f1c80f9-a42d-45ae-9791-e0e743bac355", "96573a99-08ce-4c52-accb-e2677fca98a6" });
 
             migrationBuilder.InsertData(
                 table: "albums",
                 columns: new[] { "Id", "BandOrArtist", "ChartRanking", "Created", "Duration", "GenreId", "Name", "release_date" },
                 values: new object[,]
                 {
-                    { 1, "Artist1", 1, new DateTime(2023, 11, 26, 12, 16, 9, 362, DateTimeKind.Local).AddTicks(9382), null, 1, "Album1", new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, "Artist2", 3, new DateTime(2023, 11, 26, 12, 16, 9, 362, DateTimeKind.Local).AddTicks(9438), null, 2, "Album2", new DateTime(2021, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1, "Artist1", 1, new DateTime(2023, 11, 26, 13, 9, 30, 825, DateTimeKind.Local).AddTicks(4920), null, 1, "Album1", new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, "Artist2", 3, new DateTime(2023, 11, 26, 13, 9, 30, 825, DateTimeKind.Local).AddTicks(4968), null, 2, "Album2", new DateTime(2021, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -313,8 +313,8 @@ namespace Data.Migrations
                 columns: new[] { "Id", "birth_date", "Created", "Email", "Name", "OrganizationId", "Phone", "Priority" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2000, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 11, 26, 12, 16, 9, 353, DateTimeKind.Local).AddTicks(5335), "adam@wsei.edu.pl", "Adam", 1, "127813268163", 1 },
-                    { 2, new DateTime(1999, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 11, 26, 12, 16, 9, 353, DateTimeKind.Local).AddTicks(5402), "ewa@wsei.edu.pl", "Ewa", 1, "293443823478", 2 }
+                    { 1, new DateTime(2000, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 11, 26, 13, 9, 30, 819, DateTimeKind.Local).AddTicks(22), "adam@wsei.edu.pl", "Adam", 1, "127813268163", 1 },
+                    { 2, new DateTime(1999, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 11, 26, 13, 9, 30, 819, DateTimeKind.Local).AddTicks(71), "ewa@wsei.edu.pl", "Ewa", 1, "293443823478", 2 }
                 });
 
             migrationBuilder.InsertData(

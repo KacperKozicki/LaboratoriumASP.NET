@@ -31,17 +31,22 @@ namespace Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            PasswordHasher<IdentityUser> ph = new PasswordHasher<IdentityUser>();
+
+            string ADMIN_ID = Guid.NewGuid().ToString();
+            string ROLE_ID = Guid.NewGuid().ToString();
+
 
             var user = new IdentityUser
             {
-                Id = Guid.NewGuid().ToString(),
-                UserName = "admin",
-                Email = "admin@wsei.pl",
+                Id = ADMIN_ID,
+                Email = "adam@wsei.edu.pl",
                 EmailConfirmed = true,
-               
+                UserName = "adam@wsei.edu.pl",
+                NormalizedUserName = "adam@wsei.edu.pl"
+
             };
-            user.PasswordHash=ph.HashPassword(user, "Admin!123");
+            PasswordHasher<IdentityUser> ph = new PasswordHasher<IdentityUser>();
+            user.PasswordHash = ph.HashPassword(user, "Admin123#");
 
 
 
@@ -50,20 +55,25 @@ namespace Data
 
             var adminRole = new IdentityRole
             {
-                Id = Guid.NewGuid().ToString(),
                 Name = "admin",
-                NormalizedName = "admin",
+                NormalizedName = "ADMIN",
+                Id = ROLE_ID,
+                ConcurrencyStamp = ROLE_ID
             };
+
+
+
+
 
             modelBuilder.Entity<IdentityRole>()
                 .HasData(adminRole);
 
             modelBuilder.Entity<IdentityUserRole<string>>()
                 .HasData(
-                new IdentityUserRole<string>()
+                new IdentityUserRole<string>
                 {
-                    RoleId = adminRole.Id,
-                    UserId = user.Id,
+                    RoleId = ROLE_ID,
+                    UserId = ADMIN_ID,
                 });
 
             modelBuilder.Entity<ContactEntity>()
