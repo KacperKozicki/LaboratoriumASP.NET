@@ -45,6 +45,11 @@ public class MemoryAlbumService : IAlbumService
         return _items[id];
     }
 
+    public PagingAlbumList<Album> FindPage(int pageIndex, int pageSize)
+    {
+        throw new NotImplementedException();
+    }
+
     public void Update(Album item)
     {
         item.Tracklist = item.Tracklist.Where(item => !string.IsNullOrWhiteSpace(item)).ToList();

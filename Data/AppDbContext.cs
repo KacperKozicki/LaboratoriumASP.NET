@@ -41,8 +41,9 @@ namespace Data
                 Id = ADMIN_ID,
                 Email = "adam@wsei.edu.pl",
                 EmailConfirmed = true,
-                UserName = "adam@wsei.edu.pl",
-                NormalizedUserName = "adam@wsei.edu.pl"
+                UserName = "adam",
+                NormalizedEmail="ADAM@WSEI.EDU.PL",
+                NormalizedUserName = "ADAM"
 
             };
             PasswordHasher<IdentityUser> ph = new PasswordHasher<IdentityUser>();

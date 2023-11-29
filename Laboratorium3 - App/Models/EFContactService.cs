@@ -52,6 +52,21 @@ namespace Laboratorium3___App.Models
             
         }
 
+        public PagingList<Contact> FindPage(int page, int size)
+        {
+            int totalCount = _context.Contacts.Count();
+            List<Contact> contacts = _context.Contacts
+             .Skip((page - 1) * size)
+             .Take(size)
+             .Select(ContactMapper.FromEntity) // Użyj mappera do przekształcenia
+             .ToList();
+            return PagingList<Contact>.Create(contacts, totalCount, page, size);
+
+        }
+
+
+
+
         public void Update(Contact contact)
         {
             _context.Contacts.Update(ContactMapper.ToEntity(contact));

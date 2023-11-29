@@ -21,6 +21,12 @@ namespace Laboratorium3___App.Controllers
             return View(albums);
         }
 
+        public IActionResult IndexPaging([FromQuery] int? page = 1, [FromQuery] int? size = 5)
+        {
+            return View(_albumService.FindPage((int)page, (int)size));
+        }
+
+
         [HttpGet]
         public IActionResult Create()
         {
@@ -43,6 +49,25 @@ namespace Laboratorium3___App.Controllers
             }
             return View(); // ponowne wyświetlenie formualrza po dodaniu jeśli są błędy
         }
+
+        [HttpGet]
+        public IActionResult CreateApi()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateApi(Album model)
+        {
+            if (ModelState.IsValid)
+            {
+                _albumService.Add(model);
+                return RedirectToAction("Index");
+            }
+            return View(model);
+        }
+
 
 
         [HttpGet]

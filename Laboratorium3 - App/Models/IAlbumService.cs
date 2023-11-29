@@ -12,4 +12,6 @@ public interface IAlbumService
 
     List<GenreEntity> FindAllGenres();
 
+    PagingAlbumList<Album> FindPage(int pageIndex, int pageSize);
+
 }

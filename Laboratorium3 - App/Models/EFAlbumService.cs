@@ -117,5 +117,18 @@ namespace Laboratorium3___App.Models
         }
 
 
+        public PagingAlbumList<Album> FindPage(int page, int size)
+        {
+            int totalCount = _context.Albums.Count();
+            List<Album> albums = _context.Albums
+             .Skip((page - 1) * size)
+             .Take(size)
+             .Select(AlbumMapper.FromEntity) // Użyj mappera do przekształcenia
+             .ToList();
+            return PagingAlbumList<Album>.Create(albums, totalCount, page, size);
+
+        }
+
+
     }
 }

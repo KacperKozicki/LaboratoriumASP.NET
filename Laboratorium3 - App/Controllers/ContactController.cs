@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Laboratorium3___App.Controllers
 {
-    [Authorize(Roles = "admin")]
+    //[Authorize(Roles = "admin")]
     public class ContactController : Controller
     {
         private readonly IContactService _contactService;
@@ -16,13 +16,18 @@ namespace Laboratorium3___App.Controllers
 
 
 
-        //static readonly Dictionary<int, Contact> _contacts = new Dictionary<int, Contact> ();
+        
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public IActionResult Index()
         {
             List<Contact> contacts = _contactService.FindAll();
             return View(contacts);
+        }
+       
+        public IActionResult IndexPaging([FromQuery] int? page = 1, [FromQuery] int? size = 5)
+        {
+            return View(_contactService.FindPage((int)page, (int)size));
         }
 
         [HttpGet]
@@ -49,6 +54,25 @@ namespace Laboratorium3___App.Controllers
 
             }
             return View(); // ponowne wyświetlenie formualrza po dodaniu jeśli są błędy
+        }
+
+
+        [HttpGet]
+        public IActionResult CreateApi()
+        {
+            
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateApi(Contact model)
+        {
+            if (ModelState.IsValid)
+            {
+                _contactService.Add(model);
+                return RedirectToAction("Index");
+            }
+            return View(model);
         }
 
         [HttpGet]
