@@ -61,9 +61,8 @@
     </div>
                 
     <div class="mb-3">
-                    <label asp-for="GenreId">Organizacja</label>
-                    <input type="text" id="filter" class="form-control" />
-                    <select class="form-control" id="GenreId"></select>
+        <label asp-for="GenreId">Gatunek</label>
+        <input type="text" id="filter" class="form-control" />
     </div>
 
 
@@ -88,26 +87,55 @@
 </div>
 </div>
 </div>
-
-
 @section Scripts{
     <script>
-        const select = document.getElementById("GenreId");
-        const filter = document.getElementById('filter');
+        const input = document.getElementById('filter');
+        const suggestionsPanel = document.createElement('div');
+        suggestionsPanel.id = 'suggestions';
+        suggestionsPanel.style.position = 'absolute';
+        suggestionsPanel.style.backgroundColor = '#ffffff';
+        suggestionsPanel.style.border = '1px solid #d4d4d4';
+        input.parentNode.appendChild(suggestionsPanel);
 
-
-        filter.onchange = function () {
-            select.innerHTML = "";
-            fetch(`/api/genres/filter?query=${filter.value}`)
+        function fetchGenres(query = '') {
+            const url = query === '' ? '/api/genres' : `/api/genres/filter?query=${query}`;
+            fetch(url)
                 .then(response => response.json())
-                .then(arr => {
-                    for (let org of arr) {
-                        let option = document.createElement('option');
-                        option.setAttribute('value', org.Id);
-                        option.innerHTML = org.name;
-                        select.appendChild(option);
-                    }
-                })
+                .then(genres => {
+                    suggestionsPanel.innerHTML = '';
+                    genres.forEach(genre => {
+                        const div = document.createElement('div');
+                        div.innerHTML = genre.name;
+                        div.style.padding = '10px';
+                        div.style.cursor = 'pointer';
+                        div.addEventListener('click', function () {
+                            input.value = div.textContent;
+                            suggestionsPanel.innerHTML = '';
+                        });
+                        suggestionsPanel.appendChild(div);
+                    });
+                }).catch(error => console.error('Error:', error));
         }
+
+        input.addEventListener('focus', function () {
+            fetchGenres(); // Pobiera wszystkie gatunki
+        });
+
+        input.addEventListener('input', function () {
+            fetchGenres(input.value); // Filtruje gatunki
+        });
+
+        document.addEventListener('click', function (e) {
+            if (e.target.id !== 'filter') {
+                suggestionsPanel.innerHTML = '';
+            }
+        });
     </script>
-        }
+}
+
+
+
+
+
+
+        

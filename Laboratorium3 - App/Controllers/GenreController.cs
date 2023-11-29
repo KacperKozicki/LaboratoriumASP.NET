@@ -43,5 +43,13 @@ namespace Laboratorium3___App.Controllers
                 return Ok(entity);
             }
         }
+
+        [HttpGet]
+        public IActionResult GetAllGenres()
+        {
+            var genres = _context.Genres.Select(g => new { g.Id, g.Name }).ToList();
+            return Ok(genres);
+        }
+
     }
 }
