@@ -1,4 +1,5 @@
 ﻿using Data.Entities;
+using Data.Migrations;
 using Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -14,6 +15,8 @@ namespace Data
         public DbSet<TrackEntity> Tracks { get; set; } 
         public DbSet<OrganizationEntity> Organizations { get; set; }
         public DbSet<GenreEntity> Genres { get; set; }
+        public DbSet<PlaylistEntity> Playlists { get; set; }
+        public DbSet<PlaylistTrackEntity> PlaylistTracks { get; set; }
 
 
         private string DbPath { get; set; }
@@ -64,6 +67,8 @@ namespace Data
 
 
 
+          
+
 
 
             modelBuilder.Entity<IdentityRole>()
@@ -85,6 +90,11 @@ namespace Data
             modelBuilder.Entity<AlbumEntity>()
                 .HasOne(c => c.Genre)
                 .WithMany(o => o.Albums)
+                .HasForeignKey(c => c.GenreId);
+
+            modelBuilder.Entity<PlaylistEntity>()
+                .HasOne(c => c.Genre)
+                .WithMany(o => o.Playlists)
                 .HasForeignKey(c => c.GenreId);
 
 
@@ -151,6 +161,7 @@ namespace Data
             modelBuilder.Entity<TrackEntity>().HasKey(t => t.Id);
             modelBuilder.Entity<TrackEntity>().HasOne(t => t.Album).WithMany(a => a.Tracklist).HasForeignKey(t => t.AlbumEntityId);
 
+           
 
             //dodanie kontaktów
             modelBuilder.Entity<ContactEntity>().HasData(
@@ -202,12 +213,57 @@ namespace Data
                 });
 
             modelBuilder.Entity<TrackEntity>().HasData(
-                new TrackEntity { Id = 1, Name = "Pierwszy utwór", AlbumEntityId = 1 },
-                new TrackEntity { Id = 2, Name = "Drugi utwór", AlbumEntityId = 1 },
-                new TrackEntity { Id = 3, Name = "Trzeci utwór", AlbumEntityId = 1 },
-                new TrackEntity { Id = 4, Name = "Pierwszy utwór", AlbumEntityId = 2 },
-                new TrackEntity { Id = 5, Name = "Drugi utwór", AlbumEntityId = 2 },
-                new TrackEntity { Id = 6, Name = "Trzeci utwór", AlbumEntityId = 2 }
+                 new TrackEntity { Id = 1, Name = "Magical", AlbumEntityId = 1, Duration = TimeSpan.FromSeconds(225) },
+                 new TrackEntity { Id = 2, Name = "England", AlbumEntityId = 1, Duration = TimeSpan.FromSeconds(260) },
+                 new TrackEntity { Id = 3, Name = "Punchline", AlbumEntityId = 1, Duration = TimeSpan.FromSeconds(175) },
+                 new TrackEntity { Id = 4, Name = "Shirtsleeves", AlbumEntityId = 2, Duration = TimeSpan.FromSeconds(195) },
+                 new TrackEntity { Id = 5, Name = "One", AlbumEntityId = 2, Duration = TimeSpan.FromSeconds(280) },
+                 new TrackEntity { Id = 6, Name = "The Man", AlbumEntityId = 2, Duration = TimeSpan.FromSeconds(210) }
+             );
+
+            modelBuilder.Entity<PlaylistEntity>()
+                .HasKey(p => p.Id);
+
+            modelBuilder.Entity<PlaylistTrackEntity>()
+                .HasKey(pt => new { pt.PlaylistId, pt.TrackId });
+
+            modelBuilder.Entity<PlaylistEntity>()
+              .HasMany(p => p.PlaylistTracks)
+              .WithOne(pt => pt.Playlist);
+
+            modelBuilder.Entity<PlaylistTrackEntity>()
+                .HasOne(pt => pt.Track)
+                .WithMany();
+
+           
+            // Dodanie przykładowych playlist
+            modelBuilder.Entity<PlaylistEntity>().HasData(
+                new PlaylistEntity
+                {
+                    Id = 1,
+                    Name = "Summer Hits",
+                    GenreId = 1, // Zakładając, że GenreId = 1 istnieje
+                    Tags = "summer, hits",
+                    IsPublic = true,
+                    TotalDuration = TimeSpan.FromSeconds(485)
+                },
+                new PlaylistEntity
+                {
+                    Id = 2,
+                    Name = "Rock Classics",
+                    GenreId = 2, // Zakładając, że GenreId = 2 istnieje
+                    Tags = "rock, classics",
+                    IsPublic = true,
+                    TotalDuration = TimeSpan.FromSeconds(370)
+                }
+            );
+
+            // Dodanie utworów do playlist
+            modelBuilder.Entity<PlaylistTrackEntity>().HasData(
+                new {  PlaylistId = 1, TrackId = 1 }, // Zakładając, że TrackId = 1 istnieje
+                new {  PlaylistId = 1, TrackId = 2 }, // Zakładając, że TrackId = 2 istnieje
+                new {  PlaylistId = 2, TrackId = 3 }, // Zakładając, że TrackId = 3 istnieje
+                new {  PlaylistId = 2, TrackId = 4 }  // Zakładając, że TrackId = 4 istnieje
             );
         }
 
@@ -227,6 +283,10 @@ namespace Data
                     else if (entry.Entity is AlbumEntity album && album.Created == default)
                     {
                         album.Created = DateTime.Now;
+                    }
+                    else if (entry.Entity is PlaylistEntity playlist && playlist.Created == default)
+                    {
+                        playlist.Created = DateTime.Now;
                     }
                 }
             }

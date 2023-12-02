@@ -432,7 +432,7 @@
 }
 
 .border-top {
-  border-top: 1px solid #dee2e6 !important;
+    border-bottom: 1px solid #06121f !important;
 }
 
 .border-top-0 {
@@ -448,7 +448,7 @@
 }
 
 .border-bottom {
-  border-bottom: 1px solid #dee2e6 !important;
+  border-bottom: 1px solid rgb(25,25,25);
 }
 
 .border-bottom-0 {

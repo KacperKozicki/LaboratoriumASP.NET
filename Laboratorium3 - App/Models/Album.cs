@@ -42,7 +42,8 @@ namespace Laboratorium3___App.Models
 
 
         //[ValidateNever]
-        //public string OrganizationName { get; set; }
+        [Display(Name = "Gatunek")]
+        [Required(ErrorMessage = "Musisz podać gatunek!")]
         public int? GenreId { get; set; }
         [ValidateNever]
         public string GenreName { get; set; }

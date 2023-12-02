@@ -11,7 +11,7 @@ public interface IAlbumService
     Album? FindById(int id);
 
     List<GenreEntity> FindAllGenres();
-
+    bool ValidateGenreId(int? id);
     PagingAlbumList<Album> FindPage(int pageIndex, int pageSize);
 
 }

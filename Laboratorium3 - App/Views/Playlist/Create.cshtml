@@ -1,0 +1,74 @@
+﻿@model Playlist
+
+@{
+    ViewData["Title"] = "Create Playlist";
+}
+
+<div class="container mt-5 text-light">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2>Dodaj Playlistę</h2>
+            <form asp-controller="Playlist" asp-action="Create" method="post">
+
+                <!-- Nazwa playlisty -->
+                <div class="mb-3">
+                    <label class="font-weight-bold" asp-for="Name"></label>
+                    <input asp-for="Name" class="form-control text-light bg-dark" />
+                    <span class="text-danger" asp-validation-for="Name"></span>
+                </div>
+
+                <!-- Lista utworów -->
+                <div class="mb-3">
+                    <label class="font-weight-bold">Utwory</label>
+                    <div id="tracklistContainer">
+                        <input name="TrackNames[0]" class="form-control mb-1 text-light bg-dark" />
+                        <span asp-validation-for="TrackNames[0]" class="text-danger"></span>
+                    </div>
+                    <div class="mt-2">
+                        <button type="button" class="btn btn-secondary text-white font-weight-bold" id="addTracklist">
+                            Dodaj kolejny utwór
+                        </button>
+                    </div>
+                    <span asp-validation-for="TrackNames" class="text-danger"></span>
+                </div>
+
+
+                <!-- Gatunek -->
+                <div class="mb-3">
+                    <label asp-for="GenreId">Gatunek</label>
+                    <select class="form-control text-light bg-dark" asp-for="GenreId" asp-items="@Model.Genres"></select>
+                </div>
+
+                <!-- Tagi -->
+                <div class="mb-3">
+                    <label class="font-weight-bold" asp-for="Tags"></label>
+                    <input asp-for="Tags" class="form-control text-light bg-dark" />
+                    <span class="text-danger" asp-validation-for="Tags"></span>
+                </div>
+
+                <!-- Status publiczności -->
+                <div class="mb-3">
+                    <label class="font-weight-bold">Publiczna</label>
+                    <input asp-for="IsPublic" type="checkbox" />
+                </div>
+
+                <button type="submit" class="btn btn-primary">Dodaj</button>
+                <button type="reset" class="btn btn-danger">Resetuj</button>
+            </form>
+
+            <script>
+                var tracklistIndex = 1;
+                var tracklistContainer = document.getElementById("tracklistContainer");
+                var addTracklistButton = document.getElementById("addTracklist");
+
+                addTracklistButton.addEventListener("click", function () {
+                    var input = document.createElement("input");
+                    input.name = "TrackNames[" + tracklistIndex + "]";
+                    input.className = "form-control mb-1 text-light bg-dark";
+                    tracklistContainer.appendChild(input);
+                    tracklistIndex++;
+                });
+            </script>
+        </div>
+    </div>
+</div>

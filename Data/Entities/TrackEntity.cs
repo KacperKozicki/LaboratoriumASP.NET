@@ -21,11 +21,15 @@ namespace Data.Entities
         [Required]
         public string Name { get; set; }
 
+        public TimeSpan Duration { get; set; }   
         // Inne właściwości utworu
 
         public int AlbumEntityId { get; set; }
 
+
         [ForeignKey(nameof(AlbumEntityId))]
         public AlbumEntity Album { get; set; }
+
+
     }
 }

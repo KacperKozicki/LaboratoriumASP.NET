@@ -1,5 +1,6 @@
-html {
-  font-size: 14px;
+﻿html {
+    font-size: 14px;
+    @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;700&family=DM+Serif+Display:ital@0;1&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Pinyon+Script&family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 }
 
 @media (min-width: 768px) {
@@ -7,13 +8,111 @@ html {
     font-size: 16px;
   }
 }
+:root {
+    --dm: 'DM Serif Display', serif;
+    --century: 'Century Gothic';
+}
 
 html {
   position: relative;
   min-height: 100%;
 }
-
+.dm{
+    font-family:var(--dm);
+}
+.svg {
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    left: 30%;
+    top: 60%;
+}
+.svg img{
+    width:100%;
+}
+.flexIndex {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    justify-content: center;
+    align-items: flex-start;
+    text-align:left;
+    position:relative;
+}
+.cent{
+    font-family:var(--century)
+}
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: #1d1d20;
+    color:white;
+}
+nav {
+    background-color: #182233!important;
+}
+.regi {
+    padding: 0px 18px;
+    background-color: #CAFFDF;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 30px;
+   
+    margin-left:1em;
+}
+.regi a {
+    color: #179E88 !important;
+}
+#logout {
+    color: #179E88 !important;
+    text-decoration: none;
+    font-weight:700;
+}
+        .logi {
+    padding: 0px 18px;
+    border: 2px solid #179E88;
+    font-weight: 800;
+    text-align: center;
+    border-radius: 30px;
+}
+.logi a {
+     color: #CAFFDF!important;
+}
+    .border-bottom {
+    border-bottom: 1px solid #06121f !important;
+}
+.border-top {
+    .border-top
+}
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+.back{
+    font-family:var(--century);
+    font-size:20px;
+    color:white;
+    font-weight:800;
+    text-decoration:none;
+}
+#suggestions {
+    position: absolute;
+    background-color: #ffffff;
+    border: 1px solid #d4d4d4;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Cień dla efektu głębi */
+    border-radius: 4px; /* Zaokrąglenie rogów */
+    overflow: hidden; /* Ukrywa przewijanie */
+    z-index: 1000; /* Upewnia się, że panel jest nad innymi elementami */
+    width: auto; /* Ustaw szerokość na auto */
+    margin-left: -1px; /* Dodaj margin na lewej stronie, aby dopasować szerokość inputa */
 }
 
+.suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s; /* Efekt przejścia dla tła */
+}
+
+    .suggestion-item:hover {
+        background-color: #f2f2f2; /* Zmiana koloru tła przy najechaniu */
+    }

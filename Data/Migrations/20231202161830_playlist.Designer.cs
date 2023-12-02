@@ -3,6 +3,7 @@ using System;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231202161830_playlist")]
+    partial class playlist
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.13");
@@ -61,7 +64,7 @@ namespace Data.Migrations
                             Id = 1,
                             BandOrArtist = "Artist1",
                             ChartRanking = 1,
-                            Created = new DateTime(2023, 12, 2, 21, 16, 11, 614, DateTimeKind.Local).AddTicks(5705),
+                            Created = new DateTime(2023, 12, 2, 17, 18, 30, 150, DateTimeKind.Local).AddTicks(8619),
                             GenreId = 1,
                             Name = "Album1",
                             ReleaseDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -71,7 +74,7 @@ namespace Data.Migrations
                             Id = 2,
                             BandOrArtist = "Artist2",
                             ChartRanking = 3,
-                            Created = new DateTime(2023, 12, 2, 21, 16, 11, 614, DateTimeKind.Local).AddTicks(5754),
+                            Created = new DateTime(2023, 12, 2, 17, 18, 30, 150, DateTimeKind.Local).AddTicks(8657),
                             GenreId = 2,
                             Name = "Album2",
                             ReleaseDate = new DateTime(2021, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -122,7 +125,7 @@ namespace Data.Migrations
                         {
                             Id = 1,
                             Birth = new DateTime(2000, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Created = new DateTime(2023, 12, 2, 21, 16, 11, 611, DateTimeKind.Local).AddTicks(606),
+                            Created = new DateTime(2023, 12, 2, 17, 18, 30, 148, DateTimeKind.Local).AddTicks(2067),
                             Email = "adam@wsei.edu.pl",
                             Name = "Adam",
                             OrganizationId = 1,
@@ -133,7 +136,7 @@ namespace Data.Migrations
                         {
                             Id = 2,
                             Birth = new DateTime(1999, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Created = new DateTime(2023, 12, 2, 21, 16, 11, 611, DateTimeKind.Local).AddTicks(662),
+                            Created = new DateTime(2023, 12, 2, 17, 18, 30, 148, DateTimeKind.Local).AddTicks(2116),
                             Email = "ewa@wsei.edu.pl",
                             Name = "Ewa",
                             OrganizationId = 1,
@@ -238,9 +241,6 @@ namespace Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("GenreId")
                         .HasColumnType("INTEGER");
 
@@ -264,65 +264,27 @@ namespace Data.Migrations
                     b.HasIndex("GenreId");
 
                     b.ToTable("playlists");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GenreId = 1,
-                            IsPublic = true,
-                            Name = "Summer Hits",
-                            Tags = "summer, hits",
-                            TotalDuration = new TimeSpan(0, 0, 8, 5, 0)
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GenreId = 2,
-                            IsPublic = true,
-                            Name = "Rock Classics",
-                            Tags = "rock, classics",
-                            TotalDuration = new TimeSpan(0, 0, 6, 10, 0)
-                        });
                 });
 
             modelBuilder.Entity("Data.Entities.PlaylistTrackEntity", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("PlaylistId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("TrackId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("PlaylistId", "TrackId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlaylistId");
 
                     b.HasIndex("TrackId");
 
                     b.ToTable("playlist_tracks");
-
-                    b.HasData(
-                        new
-                        {
-                            PlaylistId = 1,
-                            TrackId = 1
-                        },
-                        new
-                        {
-                            PlaylistId = 1,
-                            TrackId = 2
-                        },
-                        new
-                        {
-                            PlaylistId = 2,
-                            TrackId = 3
-                        },
-                        new
-                        {
-                            PlaylistId = 2,
-                            TrackId = 4
-                        });
                 });
 
             modelBuilder.Entity("Data.Entities.TrackEntity", b =>
@@ -353,43 +315,43 @@ namespace Data.Migrations
                         {
                             Id = 1,
                             AlbumEntityId = 1,
-                            Duration = new TimeSpan(0, 0, 3, 45, 0),
-                            Name = "Magical"
+                            Duration = new TimeSpan(0, 0, 0, 0, 0),
+                            Name = "Pierwszy utwór"
                         },
                         new
                         {
                             Id = 2,
                             AlbumEntityId = 1,
-                            Duration = new TimeSpan(0, 0, 4, 20, 0),
-                            Name = "England"
+                            Duration = new TimeSpan(0, 0, 0, 0, 0),
+                            Name = "Drugi utwór"
                         },
                         new
                         {
                             Id = 3,
                             AlbumEntityId = 1,
-                            Duration = new TimeSpan(0, 0, 2, 55, 0),
-                            Name = "Punchline"
+                            Duration = new TimeSpan(0, 0, 0, 0, 0),
+                            Name = "Trzeci utwór"
                         },
                         new
                         {
                             Id = 4,
                             AlbumEntityId = 2,
-                            Duration = new TimeSpan(0, 0, 3, 15, 0),
-                            Name = "Shirtsleeves"
+                            Duration = new TimeSpan(0, 0, 0, 0, 0),
+                            Name = "Pierwszy utwór"
                         },
                         new
                         {
                             Id = 5,
                             AlbumEntityId = 2,
-                            Duration = new TimeSpan(0, 0, 4, 40, 0),
-                            Name = "One"
+                            Duration = new TimeSpan(0, 0, 0, 0, 0),
+                            Name = "Drugi utwór"
                         },
                         new
                         {
                             Id = 6,
                             AlbumEntityId = 2,
-                            Duration = new TimeSpan(0, 0, 3, 30, 0),
-                            Name = "The Man"
+                            Duration = new TimeSpan(0, 0, 0, 0, 0),
+                            Name = "Trzeci utwór"
                         });
                 });
 
@@ -421,8 +383,8 @@ namespace Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "131b6117-cf6c-4753-a960-770ef3f0fc9f",
-                            ConcurrencyStamp = "131b6117-cf6c-4753-a960-770ef3f0fc9f",
+                            Id = "a8c26e98-0622-4c2a-961e-ec450be6cf17",
+                            ConcurrencyStamp = "a8c26e98-0622-4c2a-961e-ec450be6cf17",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         });
@@ -517,17 +479,17 @@ namespace Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "91d3645e-7b94-41eb-a261-f40379c4e5aa",
+                            Id = "238fc42c-3e66-4bbd-969c-06daf7f00373",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "dd6251f6-22a3-4a07-adc0-61e4673d540d",
+                            ConcurrencyStamp = "d1e0eae0-c961-40bf-864c-6ee5ff2fe6cf",
                             Email = "adam@wsei.edu.pl",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADAM@WSEI.EDU.PL",
                             NormalizedUserName = "ADAM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJGYK1Ux/c7WtNvsQpNIWbJ8OQqc/fwOlaub1NzIjPbDHf/qcHdHFbEfP4uNN1TlmQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENhVqxON1cVLYYtCNDIe6jzry+lHtu47ivltC5/YCyzBLNua7Uctm1sNmjiOibIBng==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "17c9ff13-c26e-4ae9-b7cb-527c80aff1f7",
+                            SecurityStamp = "4d509336-e187-45fd-ba43-fc75c3614383",
                             TwoFactorEnabled = false,
                             UserName = "adam"
                         });
@@ -595,8 +557,8 @@ namespace Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "91d3645e-7b94-41eb-a261-f40379c4e5aa",
-                            RoleId = "131b6117-cf6c-4753-a960-770ef3f0fc9f"
+                            UserId = "238fc42c-3e66-4bbd-969c-06daf7f00373",
+                            RoleId = "a8c26e98-0622-4c2a-961e-ec450be6cf17"
                         });
                 });
 
@@ -765,7 +727,7 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.Entities.PlaylistEntity", b =>
                 {
                     b.HasOne("Data.Entities.GenreEntity", "Genre")
-                        .WithMany("Playlists")
+                        .WithMany()
                         .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -862,8 +824,6 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.Entities.GenreEntity", b =>
                 {
                     b.Navigation("Albums");
-
-                    b.Navigation("Playlists");
                 });
 
             modelBuilder.Entity("Data.Entities.OrganizationEntity", b =>

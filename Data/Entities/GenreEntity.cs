@@ -18,5 +18,6 @@ namespace Data.Entities
 
 
         public ISet<AlbumEntity> Albums { get; set; }
+        public ISet<PlaylistEntity> Playlists { get; set; }
     }
 }

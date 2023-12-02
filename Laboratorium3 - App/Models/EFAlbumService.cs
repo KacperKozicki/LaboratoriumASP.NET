@@ -30,7 +30,12 @@ namespace Laboratorium3___App.Models
 
             return id;
         }
-
+        public bool ValidateGenreId(int? genreId)
+        {
+            // Sprawdzenie, czy genreId istnieje w bazie danych
+            var genreEntity = _context.Genres.Find(genreId);
+            return genreEntity != null;
+        }
 
         public void Delete(int id)
         {

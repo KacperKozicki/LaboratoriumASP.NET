@@ -1,0 +1,117 @@
+﻿@model Playlist
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="container mt-5 text-light">
+    
+    <div class="row justify-content-center">
+       
+
+
+        <div class="col-md-7">
+            <a class="back" asp-action="Index">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+                </svg>
+                Powrót
+            </a>
+
+            <div class="top">
+            <div class="topflex">
+
+                <div class="leftTop">
+                    <img src="/images/playlist.webp" />
+                </div>
+
+                <div class="rightTop">
+                    <p><strong>Utworzono:</strong> @Model.Created</p>
+                    <p><strong>Czas trwania:</strong> @Model.TotalDuration</p>
+                    <p><strong>Gatunek:</strong> @Model.GenreName</p>
+                    <p><strong>Status:</strong> @Model.IsPublic</p>
+                </div>
+            </div>
+                <h1 class="dm">@Model.Name</h1>
+            </div>
+
+            <h3>Lista Utworów:</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Utwór</th>
+                        <th>Gatunek</th>
+                        <th>Wykonawca</th>
+                        <th>Czas Trwania</th>
+                        <th>Album</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var track in Model.TrackDetails)
+                    {
+                        <tr>
+                            <td>@track.Name</td>
+                            <td>@track.Genre</td>
+                            <td>@track.BandOrArtist</td>
+                            <td>@track.Duration</td>
+                            <td>@track.AlbumName</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+
+
+            
+            </div>
+    </div>
+
+</div>
+<style>
+    .top{
+        width: 100%;
+        height: auto;
+        padding: 20px;
+        background-color: blueviolet;
+        border-radius: 20px;
+    }
+    .topflex{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-content: center;
+        justify-content: space-between;
+        align-items: flex-start;
+        width: 100%;
+    }
+    .rightTop p{
+        margin:0px;
+    }
+    .leftTop{
+        width: 45%;
+        height: auto;
+    }
+    .leftTop img{
+        width: 100%;
+        border-radius: 10px;
+    }    
+    .rightTop{
+        width: 50%;
+        height: auto;
+    }
+    table{
+        width:100%;
+    }
+    .top h1{
+        margin-top:0.5em;
+        font-size:3em;
+    }
+
+    thead{
+        border-bottom:1px solid white;
+    }
+    tr{
+        height:3em;
+    }
+</style>
+                  

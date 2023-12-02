@@ -2,7 +2,100 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+
+
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="flexIndex2">
+        <h3 class="dm">Symfony</h3>
+        <h1 class="dm">
+            Znajdź odpowiednie dźwięki <br />
+            dla swojego kolejnego przeboju
+        </h1>
+        <h2 class="cent">
+            Odkrywaj nowe utwory, twórz playlisty, poznawajnowe gatunki lub zostań artystą i udostępniaj swoje kawałki.
+        </h2>
+        <a class="buton" asp-area="" asp-controller="Album" asp-action="Albums">Odkrywaj</a>
+
+
+    </div>
+
+    <style>
+        body {
+            background-color: #182233;
+        }
+        h3{
+            color: #CAFFDF;
+        }
+        h2{
+            font-size:1em;
+            color:whitesmoke;
+        }
+        h1 {
+            font-size: 3em;
+        }
+        .buton{
+            background-color: #295759;
+            border-radius: 30px;
+            padding: 10px 30px;
+            margin-top: 2em;
+            color: #CAFFDF !important;
+            font-weight: 700;
+            text-decoration:none;
+        }
+
+        .flexIndex2 {
+            display: flex;
+            flex-direction: column;
+            align-content: center;
+            justify-content: center;
+            align-items: center;
+            text-align: left;
+            position: relative;
+            text-align: center;
+            margin:10em;
+        }
+    </style>
+}
+else
+{
+    <div class="flexIndex">
+        <h1 class="display-4 dm">Symfony</h1>
+
+        <h2 class="cent">
+            projekt zaliczeniowy <br />
+            z ASP .NET
+        </h2>
+
+        <div class="svg">
+            <img src="/Images/Path.png" />
+        </div>
+
+    </div>
+    <style>
+        h1 {
+            font-size: 8em !important;
+        }
+
+        h2 {
+            font-size: 3em !important;
+        }
+    </style>
+}
+
+
+
+<style>
+    body{
+        background-image: url('/images/back.png');
+        background-position:center;
+        background-repeat:no-repeat;
+        background-size:cover;
+    }
+   
+</style>

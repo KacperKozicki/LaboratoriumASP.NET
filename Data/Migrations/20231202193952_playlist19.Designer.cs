@@ -3,6 +3,7 @@ using System;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231202193952_playlist19")]
+    partial class playlist19
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.13");
@@ -61,7 +64,7 @@ namespace Data.Migrations
                             Id = 1,
                             BandOrArtist = "Artist1",
                             ChartRanking = 1,
-                            Created = new DateTime(2023, 12, 2, 21, 16, 11, 614, DateTimeKind.Local).AddTicks(5705),
+                            Created = new DateTime(2023, 12, 2, 20, 39, 51, 812, DateTimeKind.Local).AddTicks(1248),
                             GenreId = 1,
                             Name = "Album1",
                             ReleaseDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -71,7 +74,7 @@ namespace Data.Migrations
                             Id = 2,
                             BandOrArtist = "Artist2",
                             ChartRanking = 3,
-                            Created = new DateTime(2023, 12, 2, 21, 16, 11, 614, DateTimeKind.Local).AddTicks(5754),
+                            Created = new DateTime(2023, 12, 2, 20, 39, 51, 812, DateTimeKind.Local).AddTicks(1287),
                             GenreId = 2,
                             Name = "Album2",
                             ReleaseDate = new DateTime(2021, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -122,7 +125,7 @@ namespace Data.Migrations
                         {
                             Id = 1,
                             Birth = new DateTime(2000, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Created = new DateTime(2023, 12, 2, 21, 16, 11, 611, DateTimeKind.Local).AddTicks(606),
+                            Created = new DateTime(2023, 12, 2, 20, 39, 51, 809, DateTimeKind.Local).AddTicks(6293),
                             Email = "adam@wsei.edu.pl",
                             Name = "Adam",
                             OrganizationId = 1,
@@ -133,7 +136,7 @@ namespace Data.Migrations
                         {
                             Id = 2,
                             Birth = new DateTime(1999, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Created = new DateTime(2023, 12, 2, 21, 16, 11, 611, DateTimeKind.Local).AddTicks(662),
+                            Created = new DateTime(2023, 12, 2, 20, 39, 51, 809, DateTimeKind.Local).AddTicks(6342),
                             Email = "ewa@wsei.edu.pl",
                             Name = "Ewa",
                             OrganizationId = 1,
@@ -238,9 +241,6 @@ namespace Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("GenreId")
                         .HasColumnType("INTEGER");
 
@@ -269,7 +269,6 @@ namespace Data.Migrations
                         new
                         {
                             Id = 1,
-                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GenreId = 1,
                             IsPublic = true,
                             Name = "Summer Hits",
@@ -279,7 +278,6 @@ namespace Data.Migrations
                         new
                         {
                             Id = 2,
-                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GenreId = 2,
                             IsPublic = true,
                             Name = "Rock Classics",
@@ -421,8 +419,8 @@ namespace Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "131b6117-cf6c-4753-a960-770ef3f0fc9f",
-                            ConcurrencyStamp = "131b6117-cf6c-4753-a960-770ef3f0fc9f",
+                            Id = "5a853679-f0fb-48ae-b13b-880a5b838a43",
+                            ConcurrencyStamp = "5a853679-f0fb-48ae-b13b-880a5b838a43",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         });
@@ -517,17 +515,17 @@ namespace Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "91d3645e-7b94-41eb-a261-f40379c4e5aa",
+                            Id = "415926f4-ce52-4549-ab4a-3da98cb58d1b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "dd6251f6-22a3-4a07-adc0-61e4673d540d",
+                            ConcurrencyStamp = "1e428c81-3864-4315-9b5c-c7a17cba91c7",
                             Email = "adam@wsei.edu.pl",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADAM@WSEI.EDU.PL",
                             NormalizedUserName = "ADAM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJGYK1Ux/c7WtNvsQpNIWbJ8OQqc/fwOlaub1NzIjPbDHf/qcHdHFbEfP4uNN1TlmQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDSuUBueWzce+xVYI3bLbniYo5J/QFPDesT8KgxddaAR82STYKeHDeKQg6i/f9XGbA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "17c9ff13-c26e-4ae9-b7cb-527c80aff1f7",
+                            SecurityStamp = "04dcd442-036c-48c1-9c2c-3494bcb6766a",
                             TwoFactorEnabled = false,
                             UserName = "adam"
                         });
@@ -595,8 +593,8 @@ namespace Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "91d3645e-7b94-41eb-a261-f40379c4e5aa",
-                            RoleId = "131b6117-cf6c-4753-a960-770ef3f0fc9f"
+                            UserId = "415926f4-ce52-4549-ab4a-3da98cb58d1b",
+                            RoleId = "5a853679-f0fb-48ae-b13b-880a5b838a43"
                         });
                 });
 

@@ -17,6 +17,7 @@ namespace Laboratorium3___App.Controllers
         {
             return View();
         }
+       
 
         public IActionResult Privacy()
         {

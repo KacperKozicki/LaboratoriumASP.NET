@@ -60,15 +60,18 @@ namespace Laboratorium3___App.Controllers
         [HttpPost]
         public IActionResult CreateApi(Album model)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && _albumService.ValidateGenreId(model.GenreId))
             {
                 _albumService.Add(model);
                 return RedirectToAction("Index");
             }
+
+           
+
             return View(model);
         }
 
-
+       
 
         [HttpGet]
         public IActionResult Update(int id)

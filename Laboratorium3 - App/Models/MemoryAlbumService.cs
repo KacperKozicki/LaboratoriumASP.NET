@@ -56,4 +56,9 @@ public class MemoryAlbumService : IAlbumService
 
         _items[item.Id] = item;
     }
+
+    public bool ValidateGenreId(int? id)
+    {
+        throw new NotImplementedException();
+    }
 }

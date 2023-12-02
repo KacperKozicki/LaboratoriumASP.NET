@@ -1,0 +1,47 @@
+﻿@model List<Playlist>
+
+<h1>Moje playlisty</h1>
+<a class="btn btn-primary" asp-controller="Playlist" asp-action="Create">Dodaj Playliste</a>
+
+
+<table class="table text-light">
+    <tr>
+        <th>Nazwa</th>
+        <th>Gatunek</th>
+        <th>Spis piosenek</th>
+        @* <th>Notowanie</th>
+        <th>Data wydania</th>
+        <th>Czas trwania</th> *@
+    </tr>
+
+    @foreach (var playlist in Model)
+    {
+        <tr>
+            <td>@playlist.Name</td>
+            <td>@playlist.GenreName</td>
+
+            <td>
+                @if (playlist.TrackNames != null && playlist.TrackNames.Any())
+                {
+                    <ul>
+                        @foreach (var trackName in playlist.TrackNames)
+                        {
+                            <li>@trackName</li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p>No tracklist available</p>
+                }
+            </td>
+
+            
+            <td>
+                <a class="btn btn-outline-secondary" asp-controller="Playlist" asp-action="Update" asp-route-id="@playlist.Id">Edit</a>
+                <a class="btn btn-outline-info" asp-controller="Playlist" asp-action="Details" asp-route-id="@playlist.Id">Szczegóły</a>
+                <a class="btn btn-outline-danger" asp-controller="Playlist" asp-action="Delete" asp-route-id="@playlist.Id">Usuń</a>
+            </td>
+        </tr>
+    }
+</table>

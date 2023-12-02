@@ -20,6 +20,7 @@ namespace Laboratorium3___App
                 .AddEntityFrameworkStores<Data.AppDbContext>();
 
             builder.Services.AddTransient<IAlbumService, EFAlbumService>();
+            builder.Services.AddTransient<IPlaylistService, EFPlaylistService>();
 
             builder.Services.AddDbContext<AppDbContext>();
 
