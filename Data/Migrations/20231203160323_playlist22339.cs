@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Identity3 : Migration
+    public partial class playlist22339 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -84,6 +84,19 @@ namespace Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_organizations", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tags",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tags", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -218,6 +231,29 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "playlists",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    GenreId = table.Column<int>(type: "INTEGER", nullable: false),
+                    TotalDuration = table.Column<TimeSpan>(type: "TEXT", nullable: false),
+                    IsPublic = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_playlists", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_playlists_genres_GenreId",
+                        column: x => x.GenreId,
+                        principalTable: "genres",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "contacts",
                 columns: table => new
                 {
@@ -249,6 +285,7 @@ namespace Data.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    Duration = table.Column<TimeSpan>(type: "TEXT", nullable: false),
                     AlbumEntityId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -262,15 +299,63 @@ namespace Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "playliststag",
+                columns: table => new
+                {
+                    PlaylistId = table.Column<int>(type: "INTEGER", nullable: false),
+                    TagId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_playliststag", x => new { x.PlaylistId, x.TagId });
+                    table.ForeignKey(
+                        name: "FK_playliststag_playlists_PlaylistId",
+                        column: x => x.PlaylistId,
+                        principalTable: "playlists",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_playliststag_tags_TagId",
+                        column: x => x.TagId,
+                        principalTable: "tags",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "playlist_tracks",
+                columns: table => new
+                {
+                    PlaylistId = table.Column<int>(type: "INTEGER", nullable: false),
+                    TrackId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_playlist_tracks", x => new { x.PlaylistId, x.TrackId });
+                    table.ForeignKey(
+                        name: "FK_playlist_tracks_playlists_PlaylistId",
+                        column: x => x.PlaylistId,
+                        principalTable: "playlists",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_playlist_tracks_tracks_TrackId",
+                        column: x => x.TrackId,
+                        principalTable: "tracks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "e0857d04-bc70-4038-a51a-bba8f03d058f", "e0857d04-bc70-4038-a51a-bba8f03d058f", "admin", "ADMIN" });
+                values: new object[] { "5049d9e9-d172-4820-8f07-24cdb929065c", "5049d9e9-d172-4820-8f07-24cdb929065c", "admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "f3016a76-cb81-41d6-8500-bcb7fcc1d3c0", 0, "3c3e90c8-f8d9-4c5a-a163-2d5b1d4f7921", "adam", true, false, null, "ADAM@WSEI.EDU.PL", "ADAM", "AQAAAAEAACcQAAAAEGheBd7lB+X8lsiEObfLsH9ELJ9Fc5HqFj3AL9tWncrvK5Hrw3+BMNiuSUpvT0SdhA==", null, false, "f3d93240-93d1-4942-adf2-6ac89937089b", false, "adam@wsei.edu.pl" });
+                values: new object[] { "eaff33c3-d594-49fc-af5a-a49ab7ee75f7", 0, "ae446976-019f-4144-bf31-f7348e3b2fc7", "adam@wsei.edu.pl", true, false, null, "ADAM@WSEI.EDU.PL", "ADAM", "AQAAAAEAACcQAAAAEGDaFL2vQp8edA7I4Mzk3a/Ox0vH8xFmjayPg+oVvg/js4WNqbxRVPG9PaBbjwJPqg==", null, false, "16c07c27-5afb-4acd-961f-93a2ae80ce02", false, "adam" });
 
             migrationBuilder.InsertData(
                 table: "genres",
@@ -295,17 +380,44 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "tags",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Radosny" },
+                    { 2, "Spokojny" },
+                    { 3, "Energetyczny" },
+                    { 4, "Romantyczny" },
+                    { 5, "Melancholijny" },
+                    { 6, "Tęskny" },
+                    { 7, "Wakacyjny" },
+                    { 8, "Nostalgiczny" },
+                    { 9, "Motywujący" },
+                    { 10, "Relaksujący" },
+                    { 11, "Imprezowy" },
+                    { 12, "Na trening" },
+                    { 13, "Do śpiewania" },
+                    { 14, "Do tańca" },
+                    { 15, "Do pracy" },
+                    { 16, "Do nauki" },
+                    { 17, "Do medytacji" },
+                    { 18, "Inspirujący" },
+                    { 19, "Do podróży" },
+                    { 20, "Na dobry początek dnia" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "e0857d04-bc70-4038-a51a-bba8f03d058f", "f3016a76-cb81-41d6-8500-bcb7fcc1d3c0" });
+                values: new object[] { "5049d9e9-d172-4820-8f07-24cdb929065c", "eaff33c3-d594-49fc-af5a-a49ab7ee75f7" });
 
             migrationBuilder.InsertData(
                 table: "albums",
                 columns: new[] { "Id", "BandOrArtist", "ChartRanking", "Created", "Duration", "GenreId", "Name", "release_date" },
                 values: new object[,]
                 {
-                    { 1, "Artist1", 1, new DateTime(2023, 11, 28, 13, 44, 28, 940, DateTimeKind.Local).AddTicks(884), null, 1, "Album1", new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, "Artist2", 3, new DateTime(2023, 11, 28, 13, 44, 28, 940, DateTimeKind.Local).AddTicks(940), null, 2, "Album2", new DateTime(2021, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1, "Artist1", 1, new DateTime(2023, 12, 3, 17, 3, 23, 567, DateTimeKind.Local).AddTicks(6423), null, 1, "Album1", new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, "Artist2", 3, new DateTime(2023, 12, 3, 17, 3, 23, 567, DateTimeKind.Local).AddTicks(6447), null, 2, "Album2", new DateTime(2021, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -313,21 +425,54 @@ namespace Data.Migrations
                 columns: new[] { "Id", "birth_date", "Created", "Email", "Name", "OrganizationId", "Phone", "Priority" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2000, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 11, 28, 13, 44, 28, 928, DateTimeKind.Local).AddTicks(4832), "adam@wsei.edu.pl", "Adam", 1, "127813268163", 1 },
-                    { 2, new DateTime(1999, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 11, 28, 13, 44, 28, 928, DateTimeKind.Local).AddTicks(5089), "ewa@wsei.edu.pl", "Ewa", 1, "293443823478", 2 }
+                    { 1, new DateTime(2000, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 12, 3, 17, 3, 23, 565, DateTimeKind.Local).AddTicks(2495), "adam@wsei.edu.pl", "Adam", 1, "127813268163", 1 },
+                    { 2, new DateTime(1999, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 12, 3, 17, 3, 23, 565, DateTimeKind.Local).AddTicks(2545), "ewa@wsei.edu.pl", "Ewa", 1, "293443823478", 2 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "playlists",
+                columns: new[] { "Id", "Created", "GenreId", "IsPublic", "Name", "TotalDuration" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, true, "Summer Hits", new TimeSpan(0, 0, 8, 5, 0) },
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, true, "Rock Classics", new TimeSpan(0, 0, 6, 10, 0) }
+                });
+
+            migrationBuilder.InsertData(
+                table: "playliststag",
+                columns: new[] { "PlaylistId", "TagId" },
+                values: new object[,]
+                {
+                    { 1, 7 },
+                    { 1, 19 },
+                    { 1, 20 },
+                    { 2, 1 },
+                    { 2, 4 },
+                    { 2, 14 }
                 });
 
             migrationBuilder.InsertData(
                 table: "tracks",
-                columns: new[] { "Id", "AlbumEntityId", "Name" },
+                columns: new[] { "Id", "AlbumEntityId", "Duration", "Name" },
                 values: new object[,]
                 {
-                    { 1, 1, "Pierwszy utwór" },
-                    { 2, 1, "Drugi utwór" },
-                    { 3, 1, "Trzeci utwór" },
-                    { 4, 2, "Pierwszy utwór" },
-                    { 5, 2, "Drugi utwór" },
-                    { 6, 2, "Trzeci utwór" }
+                    { 1, 1, new TimeSpan(0, 0, 3, 45, 0), "Magical" },
+                    { 2, 1, new TimeSpan(0, 0, 4, 20, 0), "England" },
+                    { 3, 1, new TimeSpan(0, 0, 2, 55, 0), "Punchline" },
+                    { 4, 2, new TimeSpan(0, 0, 3, 15, 0), "Shirtsleeves" },
+                    { 5, 2, new TimeSpan(0, 0, 4, 40, 0), "One" },
+                    { 6, 2, new TimeSpan(0, 0, 3, 30, 0), "The Man" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "playlist_tracks",
+                columns: new[] { "PlaylistId", "TrackId" },
+                values: new object[,]
+                {
+                    { 1, 1 },
+                    { 1, 2 },
+                    { 2, 3 },
+                    { 2, 4 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -378,6 +523,21 @@ namespace Data.Migrations
                 column: "OrganizationId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_playlist_tracks_TrackId",
+                table: "playlist_tracks",
+                column: "TrackId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_playlists_GenreId",
+                table: "playlists",
+                column: "GenreId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_playliststag_TagId",
+                table: "playliststag",
+                column: "TagId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_tracks_AlbumEntityId",
                 table: "tracks",
                 column: "AlbumEntityId");
@@ -405,7 +565,10 @@ namespace Data.Migrations
                 name: "contacts");
 
             migrationBuilder.DropTable(
-                name: "tracks");
+                name: "playlist_tracks");
+
+            migrationBuilder.DropTable(
+                name: "playliststag");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -415,6 +578,15 @@ namespace Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "organizations");
+
+            migrationBuilder.DropTable(
+                name: "tracks");
+
+            migrationBuilder.DropTable(
+                name: "playlists");
+
+            migrationBuilder.DropTable(
+                name: "tags");
 
             migrationBuilder.DropTable(
                 name: "albums");

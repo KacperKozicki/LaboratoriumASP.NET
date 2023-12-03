@@ -28,13 +28,14 @@ namespace Laboratorium3___App.Controllers
             var playlistEntities = _dbContext.Playlists
                                              .Include(p => p.PlaylistTracks)
                                              .ThenInclude(pt => pt.Track)
+                                             .Include(p => p.PlaylistTags)
+                                             .ThenInclude(pt => pt.Tag)
                                              .ToList();
 
             var playlistModels = playlistEntities.Select(p => PlaylistMapper.FromEntity(p, _dbContext)).ToList(); // Konwersja na List<Playlist>
 
-            return View(playlistModels); // Teraz przekazujesz List<Playlist>
+            return View(playlistModels); // Przekazanie modelu do widoku
         }
-
 
 
 
@@ -194,6 +195,9 @@ namespace Laboratorium3___App.Controllers
             // Ustawianie nazwy gatunku
             var genre = _playlistService.FindAllGenres().FirstOrDefault(g => g.Id == playlist.GenreId);
             playlist.GenreName = genre?.Name;
+
+            // Ładowanie tagów
+            playlist.TagNames = _playlistService.GetTagsForPlaylist(id);
 
             return View(playlist);
         }

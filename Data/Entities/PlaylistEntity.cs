@@ -22,9 +22,10 @@ namespace Data.Entities
 
         public ICollection<PlaylistTrackEntity> PlaylistTracks { get; set; }
 
-        public string Tags { get; set; } // Rozważ użycie innego typu dla tagów
         public TimeSpan TotalDuration { get; set; }
         public bool IsPublic { get; set; }
+        public ICollection<PlaylistTagEntity> PlaylistTags { get; set; }
+
     }
 
 }

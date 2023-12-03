@@ -29,7 +29,28 @@
                     <p><strong>Utworzono:</strong> @Model.Created</p>
                     <p><strong>Czas trwania:</strong> @Model.TotalDuration</p>
                     <p><strong>Gatunek:</strong> @Model.GenreName</p>
-                    <p><strong>Status:</strong> @Model.IsPublic</p>
+                        <p><strong>Status:</strong> @PlaylistHelper.ConvertPublicStatus(Model.IsPublic)</p>           
+
+                        <td>
+
+                            @if (Model.TagNames != null && Model.TagNames.Any())
+                            {
+                                foreach (var tagName in Model.TagNames)
+                                {
+                                    <span class="tag">@tagName</span>
+
+                                    <br />
+                                }
+                            }
+                            else
+                            {
+                                <p>Brak tagów</p>
+                            }
+
+                        </td>
+
+
+                    
                 </div>
             </div>
                 <h1 class="dm">@Model.Name</h1>
@@ -113,5 +134,45 @@
     tr{
         height:3em;
     }
+
+    .tag{
+        background-color: #ffb200;
+        border-radius: 8px;
+        padding: 2px 5px;
+        color: black;
+        font-size: 0.7em;
+    }
 </style>
                   
+        @section Scripts{
+        <script>
+        function getRandomColor() {
+            // Generowanie losowego koloru w formacie RGB
+            const r = Math.floor(Math.random() * 256);
+            const g = Math.floor(Math.random() * 256);
+            const b = Math.floor(Math.random() * 256);
+
+            // Obliczanie jasności koloru używając wzoru percepcyjnego
+            const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+
+            // Ustalanie koloru tekstu na czarny lub biały w zależności od jasności tła
+            const textColor = brightness > 125 ? 'black' : 'white';
+
+            return { color: `rgb(${r}, ${g}, ${b})`, textColor };
+        }
+
+        function setRandomTagColors() {
+            const tags = document.querySelectorAll('.tag');
+
+            tags.forEach(tag => {
+                const { color, textColor } = getRandomColor();
+                tag.style.backgroundColor = color;
+                tag.style.color = textColor;
+            });
+        }
+
+        // Wywołanie funkcji
+        setRandomTagColors();
+
+        </script>
+        }

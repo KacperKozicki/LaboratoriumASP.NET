@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System.Linq;
-
+using Data.Entities;
 
 namespace Laboratorium3___App.Models
 {
@@ -25,16 +25,22 @@ namespace Laboratorium3___App.Models
 
 
         public List<int> TrackIds { get; set; }
-        public string Tags { get; set; }
+        public List<int> TagIds { get; set; }
         public TimeSpan TotalDuration { get; set; }
         public bool IsPublic { get; set; }
         public List<string> TrackNames { get; set; }
         public List<TrackDetails> TrackDetails { get; set; }
+        public List<SelectListItem> Tags { get; set; }
+        public List<string> TagNames { get; set; } // Dodane pole
+
 
         public Playlist()
         {
             TrackIds = new List<int>();
             TrackNames = new List<string>();
+            TagNames = new List<string>();
+            TagIds = new List<int>();
+            //Tags= new List<TagEntity>();
             TrackDetails = new List<TrackDetails>(); // Inicjalizacja listy
         }
     }

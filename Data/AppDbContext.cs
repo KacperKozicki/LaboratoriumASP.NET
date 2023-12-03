@@ -1,5 +1,4 @@
 ﻿using Data.Entities;
-using Data.Migrations;
 using Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -16,6 +15,8 @@ namespace Data
         public DbSet<OrganizationEntity> Organizations { get; set; }
         public DbSet<GenreEntity> Genres { get; set; }
         public DbSet<PlaylistEntity> Playlists { get; set; }
+        public DbSet<TagEntity> Tags { get; set; }
+        public DbSet<PlaylistTagEntity> PlaylistTagEntity { get; set; }
         public DbSet<PlaylistTrackEntity> PlaylistTracks { get; set; }
 
 
@@ -96,6 +97,26 @@ namespace Data
                 .HasOne(c => c.Genre)
                 .WithMany(o => o.Playlists)
                 .HasForeignKey(c => c.GenreId);
+
+
+            // Konfiguracja dla TagEntity
+            modelBuilder.Entity<TagEntity>()
+                .HasKey(t => t.Id);
+
+            // Konfiguracja dla PlaylistTag
+            modelBuilder.Entity<PlaylistTagEntity>()
+                .HasKey(pt => new { pt.PlaylistId, pt.TagId });
+
+            modelBuilder.Entity<PlaylistTagEntity>()
+                .HasOne(pt => pt.Playlist)
+                .WithMany(p => p.PlaylistTags)
+                .HasForeignKey(pt => pt.PlaylistId);
+
+            modelBuilder.Entity<PlaylistTagEntity>()
+                .HasOne(pt => pt.Tag)
+                .WithMany(t => t.PlaylistTags)
+                .HasForeignKey(pt => pt.TagId);
+
 
 
             //dodanie organizacji
@@ -234,29 +255,57 @@ namespace Data
             modelBuilder.Entity<PlaylistTrackEntity>()
                 .HasOne(pt => pt.Track)
                 .WithMany();
+            modelBuilder.Entity<TagEntity>().HasData(
+                 new TagEntity { Id = 1, Name = "Radosny" },
+                 new TagEntity { Id = 2, Name = "Spokojny" },
+                 new TagEntity { Id = 3, Name = "Energetyczny" },
+                 new TagEntity { Id = 4, Name = "Romantyczny" },
+                 new TagEntity { Id = 5, Name = "Melancholijny" },
+                 new TagEntity { Id = 6, Name = "Tęskny" },
+                 new TagEntity { Id = 7, Name = "Wakacyjny" },
+                 new TagEntity { Id = 8, Name = "Nostalgiczny" },
+                 new TagEntity { Id = 9, Name = "Motywujący" },
+                 new TagEntity { Id = 10, Name = "Relaksujący" },
+                 new TagEntity { Id = 11, Name = "Imprezowy" },
+                 new TagEntity { Id = 12, Name = "Na trening" },
+                 new TagEntity { Id = 13, Name = "Do śpiewania" },
+                 new TagEntity { Id = 14, Name = "Do tańca" },
+                 new TagEntity { Id = 15, Name = "Do pracy" },
+                 new TagEntity { Id = 16, Name = "Do nauki" },
+                 new TagEntity { Id = 17, Name = "Do medytacji" },
+                 new TagEntity { Id = 18, Name = "Inspirujący" },
+                 new TagEntity { Id = 19, Name = "Do podróży" },
+                 new TagEntity { Id = 20, Name = "Na dobry początek dnia" }
+             // Dodaj więcej tagów według potrzeb
+             );
+
+
+            modelBuilder.Entity<PlaylistEntity>().HasData(
+                 new PlaylistEntity
+                 {
+                     Id = 1,
+                     Name = "Summer Hits",
+                     GenreId = 1, // Zakładając, że GenreId = 1 istnieje
+                     IsPublic = true,
+                     TotalDuration = TimeSpan.FromSeconds(485),
+                     Created= new DateTime(2005, 10, 1)
+                 },
+                 new PlaylistEntity
+                 {
+                     Id = 2,
+                     Name = "Rock Classics",
+                     GenreId = 2, // Zakładając, że GenreId = 2 istnieje
+                     IsPublic = true,
+                     TotalDuration = TimeSpan.FromSeconds(370),
+                     Created = new DateTime(2022, 11, 8)
+
+                 }
+             // Dodaj więcej playlist według potrzeb
+             );;
 
            
-            // Dodanie przykładowych playlist
-            modelBuilder.Entity<PlaylistEntity>().HasData(
-                new PlaylistEntity
-                {
-                    Id = 1,
-                    Name = "Summer Hits",
-                    GenreId = 1, // Zakładając, że GenreId = 1 istnieje
-                    Tags = "summer, hits",
-                    IsPublic = true,
-                    TotalDuration = TimeSpan.FromSeconds(485)
-                },
-                new PlaylistEntity
-                {
-                    Id = 2,
-                    Name = "Rock Classics",
-                    GenreId = 2, // Zakładając, że GenreId = 2 istnieje
-                    Tags = "rock, classics",
-                    IsPublic = true,
-                    TotalDuration = TimeSpan.FromSeconds(370)
-                }
-            );
+
+
 
             // Dodanie utworów do playlist
             modelBuilder.Entity<PlaylistTrackEntity>().HasData(
@@ -264,6 +313,24 @@ namespace Data
                 new {  PlaylistId = 1, TrackId = 2 }, // Zakładając, że TrackId = 2 istnieje
                 new {  PlaylistId = 2, TrackId = 3 }, // Zakładając, że TrackId = 3 istnieje
                 new {  PlaylistId = 2, TrackId = 4 }  // Zakładając, że TrackId = 4 istnieje
+            );
+
+
+
+            
+
+            // Dodanie tagów do playlist
+            modelBuilder.Entity<PlaylistTagEntity>().HasData(
+                // Przypisanie tagów do playlisty "Summer Hits"
+                new { PlaylistId = 1, TagId = 7 }, // Tag "Wakacyjny"
+                new { PlaylistId = 1, TagId = 19 }, // Tag "Do podróży"
+                new { PlaylistId = 1, TagId = 20 }, // Tag "Na dobry początek dnia"
+
+                // Przypisanie tagów do playlisty "Rock Classics"
+                new { PlaylistId = 2, TagId = 1 }, // Tag "Radosny"
+                new { PlaylistId = 2, TagId = 4 }, // Tag "Romantyczny"
+                new { PlaylistId = 2, TagId = 14 }  // Tag "Do tańca"
+                                                    // Dodaj więcej przypisań według potrzeb
             );
         }
 

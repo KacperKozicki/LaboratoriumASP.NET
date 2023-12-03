@@ -41,9 +41,8 @@
 
                 <!-- Tagi -->
                 <div class="mb-3">
-                    <label class="font-weight-bold" asp-for="Tags"></label>
-                    <input asp-for="Tags" class="form-control text-light bg-dark" />
-                    <span class="text-danger" asp-validation-for="Tags"></span>
+                    <label class="font-weight-bold">Tagi</label>
+                    <select asp-for="TagIds" class="form-control text-light bg-dark" asp-items="@Model.Tags" multiple></select>
                 </div>
 
                 <!-- Status publiczności -->

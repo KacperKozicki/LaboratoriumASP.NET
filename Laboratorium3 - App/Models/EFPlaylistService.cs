@@ -139,7 +139,16 @@ namespace Laboratorium3___App.Models
         }
 
 
+        public List<string> GetTagsForPlaylist(int playlistId)
+        {
+            // Pobranie tagów z bazy danych dla danej playlisty
+            var tagNames = _context.PlaylistTagEntity
+                                     .Where(pt => pt.PlaylistId == playlistId)
+                                     .Select(pt => pt.Tag.Name)
+                                     .ToList();
 
+            return tagNames;
+        }
 
 
         public bool TrackExists(string trackName)

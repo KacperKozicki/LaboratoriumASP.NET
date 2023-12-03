@@ -1,38 +1,65 @@
 ﻿@model List<Playlist>
+<div class="col-md-9">
+    <div class="topIndex">
 
-<h1>Moje playlisty</h1>
-<a class="btn btn-primary" asp-controller="Playlist" asp-action="Create">Dodaj Playliste</a>
+    <h1 class="dm">Moje playlisty</h1>
+        <div class="leftIndex">
+
+        <div class="serch">
+                @* <label asp-for="GenreId"></label> *@
+            <input type="text" id="filter" class="serchinput" placeholder="Wyszukaj playlisty" />
+@*             <input type="hidden" asp-for="GenreId" />
+            <span class="text-danger" asp-validation-for="GenreId"></span> *@
+
+        </div>
+            <a class="buton" asp-controller="Playlist" asp-action="Create">Dodaj Playliste</a>
+
+        </div>
+    </div>
 
 
+    <div class="tabela">
 <table class="table text-light">
     <tr>
         <th>Nazwa</th>
-        <th>Gatunek</th>
-        <th>Spis piosenek</th>
+        <th>Staus</th>
+        <th>Tagi</th>
+        <th>Liczba piosenek</th>
         @* <th>Notowanie</th>
         <th>Data wydania</th>
         <th>Czas trwania</th> *@
     </tr>
-
+            
     @foreach (var playlist in Model)
     {
         <tr>
             <td>@playlist.Name</td>
-            <td>@playlist.GenreName</td>
+            <td>@PlaylistHelper.ConvertPublicStatus(playlist.IsPublic)</td>
+            <td>
+                        @if (playlist.TagNames != null && playlist.TagNames.Any())
+                        {
+                            foreach (var tagName in playlist.TagNames)
+                            {
+                                <span>@tagName</span>
+
+                                <br />
+                            }
+                        }
+                        else
+                        {
+                            <p>Brak tagów</p>
+                        }
+
+            </td>
 
             <td>
                 @if (playlist.TrackNames != null && playlist.TrackNames.Any())
                 {
-                    <ul>
-                        @foreach (var trackName in playlist.TrackNames)
-                        {
-                            <li>@trackName</li>
-                        }
-                    </ul>
+                   @playlist.TrackNames.Count()   
                 }
                 else
                 {
-                    <p>No tracklist available</p>
+                    <p>0</p>
                 }
             </td>
 
@@ -45,3 +72,63 @@
         </tr>
     }
 </table>
+    </div>
+</div>
+<style>
+    .topIndex{
+        width:100%;
+        height:auto;
+        padding:10px;
+        display:flex;
+
+    }
+    .topIndex h1{
+        width:40%;
+    }
+    .leftIndex{
+        width:60%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-content: center;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    .col-md-9{
+        margin:auto;
+    }
+    .serch{
+        margin-right:2em;
+    }
+    .serchinput{
+        border: solid 3px #cefee0;
+        border-radius: 30px;
+        background-color: transparent;
+        color: white;
+        width: 100%;
+        height: 100%;
+        padding: 5px 15px;
+    }   
+    .serchinput::placeholder {
+            color: #179E88;
+    }
+
+    .buton{
+        background-color: #cefee0;
+        border: none;
+        border-radius: 30px;
+        padding: 7px 20px;
+        color: #419c88;
+        font-weight: 700;
+        text-decoration:none;
+    }
+    .tabela{
+        width:100%;
+        height:100%;
+        border-radius:20px;
+        padding:20px;
+        margin-top:1em;
+        background-color: #192232;
+    }
+</style>
