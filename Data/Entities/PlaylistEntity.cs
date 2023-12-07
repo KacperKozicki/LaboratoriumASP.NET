@@ -20,6 +20,8 @@ namespace Data.Entities
         [ForeignKey(nameof(GenreId))]
         public GenreEntity Genre { get; set; }
 
+        public string UserId { get; set; }
+
         public ICollection<PlaylistTrackEntity> PlaylistTracks { get; set; }
 
         public TimeSpan TotalDuration { get; set; }

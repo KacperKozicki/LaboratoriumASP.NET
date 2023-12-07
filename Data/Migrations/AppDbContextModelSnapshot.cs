@@ -61,7 +61,7 @@ namespace Data.Migrations
                             Id = 1,
                             BandOrArtist = "Artist1",
                             ChartRanking = 1,
-                            Created = new DateTime(2023, 12, 3, 17, 3, 23, 567, DateTimeKind.Local).AddTicks(6423),
+                            Created = new DateTime(2023, 12, 4, 18, 17, 2, 358, DateTimeKind.Local).AddTicks(5615),
                             GenreId = 1,
                             Name = "Album1",
                             ReleaseDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -71,7 +71,7 @@ namespace Data.Migrations
                             Id = 2,
                             BandOrArtist = "Artist2",
                             ChartRanking = 3,
-                            Created = new DateTime(2023, 12, 3, 17, 3, 23, 567, DateTimeKind.Local).AddTicks(6447),
+                            Created = new DateTime(2023, 12, 4, 18, 17, 2, 358, DateTimeKind.Local).AddTicks(5795),
                             GenreId = 2,
                             Name = "Album2",
                             ReleaseDate = new DateTime(2021, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -122,7 +122,7 @@ namespace Data.Migrations
                         {
                             Id = 1,
                             Birth = new DateTime(2000, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Created = new DateTime(2023, 12, 3, 17, 3, 23, 565, DateTimeKind.Local).AddTicks(2495),
+                            Created = new DateTime(2023, 12, 4, 18, 17, 2, 354, DateTimeKind.Local).AddTicks(1611),
                             Email = "adam@wsei.edu.pl",
                             Name = "Adam",
                             OrganizationId = 1,
@@ -133,7 +133,7 @@ namespace Data.Migrations
                         {
                             Id = 2,
                             Birth = new DateTime(1999, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Created = new DateTime(2023, 12, 3, 17, 3, 23, 565, DateTimeKind.Local).AddTicks(2545),
+                            Created = new DateTime(2023, 12, 4, 18, 17, 2, 354, DateTimeKind.Local).AddTicks(1670),
                             Email = "ewa@wsei.edu.pl",
                             Name = "Ewa",
                             OrganizationId = 1,
@@ -255,6 +255,10 @@ namespace Data.Migrations
                     b.Property<TimeSpan>("TotalDuration")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.HasIndex("GenreId");
@@ -265,20 +269,22 @@ namespace Data.Migrations
                         new
                         {
                             Id = 1,
-                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Created = new DateTime(2005, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GenreId = 1,
                             IsPublic = true,
                             Name = "Summer Hits",
-                            TotalDuration = new TimeSpan(0, 0, 8, 5, 0)
+                            TotalDuration = new TimeSpan(0, 0, 8, 5, 0),
+                            UserId = "25815218-ac00-4188-b8ae-ac79c876010c"
                         },
                         new
                         {
                             Id = 2,
-                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Created = new DateTime(2022, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GenreId = 2,
                             IsPublic = true,
                             Name = "Rock Classics",
-                            TotalDuration = new TimeSpan(0, 0, 6, 10, 0)
+                            TotalDuration = new TimeSpan(0, 0, 6, 10, 0),
+                            UserId = "25815218-ac00-4188-b8ae-ac79c876010c"
                         });
                 });
 
@@ -579,8 +585,8 @@ namespace Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5049d9e9-d172-4820-8f07-24cdb929065c",
-                            ConcurrencyStamp = "5049d9e9-d172-4820-8f07-24cdb929065c",
+                            Id = "1bdddeb1-a218-4dcf-b8d3-ef09b95f0725",
+                            ConcurrencyStamp = "1bdddeb1-a218-4dcf-b8d3-ef09b95f0725",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         });
@@ -675,17 +681,17 @@ namespace Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "eaff33c3-d594-49fc-af5a-a49ab7ee75f7",
+                            Id = "25815218-ac00-4188-b8ae-ac79c876010c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ae446976-019f-4144-bf31-f7348e3b2fc7",
+                            ConcurrencyStamp = "1be4a53c-4b6f-4c6d-8093-d47213dd3ac0",
                             Email = "adam@wsei.edu.pl",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADAM@WSEI.EDU.PL",
                             NormalizedUserName = "ADAM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGDaFL2vQp8edA7I4Mzk3a/Ox0vH8xFmjayPg+oVvg/js4WNqbxRVPG9PaBbjwJPqg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJNqsXCkTrqDagYwo8D8WXigOyBDNlDaFiYrO/XUwY0mKTaXd3EzsXFkZqVffGWMhA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "16c07c27-5afb-4acd-961f-93a2ae80ce02",
+                            SecurityStamp = "1848e78e-f6a2-4deb-97fb-efa9f29ac7c8",
                             TwoFactorEnabled = false,
                             UserName = "adam"
                         });
@@ -753,8 +759,8 @@ namespace Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "eaff33c3-d594-49fc-af5a-a49ab7ee75f7",
-                            RoleId = "5049d9e9-d172-4820-8f07-24cdb929065c"
+                            UserId = "25815218-ac00-4188-b8ae-ac79c876010c",
+                            RoleId = "1bdddeb1-a218-4dcf-b8d3-ef09b95f0725"
                         });
                 });
 

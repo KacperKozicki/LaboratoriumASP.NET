@@ -49,12 +49,16 @@ namespace Laboratorium3___App
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
             app.UseRouting();
+            app.UseMiddleware<LastVisitCookie>(); //musi przejść najpierw przez routing żeby nie odwołało się do nieistniejącej strony
 
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseSession();
             app.MapRazorPages();
+
+            
 
             app.MapControllerRoute(
                 name: "default",

@@ -288,7 +288,8 @@ namespace Data
                      GenreId = 1, // Zakładając, że GenreId = 1 istnieje
                      IsPublic = true,
                      TotalDuration = TimeSpan.FromSeconds(485),
-                     Created= new DateTime(2005, 10, 1)
+                     Created= new DateTime(2005, 10, 1),
+                     UserId=ADMIN_ID,
                  },
                  new PlaylistEntity
                  {
@@ -297,8 +298,8 @@ namespace Data
                      GenreId = 2, // Zakładając, że GenreId = 2 istnieje
                      IsPublic = true,
                      TotalDuration = TimeSpan.FromSeconds(370),
-                     Created = new DateTime(2022, 11, 8)
-
+                     Created = new DateTime(2022, 11, 8),
+                     UserId = ADMIN_ID,
                  }
              // Dodaj więcej playlist według potrzeb
              );;

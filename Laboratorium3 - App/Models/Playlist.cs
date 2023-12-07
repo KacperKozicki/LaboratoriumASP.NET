@@ -14,8 +14,14 @@ namespace Laboratorium3___App.Models
         public DateTime Created { get; set; }
 
         public int Id { get; set; }
+
+        [Required(ErrorMessage = "Musisz podać nazwę Playlisty!")]
         public string Name { get; set; }
+
+        [Required(ErrorMessage = "Musisz podać gatunek Playlisty!")]
         public int GenreId { get; set; }
+        [ValidateNever]
+        public string UserId { get; set; }
 
        
         [ValidateNever]
@@ -23,16 +29,25 @@ namespace Laboratorium3___App.Models
         [ValidateNever]
         public List<SelectListItem> Genres { get; set; }
 
-
+        [ValidateNever]
         public List<int> TrackIds { get; set; }
+        [Required(ErrorMessage = "Musisz podać tagi dla Playlisty!")]
         public List<int> TagIds { get; set; }
-        public TimeSpan TotalDuration { get; set; }
-        public bool IsPublic { get; set; }
-        public List<string> TrackNames { get; set; }
-        public List<TrackDetails> TrackDetails { get; set; }
-        public List<SelectListItem> Tags { get; set; }
-        public List<string> TagNames { get; set; } // Dodane pole
 
+        [ValidateNever]
+        public TimeSpan TotalDuration { get; set; }
+
+        [Required(ErrorMessage = "Musisz określić status!")]
+        public bool IsPublic { get; set; }
+        [Required(ErrorMessage = "Musisz dodać utwory dla Playlisty!")]
+        public List<string> TrackNames { get; set; }
+        [ValidateNever]
+        public List<TrackDetails> TrackDetails { get; set; }
+        [ValidateNever]
+        public List<SelectListItem> Tags { get; set; }
+        [ValidateNever]
+        public List<string> TagNames { get; set; } // Dodane pole
+        
 
         public Playlist()
         {
@@ -44,15 +59,4 @@ namespace Laboratorium3___App.Models
             TrackDetails = new List<TrackDetails>(); // Inicjalizacja listy
         }
     }
-
-    // Klasa pomocnicza do przechowywania szczegółów utworu
-    public class TrackDetails
-    {
-        public string Name { get; set; }
-        public string Genre { get; set; }
-        public string BandOrArtist { get; set; }
-        public TimeSpan Duration { get; set; }
-        public string AlbumName { get; set; }
-    }
-
 }

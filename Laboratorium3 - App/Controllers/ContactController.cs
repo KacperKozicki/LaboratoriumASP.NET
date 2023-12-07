@@ -22,7 +22,7 @@ namespace Laboratorium3___App.Controllers
         public IActionResult Index()
         {
             List<Contact> contacts = _contactService.FindAll();
-            return View(contacts);
+            return View("Index",contacts);
         }
        
         public IActionResult IndexPaging([FromQuery] int? page = 1, [FromQuery] int? size = 5)
@@ -134,24 +134,43 @@ namespace Laboratorium3___App.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet]
+        //[HttpGet]
+        //public IActionResult Details(int id)
+        //{
+        //    Contact contact = _contactService.FindById(id);
+
+        //    if (contact == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var organization = _contactService.FindAllOrganizations()
+        //        .FirstOrDefault(eo => eo.Id == contact.OrganizationId);
+
+        //    contact.OrganizationName = organization?.Name; // Ustaw nazwę organizacji
+
+        //    return View(contact);
+        //}
+
+        //public IActionResult Details(int id)
+        //{
+        //    var model = _contactService.FindById(id);
+        //    if (model == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(model);
+        //}
         public IActionResult Details(int id)
         {
-            Contact contact = _contactService.FindById(id);
-
-            if (contact == null)
+            var model = _contactService.FindById(id);
+            if (model == null )
             {
                 return NotFound();
             }
-
-            var organization = _contactService.FindAllOrganizations()
-                .FirstOrDefault(eo => eo.Id == contact.OrganizationId);
-
-            contact.OrganizationName = organization?.Name; // Ustaw nazwę organizacji
-
-            return View(contact);
+            // If there is logic to get the organization name, it should be here
+            return View("Details", model); // Make sure to pass the view name if necessary
         }
-
 
     }
 }

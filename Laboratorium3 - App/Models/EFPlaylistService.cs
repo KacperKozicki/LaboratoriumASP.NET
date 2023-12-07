@@ -97,6 +97,11 @@ namespace Laboratorium3___App.Models
             return _context.Genres.ToList();
         }
 
+        public List<TagEntity> FindAllTags()
+        {
+            return _context.Tags.ToList();
+        }
+
         public bool ValidateGenreId(int? genreId)
         {
             // Sprawdzenie, czy genreId istnieje w bazie danych

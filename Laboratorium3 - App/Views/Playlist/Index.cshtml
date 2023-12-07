@@ -1,4 +1,10 @@
 ﻿@model List<Playlist>
+
+@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<IdentityUser> UserManager
+
+
 <div class="col-md-9">
     <div class="topIndex">
 
@@ -23,34 +29,28 @@
     <tr>
         <th>Nazwa</th>
         <th>Staus</th>
-        <th>Tagi</th>
+        <th>Autor</th>
         <th>Liczba piosenek</th>
-        @* <th>Notowanie</th>
-        <th>Data wydania</th>
-        <th>Czas trwania</th> *@
+        
     </tr>
             
     @foreach (var playlist in Model)
     {
         <tr>
-            <td>@playlist.Name</td>
-            <td>@PlaylistHelper.ConvertPublicStatus(playlist.IsPublic)</td>
-            <td>
-                        @if (playlist.TagNames != null && playlist.TagNames.Any())
-                        {
-                            foreach (var tagName in playlist.TagNames)
-                            {
-                                <span>@tagName</span>
-
-                                <br />
-                            }
-                        }
-                        else
-                        {
-                            <p>Brak tagów</p>
-                        }
-
+            
+            <td class="name">
+                <div class="playlistIcon">
+                </div>
+                        <h4>@playlist.Name</h4>
             </td>
+            <td>@PlaylistHelper.ConvertPublicStatus(playlist.IsPublic)</td>
+            
+            <td>
+                        @{
+                            var user = await UserManager.FindByIdAsync(playlist.UserId);
+                            @user?.UserName
+                        }
+                    </td>
 
             <td>
                 @if (playlist.TrackNames != null && playlist.TrackNames.Any())
@@ -93,6 +93,25 @@
         align-content: center;
         justify-content: flex-end;
         align-items: center;
+    }
+    .playlistIcon{
+        width: 100px;
+        height: 100px;
+        border-radius: 20px;
+        background-image: url(../images/playlist.jpg);
+        background-position: center;
+        background-size: cover;
+    }
+    .playlistIcon h4{
+        margin-left:0.5em;
+    }    .name{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-content: center;
+        justify-content: flex-start;
+        align-items: flex-start;
+        width: 100%;
     }
 
     .col-md-9{

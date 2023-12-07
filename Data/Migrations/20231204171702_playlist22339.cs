@@ -239,6 +239,7 @@ namespace Data.Migrations
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     GenreId = table.Column<int>(type: "INTEGER", nullable: false),
+                    UserId = table.Column<string>(type: "TEXT", nullable: false),
                     TotalDuration = table.Column<TimeSpan>(type: "TEXT", nullable: false),
                     IsPublic = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
@@ -350,12 +351,12 @@ namespace Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "5049d9e9-d172-4820-8f07-24cdb929065c", "5049d9e9-d172-4820-8f07-24cdb929065c", "admin", "ADMIN" });
+                values: new object[] { "1bdddeb1-a218-4dcf-b8d3-ef09b95f0725", "1bdddeb1-a218-4dcf-b8d3-ef09b95f0725", "admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "eaff33c3-d594-49fc-af5a-a49ab7ee75f7", 0, "ae446976-019f-4144-bf31-f7348e3b2fc7", "adam@wsei.edu.pl", true, false, null, "ADAM@WSEI.EDU.PL", "ADAM", "AQAAAAEAACcQAAAAEGDaFL2vQp8edA7I4Mzk3a/Ox0vH8xFmjayPg+oVvg/js4WNqbxRVPG9PaBbjwJPqg==", null, false, "16c07c27-5afb-4acd-961f-93a2ae80ce02", false, "adam" });
+                values: new object[] { "25815218-ac00-4188-b8ae-ac79c876010c", 0, "1be4a53c-4b6f-4c6d-8093-d47213dd3ac0", "adam@wsei.edu.pl", true, false, null, "ADAM@WSEI.EDU.PL", "ADAM", "AQAAAAEAACcQAAAAEJNqsXCkTrqDagYwo8D8WXigOyBDNlDaFiYrO/XUwY0mKTaXd3EzsXFkZqVffGWMhA==", null, false, "1848e78e-f6a2-4deb-97fb-efa9f29ac7c8", false, "adam" });
 
             migrationBuilder.InsertData(
                 table: "genres",
@@ -409,15 +410,15 @@ namespace Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "5049d9e9-d172-4820-8f07-24cdb929065c", "eaff33c3-d594-49fc-af5a-a49ab7ee75f7" });
+                values: new object[] { "1bdddeb1-a218-4dcf-b8d3-ef09b95f0725", "25815218-ac00-4188-b8ae-ac79c876010c" });
 
             migrationBuilder.InsertData(
                 table: "albums",
                 columns: new[] { "Id", "BandOrArtist", "ChartRanking", "Created", "Duration", "GenreId", "Name", "release_date" },
                 values: new object[,]
                 {
-                    { 1, "Artist1", 1, new DateTime(2023, 12, 3, 17, 3, 23, 567, DateTimeKind.Local).AddTicks(6423), null, 1, "Album1", new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, "Artist2", 3, new DateTime(2023, 12, 3, 17, 3, 23, 567, DateTimeKind.Local).AddTicks(6447), null, 2, "Album2", new DateTime(2021, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1, "Artist1", 1, new DateTime(2023, 12, 4, 18, 17, 2, 358, DateTimeKind.Local).AddTicks(5615), null, 1, "Album1", new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, "Artist2", 3, new DateTime(2023, 12, 4, 18, 17, 2, 358, DateTimeKind.Local).AddTicks(5795), null, 2, "Album2", new DateTime(2021, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -425,17 +426,17 @@ namespace Data.Migrations
                 columns: new[] { "Id", "birth_date", "Created", "Email", "Name", "OrganizationId", "Phone", "Priority" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2000, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 12, 3, 17, 3, 23, 565, DateTimeKind.Local).AddTicks(2495), "adam@wsei.edu.pl", "Adam", 1, "127813268163", 1 },
-                    { 2, new DateTime(1999, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 12, 3, 17, 3, 23, 565, DateTimeKind.Local).AddTicks(2545), "ewa@wsei.edu.pl", "Ewa", 1, "293443823478", 2 }
+                    { 1, new DateTime(2000, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 12, 4, 18, 17, 2, 354, DateTimeKind.Local).AddTicks(1611), "adam@wsei.edu.pl", "Adam", 1, "127813268163", 1 },
+                    { 2, new DateTime(1999, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 12, 4, 18, 17, 2, 354, DateTimeKind.Local).AddTicks(1670), "ewa@wsei.edu.pl", "Ewa", 1, "293443823478", 2 }
                 });
 
             migrationBuilder.InsertData(
                 table: "playlists",
-                columns: new[] { "Id", "Created", "GenreId", "IsPublic", "Name", "TotalDuration" },
+                columns: new[] { "Id", "Created", "GenreId", "IsPublic", "Name", "TotalDuration", "UserId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, true, "Summer Hits", new TimeSpan(0, 0, 8, 5, 0) },
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, true, "Rock Classics", new TimeSpan(0, 0, 6, 10, 0) }
+                    { 1, new DateTime(2005, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, true, "Summer Hits", new TimeSpan(0, 0, 8, 5, 0), "25815218-ac00-4188-b8ae-ac79c876010c" },
+                    { 2, new DateTime(2022, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, true, "Rock Classics", new TimeSpan(0, 0, 6, 10, 0), "25815218-ac00-4188-b8ae-ac79c876010c" }
                 });
 
             migrationBuilder.InsertData(

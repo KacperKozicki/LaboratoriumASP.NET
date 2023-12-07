@@ -10,31 +10,21 @@ namespace Laboratorium3___App.Models
     {
         public static PlaylistEntity ToEntity(Playlist playlist, AppDbContext dbContext)
         {
-            var playlistEntity = new PlaylistEntity()
+            var playlistEntity = new PlaylistEntity
             {
                 Created = playlist.Created,
                 Id = playlist.Id,
                 Name = playlist.Name,
                 GenreId = playlist.GenreId,
+                UserId = playlist.UserId,
                 TotalDuration = playlist.TotalDuration,
                 IsPublic = playlist.IsPublic,
-                PlaylistTracks = new List<PlaylistTrackEntity>()
+                PlaylistTracks = playlist.TrackIds
+                    .Where(trackId => !dbContext.PlaylistTracks.Any(pt => pt.PlaylistId == playlist.Id && pt.TrackId == trackId))
+                    .Select(trackId => new PlaylistTrackEntity { PlaylistId = playlist.Id, TrackId = trackId })
+                    .ToList(),
+                PlaylistTags = playlist.TagIds?.Select(tagId => new PlaylistTagEntity { PlaylistId = playlist.Id, TagId = tagId }).ToList()
             };
-
-            foreach (var trackId in playlist.TrackIds)
-            {
-                // Sprawdź, czy relacja już istnieje
-                if (!dbContext.PlaylistTracks.Any(pt => pt.PlaylistId == playlist.Id && pt.TrackId == trackId))
-                {
-                    playlistEntity.PlaylistTracks.Add(new PlaylistTrackEntity { PlaylistId = playlist.Id, TrackId = trackId });
-                }
-            }
-
-            // Dodanie obsługi tagów
-            if (playlist.TagIds != null && playlist.TagIds.Any())
-            {
-                playlistEntity.PlaylistTags = playlist.TagIds.Select(tagId => new PlaylistTagEntity { PlaylistId = playlist.Id, TagId = tagId }).ToList();
-            }
 
             return playlistEntity;
         }
@@ -57,6 +47,7 @@ namespace Laboratorium3___App.Models
                 TagNames = tagNames,
                 TotalDuration = entity.TotalDuration,
                 IsPublic = entity.IsPublic,
+                UserId = entity.UserId,
                 TrackIds = entity.PlaylistTracks?.Select(pt => pt.TrackId).ToList() ?? new List<int>(),
                 TrackNames = dbContext.Tracks
                               .Where(t => entity.PlaylistTracks.Select(pt => pt.TrackId).Contains(t.Id))
@@ -76,6 +67,7 @@ namespace Laboratorium3___App.Models
                 TagIds = entity.PlaylistTags?.Select(pt => pt.TagId).ToList() ?? new List<int>(),
                 TotalDuration = entity.TotalDuration,
                 IsPublic = entity.IsPublic,
+                UserId = entity.UserId,
                 TrackIds = entity.PlaylistTracks?.Select(pt => pt.TrackId).ToList() ?? new List<int>(),
             };
         }
@@ -88,7 +80,7 @@ namespace Laboratorium3___App.Models
             entity.TotalDuration = playlist.TotalDuration;
             entity.IsPublic = playlist.IsPublic;
             // Aktualizacja listy utworów może wymagać dodatkowej logiki
-
+            entity.UserId = playlist.UserId;
             // Aktualizacja tagów
             if (playlist.TagIds != null)
             {

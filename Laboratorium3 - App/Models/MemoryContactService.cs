@@ -1,4 +1,5 @@
 ﻿using Data.Entities;
+using Microsoft.Extensions.FileProviders;
 
 namespace Laboratorium3___App.Models;
 public class MemoryContactService : IContactService
@@ -18,7 +19,7 @@ public class MemoryContactService : IContactService
     {
         int id = _items.Keys.Count != 0 ? _items.Keys.Max() : 0;
         item.Id = id + 1;
-        item.Created=_timeProvider.GetDateTime();
+        //item.Created=_timeProvider.GetDateTime();
         _items.Add(item.Id, item);
         return item.Id;
     }
@@ -40,7 +41,14 @@ public class MemoryContactService : IContactService
 
     public Contact? FindById(int id)
     {
-        return _items[id];
+        if (_items.ContainsKey(id))
+        {
+            return _items[id];
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public PagingList<Contact> FindPage(int pageIndex, int pageSize)

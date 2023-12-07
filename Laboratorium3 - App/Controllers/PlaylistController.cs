@@ -45,6 +45,7 @@ namespace Laboratorium3___App.Controllers
             return View(_playlistService.FindPage((int)page, (int)size));
         }
 
+        
 
         [HttpGet]
         public IActionResult Create()
@@ -55,12 +56,19 @@ namespace Laboratorium3___App.Controllers
                 Text = eo.Name,
                 Value = eo.Id.ToString(),
             }).ToList();
+
+            model.Tags = _playlistService.FindAllTags().Select(tag => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+            {
+                Text = tag.Name,
+                Value = tag.Id.ToString(),
+            }).ToList();
+
             return View(model);
         }
         [HttpPost]
         public IActionResult Create(Playlist model)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && _playlistService.ValidateGenreId(model.GenreId))
             {
                 // Weryfikuj, czy wszystkie TrackNames istnieją w tabeli tracks
                 foreach (var trackName in model.TrackNames)
@@ -70,7 +78,7 @@ namespace Laboratorium3___App.Controllers
                         ModelState.AddModelError("TrackNames", $"Utwór '{trackName}' nie istnieje.");
                         return View(model);
                     }
-                   
+
                 }
 
                 // Kontynuuj przetwarzanie modelu...
@@ -80,6 +88,12 @@ namespace Laboratorium3___App.Controllers
                     .ToList();
 
                 model.TrackIds = trackIds;
+                //var tagIds = _dbContext.Tags
+                //    .Where(t => model.TagIds.Contains(t.Id))
+                //    .Select(t => t.Id)
+                //    .ToList();
+
+                //model.TagIds = tagIds;
 
                 // Dodaj playlistę do bazy danych
                 _playlistService.Add(model);

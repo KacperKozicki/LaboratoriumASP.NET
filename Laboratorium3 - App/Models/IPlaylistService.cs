@@ -17,6 +17,8 @@ public interface IPlaylistService
     public Playlist FindByIdWithTracks(int id);
     public bool TrackExists(string trackName);
     public List<string> GetTagsForPlaylist(int playlistId);
+    public List<TagEntity> FindAllTags();
+
 
 
 }
