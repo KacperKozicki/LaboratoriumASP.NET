@@ -1,170 +1,144 @@
-﻿@model Album
-
+﻿@model Playlist
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
 @{
-    ViewData["Title"] = "Create Album";
+    ViewData["Title"] = "Create Playlist";
 }
 
-<div class="container mt-5">
+<div class="container mt-5 text-light">
     <div class="row justify-content-center">
         <div class="col-md-6">
-<h2>Dodaj Album</h2>
+            <h2>Dodaj Playlistę</h2>
+            <form asp-controller="Playlist" asp-action="CreateApi" method="post">
 
-<form asp-controller="Album" asp-action="CreateApi" method="post">
+                <!-- Nazwa playlisty -->
+                <div class="mb-3">
+                    <label class="font-weight-bold" asp-for="Name"></label>
+                    <input asp-for="Name" class="form-control text-light bg-dark" />
+                    <span class="text-danger" asp-validation-for="Name"></span>
+                </div>
 
-    
-    
-
-    <div class="mb-3">
-        <label class="font-weight-bold" asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" placeholder="Np.: Najemnik"   />
-        <span class="text-danger" asp-validation-for="Name"></span>
-    </div>
-    <div class="mb-3">
-        <label class="font-weight-bold"  asp-for="BandOrArtist"></label>
-        <input asp-for="BandOrArtist" class="form-control" placeholder="Np.: Dżem"   />
-        <span class="text-danger" asp-validation-for="BandOrArtist"></span>
-    </div>
-
-    <div class="mb-3">
-        <label class="font-weight-bold" asp-for="Tracklist"></label>
-        <div id="tracklistContainer">
-            <input name="Tracklist[0]" class=" form-control mb-1" placeholder="Np.: Wehikuł czasu"  />
-            <span asp-validation-for="Tracklist[0]" class="text-danger"></span>
-
-        </div>
-        <div class="mt-2">
-            <button type="button" class="btn btn-secondary text-white font-weight-bold" id="addTracklist">
-                Dodaj kolejny
-            </button>
-
-        </div>
-        <span asp-validation-for="Tracklist" class="text-danger"></span> <!-- Walidacja dla całej listy piosenek -->
-
-    </div>
-
-    <div class="mb-3">
-        <label class="font-weight-bold"  asp-for="ReleaseDate"></label>
-        <input asp-for="ReleaseDate" class="form-control" />
-        <span class="text-danger" asp-validation-for="ReleaseDate"></span>
-
-    </div>
-    <div class="mb-3">
-        <label class="font-weight-bold" asp-for="Duration"></label>
-        <input asp-for="Duration" class="form-control" />
-        <span class="text-danger" asp-validation-for="Duration"></span>
+                <!-- Lista utworów -->
+                <div class="mb-3">
+                    <label class="font-weight-bold" asp-for="TrackNames"></label>
+                    <div id="tracklistContainer">
+                        <input name="TrackNames[0]" id="filter" class="form-control mb-1" placeholder="Np.: Wehikuł czasu" />
+                        <span asp-validation-for="TrackNames[0]" class="text-danger"></span>
+                        <!-- Kontener na sugestie dla utworów -->
+                        <div id="trackSuggestions0" class="track-suggestions"></div>
+                    </div>
+                    <div class="mt-2">
+                        <button type="button" class="btn btn-secondary text-white font-weight-bold" id="addTracklist">
+                            Dodaj kolejny
+                        </button>
+                    </div>
+                    <span asp-validation-for="TrackNames" class="text-danger"></span>
+                </div>
 
 
-    </div>
-    <div class="mb-3">
-        <label class="font-weight-bold" asp-for="ChartRanking"></label>
-        <select class="form-control" asp-for="ChartRanking" asp-items="@Html.GetEnumSelectList<AlbumChartRanking>()"></select>
-    </div>
-                
-    
+                <!-- Gatunek -->
+                <div class="mb-3">
+                    <label asp-for="GenreId">Gatunek</label>
+                    <select class="form-control text-light bg-dark" asp-for="GenreId" asp-items="@Model.Genres"></select>
+                    <span asp-validation-for="GenreId" class="text-danger"></span>
 
-    <div class="mb-3">
-        <label asp-for="GenreId"></label>
-        <input type="text" id="filter" class="form-control" />
-        <!-- Dodane ukryte pole do przechowywania identyfikatora gatunku -->
-        <input type="hidden" asp-for="GenreId" />
-        <span class="text-danger" asp-validation-for="GenreId"></span>
+                </div>
 
-    </div>
+                <!-- Tagi -->
+                <div class="mb-3">
+                    <label asp-for="TagIds">Tagi</label>
+                    <select asp-for="TagIds" class="form-control text-light bg-dark" asp-items="@Model.Tags" multiple></select>
+                    <span asp-validation-for="TagIds" class="text-danger"></span>
+
+                </div>
+
+                <!-- Status publiczności -->
+                <div class="mb-3">
+                    <label class="font-weight-bold">Publiczna</label>
+                    <input asp-for="IsPublic" type="checkbox" />
+                    <span asp-validation-for="TagIds" class="text-danger"></span>
+
+                </div>
+
+                <input type="hidden" name="UserId" value="@UserManager.GetUserId(User)" />
 
 
-    <button type="submit" class="btn btn-primary">Dodaj</button>
-    <button type="reset" class="btn btn-danger">Resetuj</button>
-</form>
+                <button type="submit" class="btn btn-primary">Dodaj</button>
+            </form>
 
-<script>
-    var tracklistIndex = 1;
-    var tracklistContainer = document.getElementById("tracklistContainer");
-    var addTracklistButton = document.getElementById("addTracklist");
+            <script>
+                var tracklistIndex = 1;
+                var tracklistContainer = document.getElementById("tracklistContainer");
+                var addTracklistButton = document.getElementById("addTracklist");
 
-    addTracklistButton.addEventListener("click", function () {
-        var input = document.createElement("input");
-        input.name = "Tracklist[" + tracklistIndex + "]";
-        input.className = "form-control mb-1";
-        input.placeholder = "Np.: Wehikuł czasu";
-        tracklistContainer.appendChild(input);
-        tracklistIndex++;
-    });
-</script>
-</div>
-</div>
-</div>
-@section Scripts{
-    <script>
-        const input = document.getElementById('filter');
-        const suggestionsPanel = document.createElement('div');
-        suggestionsPanel.id = 'suggestions';
-        suggestionsPanel.style.width = input.offsetWidth + 'px';
-        input.parentNode.appendChild(suggestionsPanel);
+                // Inicjalizacja dla pierwszego pola wprowadzania utworów
+                var firstTrackInput = document.getElementById('filter');
+                var firstTrackSuggestions = document.getElementById('trackSuggestions0');
+                initializeTrackInput(firstTrackInput, firstTrackSuggestions);
 
-        const errorSpan = document.createElement('span');
-        errorSpan.innerHTML = 'Gatunek musi być wybrany z listy podpowiedzi!';
-        errorSpan.className = 'text-danger';
-        errorSpan.style.display = 'none'; // Dodano styl, aby domyślnie ukryć komunikat o błędzie
-        input.parentNode.appendChild(errorSpan);
+                addTracklistButton.addEventListener("click", function () {
+                    var input = document.createElement("input");
+                    input.name = "TrackNames[" + tracklistIndex + "]";
+                    input.className = "form-control mb-1";
+                    input.placeholder = "Np.: Wehikuł czasu";
 
-        function fetchGenres(query = '') {
-            const url = query === '' ? '/api/genres' : `/api/genres/filter?query=${query}`;
-            fetch(url)
-                .then(response => response.json())
-                .then(genres => {
-                    suggestionsPanel.innerHTML = '';
-                    genres.forEach(genre => {
-                        const div = document.createElement('div');
-                        div.innerHTML = genre.name;
-                        div.setAttribute('data-genre-id', genre.id);
-                        div.classList.add('suggestion-item');
+                    var suggestionsDiv = document.createElement("div");
+                    suggestionsDiv.id = "trackSuggestions" + tracklistIndex;
+                    suggestionsDiv.classList.add("track-suggestions");
 
-                        div.addEventListener('click', function () {
-                            input.value = genre.name; // Ustawienie nazwy gatunku
-                            document.getElementsByName('GenreId')[0].value = genre.id; // Ustawienie identyfikatora gatunku
-                            suggestionsPanel.innerHTML = '';
-                            errorSpan.style.display = 'none'; // Ukrycie komunikatu o błędzie
-                        });
-                        suggestionsPanel.appendChild(div);
+                    tracklistContainer.appendChild(input);
+                    tracklistContainer.appendChild(suggestionsDiv);
+
+                    initializeTrackInput(input, suggestionsDiv);
+
+                    tracklistIndex++;
+                });
+
+                function initializeTrackInput(inputElement, suggestionsDiv) {
+                    inputElement.addEventListener('input', function () {
+                        fetchTracks(inputElement.value, suggestionsDiv);
                     });
-                }).catch(error => console.error('Error:', error));
-        }
 
-        input.addEventListener('focus', function () {
-            fetchGenres(); // Pobiera wszystkie gatunki
-        });
+                    inputElement.addEventListener('focus', function () {
+                        fetchTracks('', suggestionsDiv); // Pobiera wszystkie utwory przy pierwszym fokusie
+                    });
 
-        input.addEventListener('input', function () {
-            fetchGenres(input.value); // Filtruje gatunki
-            errorSpan.style.display = 'none'; // Ukryj komunikat o błędzie podczas wpisywania
-        });
+                    suggestionsDiv.addEventListener('click', function (e) {
+                        if (e.target.classList.contains('suggestion-item')) {
+                            inputElement.value = e.target.innerText; // Ustawienie wartości pola na wartość klikniętej sugestii
+                            suggestionsDiv.innerHTML = '';
+                        }
+                    });
+                }
 
-        input.addEventListener('blur', function () {
-            if (!input.value || input.value !== input.getAttribute('data-genre-name')) {
-                // Wyświetl komunikat o błędzie, jeśli pole jest puste
-                errorSpan.style.display = 'block';
-            }
-        });
-        document.addEventListener('click', function (e) {
-             if (e.target.id !== 'filter') {
-                suggestionsPanel.innerHTML = '';
-            }
-        });
+                function fetchTracks(query, suggestionsDiv) {
+                    const url = query === '' ? '/api/tracks' : `/api/tracks/filter?query=${query}`;
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(tracks => {
+                            suggestionsDiv.innerHTML = '';
+                            tracks.forEach(track => {
+                                const div = document.createElement('div');
+                                div.innerHTML = track.name;
+                                div.classList.add('suggestion-item');
 
-        window.onload = function () {
-            // Wyczyszczenie wartości GenreId po załadowaniu strony
-            const genreIdInput = document.getElementsByName('GenreId')[0];
-            if (genreIdInput) {
-                genreIdInput.value = '';
-            }
-        };
-    </script>
+                                suggestionsDiv.appendChild(div);
+                            });
+                        }).catch(error => console.error('Error:', error));
+                }
 
-}
+                // Obsługa kliknięcia poza polem wprowadzania, aby ukryć sugestie
+                document.addEventListener('click', function (e) {
+                    if (!e.target.classList.contains('form-control')) {
+                        var suggestionDivs = document.getElementsByClassName('track-suggestions');
+                        for (var i = 0; i < suggestionDivs.length; i++) {
+                            suggestionDivs[i].innerHTML = '';
+                        }
+                    }
+                });
+            </script>
 
 
-
-
-
-
-        
+        </div>
+    </div>
+</div>

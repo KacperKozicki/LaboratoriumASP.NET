@@ -18,6 +18,7 @@ public interface IPlaylistService
     public bool TrackExists(string trackName);
     public List<string> GetTagsForPlaylist(int playlistId);
     public List<TagEntity> FindAllTags();
+    public bool PlaylistNameExists(string Name);
 
 
 

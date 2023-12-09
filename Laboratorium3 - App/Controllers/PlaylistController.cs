@@ -101,7 +101,7 @@ namespace Laboratorium3___App.Controllers
             }
             return View(model);
         }
-        
+
 
 
         //[HttpPost]
@@ -118,8 +118,20 @@ namespace Laboratorium3___App.Controllers
         [HttpGet]
         public IActionResult CreateApi()
         {
+            Playlist model = new Playlist();
+            model.Genres = _playlistService.FindAllGenres().Select(eo => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
+            {
+                Text = eo.Name,
+                Value = eo.Id.ToString(),
+            }).ToList();
 
-            return View();
+            model.Tags = _playlistService.FindAllTags().Select(tag => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+            {
+                Text = tag.Name,
+                Value = tag.Id.ToString(),
+            }).ToList();
+
+            return View(model);
         }
 
         [HttpPost]
@@ -127,16 +139,55 @@ namespace Laboratorium3___App.Controllers
         {
             if (ModelState.IsValid && _playlistService.ValidateGenreId(model.GenreId))
             {
-                _playlistService.Add(model);
-                return RedirectToAction("Index");
+                // Sprawdzanie, czy playlista o tej nazwie już istnieje
+                if (_playlistService.PlaylistNameExists(model.Name))
+                {
+                    ModelState.AddModelError("Name", "Istnieje już playlista o takiej nazwie.");
+                }
+
+                // Weryfikuj, czy wszystkie TrackNames istnieją w tabeli tracks
+                foreach (var trackName in model.TrackNames)
+                {
+                    if (!_playlistService.TrackExists(trackName))
+                    {
+                        ModelState.AddModelError("TrackNames", $"Utwór '{trackName}' nie istnieje.");
+                    }
+                }
+
+                if (ModelState.IsValid)
+                {
+                    // Kontynuuj przetwarzanie modelu...
+                    var trackIds = _dbContext.Tracks
+                        .Where(t => model.TrackNames.Contains(t.Name))
+                        .Select(t => t.Id)
+                        .ToList();
+
+                    model.TrackIds = trackIds;
+
+                    // Dodaj playlistę do bazy danych
+                    _playlistService.Add(model);
+                    return RedirectToAction("Index");
+                }
             }
 
-           
+            // Jeśli doszło do błędu walidacji lub istnieją inne błędy, pobierz ponownie tagi i gatunki i zwróć widok.
+            model.Genres = _playlistService.FindAllGenres().Select(eo => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
+            {
+                Text = eo.Name,
+                Value = eo.Id.ToString(),
+            }).ToList();
+
+            model.Tags = _playlistService.FindAllTags().Select(tag => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+            {
+                Text = tag.Name,
+                Value = tag.Id.ToString(),
+            }).ToList();
 
             return View(model);
         }
 
-       
+
+
 
         [HttpGet]
         public IActionResult Update(int id)

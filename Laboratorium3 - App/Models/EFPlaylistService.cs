@@ -161,6 +161,12 @@ namespace Laboratorium3___App.Models
             return _context.Tracks.Any(t => t.Name == trackName);
         }
 
+        public bool PlaylistNameExists(string Name)
+        {
+            return _context.Playlists.Any(t => t.Name == Name);
+
+        }
+
     }
 
 }
