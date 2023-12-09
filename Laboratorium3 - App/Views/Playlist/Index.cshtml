@@ -1,4 +1,4 @@
-﻿@model List<Playlist>
+﻿@model PagingPlaylistList<Playlist>
 
 @using Microsoft.AspNetCore.Identity
 
@@ -8,18 +8,14 @@
 <div class="col-md-9">
     <div class="topIndex">
 
-    <h1 class="dm">Moje playlisty</h1>
+        <h1 class="dm">Moje playlisty</h1>
         <div class="leftIndex">
 
-        <div class="serch">
-                @* <label asp-for="GenreId"></label> *@
-            <input type="text" id="filter" class="serchinput" placeholder="Wyszukaj playlisty" />
-@*             <input type="hidden" asp-for="GenreId" />
-            <span class="text-danger" asp-validation-for="GenreId"></span> *@
+            <div class="serch">
+                <input type="text" id="filter" class="serchinput" placeholder="Wyszukaj playlisty" />
 
-        </div>
+            </div>
             <a class="buton" asp-controller="Playlist" asp-action="Create">Dodaj Playliste</a>
-            <a class="buton" asp-controller="Playlist" asp-action="CreateApi">Dodaj Playliste API</a>
 
 
         </div>
@@ -27,68 +23,113 @@
 
 
     <div class="tabela">
-<table class="table text-light">
-    <tr>
-        <th>Nazwa</th>
-        <th>Staus</th>
-        <th>Autor</th>
-        <th>Liczba piosenek</th>
-        
-    </tr>
-            
-    @foreach (var playlist in Model)
-    {
-        <tr>
-            
-            <td class="name">
-                <div class="playlistIcon">
-                </div>
+        <table class="table text-light">
+            <tr>
+                <th>Nazwa</th>
+                <th>Staus</th>
+                <th>Autor</th>
+                <th>Liczba piosenek</th>
+
+            </tr>
+
+            @foreach (var playlist in @Model.Data)
+            {
+                <tr>
+
+                    <td class="name">
+                        <div class="playlistIcon">
+                        </div>
                         <h4>@playlist.Name</h4>
-            </td>
-            <td>@PlaylistHelper.ConvertPublicStatus(playlist.IsPublic)</td>
-            
-            <td>
+                    </td>
+                    <td>@PlaylistHelper.ConvertPublicStatus(playlist.IsPublic)</td>
+
+                    <td>
                         @{
                             var user = await UserManager.FindByIdAsync(playlist.UserId);
                             @user?.UserName
                         }
                     </td>
 
-            <td>
-                @if (playlist.TrackNames != null && playlist.TrackNames.Any())
+                    <td>
+                        @if (playlist.TrackIds != null && playlist.TrackIds.Any())
+                        {
+                            @playlist.TrackIds.Count()
+                        }
+                        else
+                        {
+                            <p>0</p>
+                        }
+                    </td>
+
+
+                    <td>
+                        <a class="btn btn-outline-secondary" asp-controller="Playlist" asp-action="Update" asp-route-id="@playlist.Id">Edit</a>
+                        <a class="btn btn-outline-info" asp-controller="Playlist" asp-action="Details" asp-route-id="@playlist.Id">Szczegóły</a>
+                        <a class="btn btn-outline-danger" asp-controller="Playlist" asp-action="Delete" asp-route-id="@playlist.Id">Usuń</a>
+                    </td>
+                </tr>
+            }
+        </table>
+        <nav aria-label="Books page navigation">
+            <ul class="pagination">
+                @if (Model.IsPrevious)
                 {
-                   @playlist.TrackNames.Count()   
+                    <li class="page-item">
+                        <a class="page-link"
+                           asp-controller="Playlist"
+                           asp-action="Index"
+                           asp-route-page="@(Model.Number - 1)"
+                           asp-route-size="5">
+                            Poprzednia
+                        </a>
+                    </li>
                 }
                 else
                 {
-                    <p>0</p>
+                    <li class="page-item disabled">
+                        <a class="page-link">Poprzednia</a>
+                    </li>
                 }
-            </td>
+                <li class="page-item disabled">
+                    <a class="page-link">@Model.Number</a>
+                </li>
+                @if (Model.IsNext)
+                {
+                    <li class="page-item">
+                        <a class="page-link"
+                           asp-controller="Playlist"
+                           asp-action="Index"
+                           asp-route-page="@(Model.Number + 1)"
+                           asp-route-size="5">
+                            Następna
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item disabled">
+                        <a class="page-link">Następna</a>
+                    </li>
+                }
+            </ul>
+        </nav>
 
-            
-            <td>
-                <a class="btn btn-outline-secondary" asp-controller="Playlist" asp-action="Update" asp-route-id="@playlist.Id">Edit</a>
-                <a class="btn btn-outline-info" asp-controller="Playlist" asp-action="Details" asp-route-id="@playlist.Id">Szczegóły</a>
-                <a class="btn btn-outline-danger" asp-controller="Playlist" asp-action="Delete" asp-route-id="@playlist.Id">Usuń</a>
-            </td>
-        </tr>
-    }
-</table>
     </div>
 </div>
 <style>
-    .topIndex{
-        width:100%;
-        height:auto;
-        padding:10px;
-        display:flex;
+    .topIndex {
+        width: 100%;
+        height: auto;
+        padding: 10px;
+        display: flex;
+    }
 
-    }
-    .topIndex h1{
-        width:40%;
-    }
-    .leftIndex{
-        width:60%;
+        .topIndex h1 {
+            width: 40%;
+        }
+
+    .leftIndex {
+        width: 60%;
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
@@ -96,7 +137,8 @@
         justify-content: flex-end;
         align-items: center;
     }
-    .playlistIcon{
+
+    .playlistIcon {
         width: 100px;
         height: 100px;
         border-radius: 20px;
@@ -104,9 +146,12 @@
         background-position: center;
         background-size: cover;
     }
-    .playlistIcon h4{
-        margin-left:0.5em;
-    }    .name{
+
+        .playlistIcon h4 {
+            margin-left: 0.5em;
+        }
+
+    .name {
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
@@ -116,13 +161,15 @@
         width: 100%;
     }
 
-    .col-md-9{
-        margin:auto;
+    .col-md-9 {
+        margin: auto;
     }
-    .serch{
-        margin-right:2em;
+
+    .serch {
+        margin-right: 2em;
     }
-    .serchinput{
+
+    .serchinput {
         border: solid 3px #cefee0;
         border-radius: 30px;
         background-color: transparent;
@@ -130,26 +177,28 @@
         width: 100%;
         height: 100%;
         padding: 5px 15px;
-    }   
-    .serchinput::placeholder {
-            color: #179E88;
     }
 
-    .buton{
+        .serchinput::placeholder {
+            color: #179E88;
+        }
+
+    .buton {
         background-color: #cefee0;
         border: none;
         border-radius: 30px;
         padding: 7px 20px;
         color: #419c88;
         font-weight: 700;
-        text-decoration:none;
+        text-decoration: none;
     }
-    .tabela{
-        width:100%;
-        height:100%;
-        border-radius:20px;
-        padding:20px;
-        margin-top:1em;
+
+    .tabela {
+        width: 100%;
+        height: 100%;
+        border-radius: 20px;
+        padding: 20px;
+        margin-top: 1em;
         background-color: #192232;
     }
 </style>

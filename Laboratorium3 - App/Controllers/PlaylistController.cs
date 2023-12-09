@@ -22,20 +22,37 @@ namespace Laboratorium3___App.Controllers
 
 
 
-
-        public IActionResult Index()
+        public IActionResult Index([FromQuery] int? page = 1, [FromQuery] int? size = 5)
         {
             var playlistEntities = _dbContext.Playlists
                                              .Include(p => p.PlaylistTracks)
                                              .ThenInclude(pt => pt.Track)
-                                             .Include(p => p.PlaylistTags)
-                                             .ThenInclude(pt => pt.Tag)
+                                             .Skip((page.Value - 1) * size.Value)
+                                             .Take(size.Value)
                                              .ToList();
 
-            var playlistModels = playlistEntities.Select(p => PlaylistMapper.FromEntity(p, _dbContext)).ToList(); // Konwersja na List<Playlist>
+            var playlistModels = playlistEntities.Select(pe => PlaylistMapper.FromEntity(pe)).ToList();
 
-            return View(playlistModels); // Przekazanie modelu do widoku
+            var totalItems = _dbContext.Playlists.Count();
+            var viewModel = PagingPlaylistList<Playlist>.Create(playlistModels, totalItems, page.Value, size.Value);
+
+            return View(viewModel);
         }
+
+
+        //public IActionResult Index()
+        //{
+        //    var playlistEntities = _dbContext.Playlists
+        //                                     .Include(p => p.PlaylistTracks)
+        //                                     .ThenInclude(pt => pt.Track)
+        //                                     .Include(p => p.PlaylistTags)
+        //                                     .ThenInclude(pt => pt.Tag)
+        //                                     .ToList();
+
+        //    var playlistModels = playlistEntities.Select(p => PlaylistMapper.FromEntity(p, _dbContext)).ToList(); // Konwersja na List<Playlist>
+
+        //    return View(playlistModels); // Przekazanie modelu do widoku
+        //}
 
 
 
@@ -46,6 +63,74 @@ namespace Laboratorium3___App.Controllers
         }
 
         
+
+        //[HttpGet]
+        //public IActionResult Create()
+        //{
+        //    Playlist model = new Playlist();
+        //    model.Genres = _playlistService.FindAllGenres().Select(eo => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
+        //    {
+        //        Text = eo.Name,
+        //        Value = eo.Id.ToString(),
+        //    }).ToList();
+
+        //    model.Tags = _playlistService.FindAllTags().Select(tag => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+        //    {
+        //        Text = tag.Name,
+        //        Value = tag.Id.ToString(),
+        //    }).ToList();
+
+        //    return View(model);
+        //}
+        //[HttpPost]
+        //public IActionResult Create(Playlist model)
+        //{
+        //    if (ModelState.IsValid && _playlistService.ValidateGenreId(model.GenreId))
+        //    {
+        //        // Weryfikuj, czy wszystkie TrackNames istnieją w tabeli tracks
+        //        foreach (var trackName in model.TrackNames)
+        //        {
+        //            if (!_playlistService.TrackExists(trackName))
+        //            {
+        //                ModelState.AddModelError("TrackNames", $"Utwór '{trackName}' nie istnieje.");
+        //                return View(model);
+        //            }
+
+        //        }
+
+        //        // Kontynuuj przetwarzanie modelu...
+        //        var trackIds = _dbContext.Tracks
+        //            .Where(t => model.TrackNames.Contains(t.Name))
+        //            .Select(t => t.Id)
+        //            .ToList();
+
+        //        model.TrackIds = trackIds;
+        //        //var tagIds = _dbContext.Tags
+        //        //    .Where(t => model.TagIds.Contains(t.Id))
+        //        //    .Select(t => t.Id)
+        //        //    .ToList();
+
+        //        //model.TagIds = tagIds;
+
+        //        // Dodaj playlistę do bazy danych
+        //        _playlistService.Add(model);
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(model);
+        //}
+
+
+
+        //[HttpPost]
+        //public IActionResult Create(Playlist model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _playlistService.Add(model);
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(); // ponowne wyświetlenie formualrza po dodaniu jeśli są błędy
+        //}
 
         [HttpGet]
         public IActionResult Create()
@@ -65,77 +150,9 @@ namespace Laboratorium3___App.Controllers
 
             return View(model);
         }
+
         [HttpPost]
         public IActionResult Create(Playlist model)
-        {
-            if (ModelState.IsValid && _playlistService.ValidateGenreId(model.GenreId))
-            {
-                // Weryfikuj, czy wszystkie TrackNames istnieją w tabeli tracks
-                foreach (var trackName in model.TrackNames)
-                {
-                    if (!_playlistService.TrackExists(trackName))
-                    {
-                        ModelState.AddModelError("TrackNames", $"Utwór '{trackName}' nie istnieje.");
-                        return View(model);
-                    }
-
-                }
-
-                // Kontynuuj przetwarzanie modelu...
-                var trackIds = _dbContext.Tracks
-                    .Where(t => model.TrackNames.Contains(t.Name))
-                    .Select(t => t.Id)
-                    .ToList();
-
-                model.TrackIds = trackIds;
-                //var tagIds = _dbContext.Tags
-                //    .Where(t => model.TagIds.Contains(t.Id))
-                //    .Select(t => t.Id)
-                //    .ToList();
-
-                //model.TagIds = tagIds;
-
-                // Dodaj playlistę do bazy danych
-                _playlistService.Add(model);
-                return RedirectToAction("Index");
-            }
-            return View(model);
-        }
-
-
-
-        //[HttpPost]
-        //public IActionResult Create(Playlist model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _playlistService.Add(model);
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(); // ponowne wyświetlenie formualrza po dodaniu jeśli są błędy
-        //}
-
-        [HttpGet]
-        public IActionResult CreateApi()
-        {
-            Playlist model = new Playlist();
-            model.Genres = _playlistService.FindAllGenres().Select(eo => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
-            {
-                Text = eo.Name,
-                Value = eo.Id.ToString(),
-            }).ToList();
-
-            model.Tags = _playlistService.FindAllTags().Select(tag => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
-            {
-                Text = tag.Name,
-                Value = tag.Id.ToString(),
-            }).ToList();
-
-            return View(model);
-        }
-
-        [HttpPost]
-        public IActionResult CreateApi(Playlist model)
         {
             if (ModelState.IsValid && _playlistService.ValidateGenreId(model.GenreId))
             {

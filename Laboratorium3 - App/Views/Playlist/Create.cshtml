@@ -20,14 +20,16 @@
 
                 <!-- Lista utworów -->
                 <div class="mb-3">
-                    <label class="font-weight-bold">Utwory</label>
+                    <label class="font-weight-bold" asp-for="TrackNames"></label>
                     <div id="tracklistContainer">
-                        <input name="TrackNames[0]" class="form-control mb-1 text-light bg-dark" />
+                        <input name="TrackNames[0]" id="filter" class="form-control mb-1" placeholder="Np.: Wehikuł czasu" />
                         <span asp-validation-for="TrackNames[0]" class="text-danger"></span>
+                        <!-- Kontener na sugestie dla utworów -->
+                        <div id="trackSuggestions0" class="track-suggestions"></div>
                     </div>
                     <div class="mt-2">
                         <button type="button" class="btn btn-secondary text-white font-weight-bold" id="addTracklist">
-                            Dodaj kolejny utwór
+                            Dodaj kolejny
                         </button>
                     </div>
                     <span asp-validation-for="TrackNames" class="text-danger"></span>
@@ -59,7 +61,7 @@
                 </div>
 
                 <input type="hidden" name="UserId" value="@UserManager.GetUserId(User)" />
-               
+
 
                 <button type="submit" class="btn btn-primary">Dodaj</button>
             </form>
@@ -69,14 +71,74 @@
                 var tracklistContainer = document.getElementById("tracklistContainer");
                 var addTracklistButton = document.getElementById("addTracklist");
 
+                // Inicjalizacja dla pierwszego pola wprowadzania utworów
+                var firstTrackInput = document.getElementById('filter');
+                var firstTrackSuggestions = document.getElementById('trackSuggestions0');
+                initializeTrackInput(firstTrackInput, firstTrackSuggestions);
+
                 addTracklistButton.addEventListener("click", function () {
                     var input = document.createElement("input");
                     input.name = "TrackNames[" + tracklistIndex + "]";
-                    input.className = "form-control mb-1 text-light bg-dark";
+                    input.className = "form-control mb-1";
+                    input.placeholder = "Np.: Wehikuł czasu";
+
+                    var suggestionsDiv = document.createElement("div");
+                    suggestionsDiv.id = "trackSuggestions" + tracklistIndex;
+                    suggestionsDiv.classList.add("track-suggestions");
+
                     tracklistContainer.appendChild(input);
+                    tracklistContainer.appendChild(suggestionsDiv);
+
+                    initializeTrackInput(input, suggestionsDiv);
+
                     tracklistIndex++;
                 });
+
+                function initializeTrackInput(inputElement, suggestionsDiv) {
+                    inputElement.addEventListener('input', function () {
+                        fetchTracks(inputElement.value, suggestionsDiv);
+                    });
+
+                    inputElement.addEventListener('focus', function () {
+                        fetchTracks('', suggestionsDiv); // Pobiera wszystkie utwory przy pierwszym fokusie
+                    });
+
+                    suggestionsDiv.addEventListener('click', function (e) {
+                        if (e.target.classList.contains('suggestion-item')) {
+                            inputElement.value = e.target.innerText; // Ustawienie wartości pola na wartość klikniętej sugestii
+                            suggestionsDiv.innerHTML = '';
+                        }
+                    });
+                }
+
+                function fetchTracks(query, suggestionsDiv) {
+                    const url = query === '' ? '/api/tracks' : `/api/tracks/filter?query=${query}`;
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(tracks => {
+                            suggestionsDiv.innerHTML = '';
+                            tracks.forEach(track => {
+                                const div = document.createElement('div');
+                                div.innerHTML = track.name;
+                                div.classList.add('suggestion-item');
+
+                                suggestionsDiv.appendChild(div);
+                            });
+                        }).catch(error => console.error('Error:', error));
+                }
+
+                // Obsługa kliknięcia poza polem wprowadzania, aby ukryć sugestie
+                document.addEventListener('click', function (e) {
+                    if (!e.target.classList.contains('form-control')) {
+                        var suggestionDivs = document.getElementsByClassName('track-suggestions');
+                        for (var i = 0; i < suggestionDivs.length; i++) {
+                            suggestionDivs[i].innerHTML = '';
+                        }
+                    }
+                });
             </script>
+
+
         </div>
     </div>
 </div>
