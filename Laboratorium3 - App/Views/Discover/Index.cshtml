@@ -1,0 +1,315 @@
+﻿@{
+    ViewData["Title"] = "Odkrywaj w Symfony";
+}
+
+
+@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<IdentityUser> UserManager
+
+
+<div class="col-md-9">
+    <div class="topIndex">
+
+        <h1 class="dm">Odkrywaj</h1>
+        <div class="leftIndex">
+
+            <div class="search-filters">
+                <button class="search-button" data-filter="songs">Piosenki</button>
+                <button class="search-button" data-filter="playlists">Playlisty</button>
+                <button class="search-button" data-filter="albums">Albumy</button>
+                <button class="search-button" data-filter="all">Wszystko</button>
+            </div>
+
+
+            <div class="serch">
+                <input type="text" id="filter" class="serchinput" placeholder="Wyszukaj po nazwie" />
+
+            </div>
+
+
+        </div>
+    </div>
+    <div id="searchResults" class="tabela">
+        <table class="table text-light">
+            <thead id="searchResultsHeader">
+            </thead>
+            <tbody id="searchResultsBody"></tbody>
+        </table>
+    </div>
+
+
+
+    
+<style>
+    .topIndex {
+        width: 100%;
+        height: auto;
+        padding: 10px;
+        display: flex;
+    }
+
+    .page-item.disabled a {
+        background-color: #333436#131a26;
+        color: white;
+    }
+
+    .page-link {
+        background-color: #131a26;
+        color: white;
+    }
+
+    .pagination {
+        display: flex;
+        padding-left: 0;
+        list-style: none;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .topIndex h1 {
+        width: 40%;
+    }
+
+    .leftIndex {
+        width: 60%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-content: center;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    .page-item.disabled .page-link {
+        color: #6c757d;
+        pointer-events: none;
+        background-color: #29303d;
+    }
+
+    .page-link:hover {
+        z-index: 2;
+        background-color: #1d1d20;
+        color: #6e91d1;
+    }
+
+    .playlistIcon {
+        width: 100px;
+        height: 100px;
+        border-radius: 20px;
+        background-image: url(../images/playlist.jpg);
+        background-position: center;
+        background-size: cover;
+    }
+
+        .playlistIcon h4 {
+            margin-left: 0.5em;
+        }
+
+    .name {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-content: center;
+        justify-content: flex-start;
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .col-md-9 {
+        margin: auto;
+    }
+
+    .serch {
+        margin-right: 2em;
+    }
+
+    .serchinput {
+        border: solid 2px #cefee0;
+        border-radius: 30px;
+        background-color: transparent;
+        color: white;
+        width: 100%;
+        height: 100%;
+        padding: 7px 15px;
+    }
+
+        .serchinput::placeholder {
+            color: #d2fde145;
+        }
+
+    .buton {
+        background-color: #cefee0;
+        border: none;
+        border-radius: 30px;
+        padding: 7px 20px;
+        color: #419c88;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .tabela {
+        width: 100%;
+        height: 100%;
+        border-radius: 20px;
+        padding: 20px;
+        margin-top: 1em;
+        background-color: #192232;
+    }
+
+    .search-button {
+        border-radius: 50px;
+        padding: 1px 10px;
+        background-color: transparent;
+        color: #c9e4d5;
+        border: solid 2px #7e8d85;
+        margin: 2px;
+    }
+
+    .search-filters {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-content: center;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .search-button.active {
+        border-radius: 50px;
+        padding: 1px 10px;
+        background-color: #329d88;
+        color: #d2fde1;
+        font-weight: 600;
+        border: solid 2px #419c88;
+    }
+</style>
+@section Scripts{
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async function () {
+            const searchInput = document.getElementById('filter');
+            const searchResults = document.getElementById('searchResults');
+            const searchResultsBody = document.getElementById('searchResultsBody');
+            const searchButtons = document.querySelectorAll('.search-button');
+
+            let currentFilter = 'all'; // Set default filter to 'all'
+
+            const setHeaders = (filter) => {
+                let headersHtml = '';
+                if (filter === 'all') {
+                    headersHtml = '<tr><th>Nazwa</th><th>Autor</th><th>Kategoria</th></tr>';
+                } else if (filter === 'songs') {
+                    headersHtml = '<tr><th>Nazwa</th><th>Gatunek</th><th>Artysta</th><th>Czas trwania</th> <th>Album</th></tr>';
+                } else if (filter === 'playlists') {
+                    headersHtml = '<tr><th>Nazwa</th><th>Status</th><th>Autor</th><th>Liczba piosenek</th></tr>';
+                } else if (filter === 'albums') {
+                    headersHtml = '<tr><th>Nazwa</th><th>Artysta</th><th>Piosenki</th></tr>';
+                }
+                searchResultsHeader.innerHTML = headersHtml;
+            };
+
+                const setActiveButton = (filter) => {
+                    searchButtons.forEach(button => {
+                        if (button.dataset.filter === filter) {
+                            button.classList.add('active');
+                        } else {
+                            button.classList.remove('active');
+                        }
+                    });
+                };
+
+            const performSearch = (query) => {
+                fetch(`/api/search?query=${query}&filter=${currentFilter}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        searchResults.style.display = 'block';
+                        searchResultsBody.innerHTML = '';
+
+                        if (currentFilter === 'all') {
+                            data.forEach(item => {
+                                let html = `
+                                            <tr>
+                                                <td>${item.name}</td>
+                                                <td>${item.author}</td>
+                                                <td>${item.category}</td>
+                                            </tr>
+                                        `;
+                                searchResultsBody.innerHTML += html;
+                            });
+                        } else {
+                            data.forEach(item => {
+                                let html = '';
+                                if (currentFilter === 'songs') {
+                                    html = `
+                                                    <tr>
+                                                        <td>${item.name}</td>
+                                                        <td>${item.genre}</td>
+                                                        <td>${item.bandOrArtist}</td>
+                                                        <td>${item.duration}</td>
+                                                        <td>${item.albumName}</td>
+                                                        <td>
+                                                            <a class="btn btn-outline-info" href="/Track/Details?id=${item.id}">Szczegóły</a>
+                                                        </td>
+                                                    </tr>
+                                                `;
+                                } else if (currentFilter === 'albums') {
+                                    let tracklistHtml = item.tracklist && item.tracklist.length > 0 ? '<ul>' + item.tracklist.map(song => `<li>${song}</li>`).join('') + '</ul>' : '<p>No tracklist available</p>';
+                                    html = `
+                                                    <tr>
+                                                        <td>${item.name}</td>
+                                                        <td>${item.bandOrArtist}</td>
+                                                        <td>${tracklistHtml}</td>
+                                                        <td>
+                                                            <a class="btn btn-outline-secondary" href="/Album/Update?id=${item.id}">Edit</a>
+                                                            <a class="btn btn-outline-info" href="/Album/Details?id=${item.id}">Szczegóły</a>
+                                                            <a class="btn btn-outline-danger" href="/Album/Delete?id=${item.id}">Usuń</a>
+                                                        </td>
+                                                    </tr>
+                                                `;
+                                } else if (currentFilter === 'playlists') {
+                                    html = `
+                                                    <tr>
+                                                        <td class="name">
+                                                            <div class="playlistIcon"></div>
+                                                            <h4>${item.name}</h4>
+                                                        </td>
+                                                        <td>${item.isPublic ? 'Publiczna' : 'Prywatna'}</td>
+                                                        <td>${item.author}</td>
+                                                        <td>${item.trackCount}</td>
+                                                        <td>
+                                                            <a class="btn btn-outline-secondary" href="/Playlist/Update?id=${item.id}">Edit</a>
+                                                            <a class="btn btn-outline-info" href="/Playlist/Details?id=${item.id}">Szczegóły</a>
+                                                            <a class="btn btn-outline-danger" href="/Playlist/Delete?id=${item.id}">Usuń</a>
+                                                        </td>
+                                                    </tr>
+                                                `;
+                                }
+                                searchResultsBody.innerHTML += html;
+                            });
+                        }
+                    });
+            };
+
+                searchInput.addEventListener('input', function (e) {
+                    const query = e.target.value;
+                    performSearch(query);
+                });
+
+                searchButtons.forEach(button => {
+                    button.addEventListener('click', function () {
+                        currentFilter = this.dataset.filter;
+                        setActiveButton(currentFilter); // Set the active button
+                        setHeaders(currentFilter);
+                        performSearch(searchInput.value);
+                    });
+                });
+
+                // Initialize
+                setActiveButton(currentFilter); // Set the active button on page load
+                setHeaders(currentFilter);
+                performSearch(''); // Fetch all items on page load
+            });
+    </script>
+
+}

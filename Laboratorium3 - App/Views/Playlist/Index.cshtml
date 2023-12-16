@@ -11,15 +11,14 @@
         <h1 class="dm">Moje playlisty</h1>
         <div class="leftIndex">
 
-            <div class="serch">
-                <input type="text" id="filter" class="serchinput" placeholder="Wyszukaj po nazwie" />
-
-            </div>
+           
             <a class="buton" asp-controller="Playlist" asp-action="Create">Dodaj Playliste</a>
 
 
         </div>
     </div>
+    
+
 
 
     <div class="tabela">
@@ -46,7 +45,7 @@
                     <td>
                         @{
                             var user = await UserManager.FindByIdAsync(playlist.UserId);
-                            @user?.UserName
+                                @user?.UserName
                         }
                     </td>
 
@@ -226,4 +225,29 @@
         margin-top: 1em;
         background-color: #192232;
     }
+    .search-button{
+        border-radius: 50px;
+        padding: 1px 10px;
+        background-color: transparent;
+        color: #c9e4d5;
+        border: solid 2px #7e8d85;
+        margin:2px;
+    }
+    .search-filters{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-content: center;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    .search-button.active {
+            border-radius: 50px;
+            padding: 1px 10px;
+            background-color: #329d88;
+            color: #d2fde1;
+            font-weight: 600;
+            border: solid 2px #419c88;
+    }
 </style>
+ 

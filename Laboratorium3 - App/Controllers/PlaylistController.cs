@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 
 namespace Laboratorium3___App.Controllers
 {
@@ -13,13 +14,14 @@ namespace Laboratorium3___App.Controllers
         private readonly IPlaylistService _playlistService;
         private readonly AppDbContext _dbContext;
 
+
         public PlaylistController(IPlaylistService playlistService, AppDbContext dbContext)
         {
             _playlistService = playlistService;
             _dbContext = dbContext;
         }
-
-
+      
+       
 
 
         public IActionResult Index([FromQuery] int? page = 1, [FromQuery] int? size = 5)

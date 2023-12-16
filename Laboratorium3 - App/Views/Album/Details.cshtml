@@ -1,38 +1,91 @@
 ﻿@model Album
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-<div class="container mt-5 text-light">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h1>Szczegóły dotyczące Albumu nr: @Model.Id </h1>
 
-            <p><strong>Utworzono:</strong> @Model.Created</p>
-
-
-            <p> <strong>Nazwa albumu:</strong> @Model.Name</p>
-            <p> <strong>Zespół / artysta:</strong> @Model.BandOrArtist</p>
-            <p> <strong>Lista utworów:</strong> </p>
-                <ol>
-                    @for (var i = 0; i < Model.Tracklist.Count; i++)
-                    {
-                    <li>@Model.Tracklist[i] </li>
-                    }
-                </ol>
-            <p> <strong>Data wydania:</strong> @Model.ReleaseDate</p>
-            <p> <strong>Czas trwania:</strong> @Model.Duration</p>
-            <p> <strong>Notowania:</strong>  @Model.ChartRanking.GetDisplayName()</p>
-            <p><strong>Organizacja:</strong> @Model.GenreName</p>
-
-
-
-
-
-
-            <a class="btn btn-primary" asp-action="Index">Powrót</a>
-            </div>
+<div class="col-md-9">
+    <div class="topIndex">
+        <h1 class="dm">Szczegóły Albumu: @Model.Name</h1>
     </div>
 
+    <div class="tabela">
+        <table class="table text-light">
+            <tr>
+                <th>Nazwa Albumu</th>
+                <td>@Model.Name</td>
+            </tr>
+            <tr>
+                <th>Zespół / Artysta</th>
+                <td>@Model.BandOrArtist</td>
+            </tr>
+            <tr>
+                <th>Lista Utworów</th>
+                <td>
+                    <ol>
+                        @foreach (var track in Model.Tracklist)
+                        {
+                            <li>@track</li>
+                        }
+                    </ol>
+                </td>
+            </tr>
+            <tr>
+                <th>Data Wydania</th>
+                <td>@Model.ReleaseDate</td>
+            </tr>
+            <tr>
+                <th>Czas Trwania</th>
+                <td>@Model.Duration</td>
+            </tr>
+            <tr>
+                <th>Notowania</th>
+                <td>@Model.ChartRanking</td>
+            </tr>
+            <tr>
+                <th>Gatunek</th>
+                <td>@Model.GenreName</td>
+            </tr>
+        </table>
+
+        <a class="btn btn-primary" asp-action="Index">Powrót</a>
+    </div>
 </div>
+
+<style>
+    .topIndex {
+        width: 100%;
+        height: auto;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .dm {
+        margin: 0;
+    }
+
+    .tabela {
+        width: 100%;
+        height: auto;
+        border-radius: 20px;
+        padding: 20px;
+        margin-top: 1em;
+        background-color: #192232;
+    }
+
+    .table {
+        color: white;
+    }
+
+        .table th {
+            width: 20%;
+        }
+
+    .btn-primary {
+        background-color: #cefee0;
+        border: none;
+        border-radius: 30px;
+        padding: 7px 20px;
+        color: #419c88;
+        font-weight: 700;
+        text-decoration: none;
+    }
+</style>
