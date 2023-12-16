@@ -37,6 +37,22 @@ namespace Laboratorium3___App.Models
                                     .Where(tag => tagIds.Contains(tag.Id)) // Użycie wczytanych identyfikatorów
                                     .Select(tag => tag.Name)
                                     .ToList();
+            var trackDetails = dbContext.PlaylistTracks
+                    .Where(pt => pt.PlaylistId == entity.Id)
+                    .Include(pt => pt.Track)
+                    .ThenInclude(t => t.Album)
+                    .ThenInclude(a => a.Genre)
+                    .Select(pt => new TrackDetails
+                    {
+                        Id = pt.Track.Id, // Upewnij się, że korzystasz z prawidłowego Id
+                        Name = pt.Track.Name,
+                        Genre = pt.Track.Album.Genre.Name,
+                        BandOrArtist = pt.Track.Album.BandOrArtist,
+                        Duration = pt.Track.Duration,
+                        AlbumName = pt.Track.Album.Name
+                    })
+                    .ToList();
+
             return new Playlist()
             {
                 Created = entity.Created,
@@ -52,8 +68,10 @@ namespace Laboratorium3___App.Models
                 TrackNames = dbContext.Tracks
                               .Where(t => entity.PlaylistTracks.Select(pt => pt.TrackId).Contains(t.Id))
                               .Select(t => t.Name)
-                              .ToList()
+                              .ToList(),
+                TrackDetails = trackDetails,
             };
+        
         }
 
         public static Playlist FromEntity(PlaylistEntity entity)
@@ -69,8 +87,11 @@ namespace Laboratorium3___App.Models
                 IsPublic = entity.IsPublic,
                 UserId = entity.UserId,
                 TrackIds = entity.PlaylistTracks?.Select(pt => pt.TrackId).ToList() ?? new List<int>(),
+
             };
         }
+
+
 
         public static void UpdateEntity(PlaylistEntity entity, Playlist playlist)
         {

@@ -11,7 +11,8 @@ namespace Data
     {
         public DbSet<ContactEntity> Contacts { get; set; }
         public DbSet<AlbumEntity> Albums { get; set; }
-        public DbSet<TrackEntity> Tracks { get; set; } 
+        public DbSet<TrackEntity> Tracks { get; set; }
+
         public DbSet<OrganizationEntity> Organizations { get; set; }
         public DbSet<GenreEntity> Genres { get; set; }
         public DbSet<PlaylistEntity> Playlists { get; set; }

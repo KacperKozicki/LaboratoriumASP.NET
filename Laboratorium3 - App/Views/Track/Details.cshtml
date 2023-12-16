@@ -1,9 +1,9 @@
-﻿@model Playlist
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿
+
+
+@model TrackDetailsViewModel
+
+
 <div class="container mt-5 text-light">
     
     <div class="row justify-content-center">
@@ -11,12 +11,26 @@
 
 
         <div class="col-md-7">
-            <a class="back" asp-action="Index">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
-                </svg>
-                Powrót
-            </a>
+
+            @if (ViewBag.PlaylistId != null)
+            {
+                <a class="back" asp-action="Details" asp-controller="Playlist" asp-route-id="@ViewBag.PlaylistId">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+                    </svg>
+                    Powrót
+                </a>
+            }
+            else
+            {
+                <a class="back" asp-action="Index" asp-controller="Playlist">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+                    </svg>
+                    Powrót
+                </a>
+            }
+           
             
             <div class="top">
             <div class="topflex">
@@ -26,28 +40,11 @@
                 </div>
 
                 <div class="rightTop">
-                    <p><strong>Utworzono:</strong> @Model.Created</p>
-                    <p><strong>Czas trwania:</strong> @Model.TotalDuration</p>
-                    <p><strong>Gatunek:</strong> @Model.GenreName</p>
-                        <p><strong>Status:</strong> @PlaylistHelper.ConvertPublicStatus(Model.IsPublic)</p>           
+                    <p><strong>Artysta:</strong> @Model.BandOrArtist</p>
+                    <p><strong>Czas trwania:</strong> @Model.Duration</p>
+                    <p><strong>Gatunek:</strong> @Model.Genre</p>
 
-                        <td>
-
-                            @if (Model.TagNames != null && Model.TagNames.Any())
-                            {
-                                foreach (var tagName in Model.TagNames)
-                                {
-                                    <span class="tag">@tagName</span>
-
-                                    <br />
-                                }
-                            }
-                            else
-                            {
-                                <p>Brak tagów</p>
-                            }
-
-                        </td>
+                        
 
 
                     
@@ -56,7 +53,9 @@
                 <h1 class="dm">@Model.Name</h1>
             </div>
 
-            <h3>Lista Utworów:</h3>
+            <!-- Reszta Twojego widoku -->
+
+            <h3>Inne utwory tego wykonawcy:</h3>
             <table>
                 <thead>
                     <tr>
@@ -68,23 +67,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var track in Model.TrackDetails)
+                    @foreach (var otherTrack in Model.OtherTracksByArtist)
                     {
                         <tr>
-                            <td>
-                                <a asp-action="Details" asp-controller="Track" asp-route-id="@track.Id" asp-route-playlistId="@Model.Id">
-                                    @track.Name
-                                </a>
-                            </td>
-                            <td>@track.Genre</td>
-                            <td>@track.BandOrArtist</td>
-                            <td>@track.Duration</td>
-                            <td>@track.AlbumName</td>
+                            <td>@otherTrack.Name</td>
+                            <td>@otherTrack.Genre</td>
+                            <td>@otherTrack.BandOrArtist</td>
+                            <td>@otherTrack.Duration</td>
+                            <td>@otherTrack.AlbumName</td>
                         </tr>
                     }
                 </tbody>
-
             </table>
+
 
 
 

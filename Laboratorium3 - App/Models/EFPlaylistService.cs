@@ -131,6 +131,7 @@ namespace Laboratorium3___App.Models
                 var track = pt.Track;
                 var trackDetails = new TrackDetails
                 {
+                    Id=track.Id,
                     Name = track.Name,
                     Genre = track.Album.Genre.Name, // Nazwa gatunku
                     BandOrArtist = track.Album.BandOrArtist, // Wykonawca

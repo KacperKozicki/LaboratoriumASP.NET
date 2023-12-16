@@ -14,13 +14,16 @@
     <div class="flexIndex2">
         <h3 class="dm">Symfony</h3>
         <h1 class="dm">
-            Znajdź odpowiednie dźwięki <br />
-            dla swojego kolejnego przeboju
+            Odkrywaj Muzykę, Która Cię Inspiruje
         </h1>
         <h2 class="cent">
-            Odkrywaj nowe utwory, twórz playlisty, poznawajnowe gatunki lub zostań artystą i udostępniaj swoje kawałki.
+            Odkrywaj nowe utwory, twórz playlisty, poznawaj nowe gatunki lub zostań artystą i udostępniaj swoje kawałki.
         </h2>
-        <a class="buton" asp-area="" asp-controller="Album" asp-action="Albums">Odkrywaj</a>
+        <a class="buton" asp-area="" asp-controller="Album" asp-action="Albums">
+            <img src="/Images/vave1.png"/>
+            Odkrywaj
+            <img src="/Images/vave2.png"/>
+        </a>
 
 
     </div>
@@ -42,13 +45,24 @@
         .buton{
             background-color: #295759;
             border-radius: 30px;
-            padding: 10px 30px;
+            padding: 10px 20px;
             margin-top: 2em;
             color: #CAFFDF !important;
             font-weight: 700;
             text-decoration:none;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            align-content: center;
+            justify-content: center;
+            align-items: center;
         }
-
+        .buton img{
+            width:30px;
+            height:auto;
+            margin-left:5px;
+            margin-right:5px;
+        }
         .flexIndex2 {
             display: flex;
             flex-direction: column;

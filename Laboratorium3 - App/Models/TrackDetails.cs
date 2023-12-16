@@ -3,6 +3,7 @@
     // Klasa pomocnicza do przechowywania szczegółów utworu
     public class TrackDetails
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Genre { get; set; }
         public string BandOrArtist { get; set; }

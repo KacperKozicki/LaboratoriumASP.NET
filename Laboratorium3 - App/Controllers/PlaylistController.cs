@@ -62,7 +62,7 @@ namespace Laboratorium3___App.Controllers
             return View(_playlistService.FindPage((int)page, (int)size));
         }
 
-        
+
 
         //[HttpGet]
         //public IActionResult Create()
@@ -209,7 +209,7 @@ namespace Laboratorium3___App.Controllers
         [HttpGet]
         public IActionResult Update(int id)
         {
-           
+
 
             Playlist albums = _playlistService.FindById(id);
             if (albums == null)
@@ -241,7 +241,7 @@ namespace Laboratorium3___App.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View(model);      
+            return View(model);
         }
 
 
