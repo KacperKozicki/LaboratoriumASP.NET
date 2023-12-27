@@ -1,12 +1,16 @@
 ﻿using Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+
+
 
 [ApiController]
 [Route("api/search")]
 public class SearchController : ControllerBase
 {
     private readonly AppDbContext _dbContext;
+    private readonly UserManager<IdentityUser> UserManager;
 
     public SearchController(AppDbContext dbContext)
     {
@@ -38,18 +42,29 @@ public class SearchController : ControllerBase
 
 
             case "playlists":
+                var currentUser = User.Identity.Name;// uzyskaj ID aktualnie zalogowanego użytkownika
+                var userId = _dbContext.Users
+              .Where(u => u.UserName == currentUser)
+              .Select(u => u.Id)
+              .FirstOrDefault();
+
                 var playlistData = _dbContext.Playlists
-                    .Include(p => p.PlaylistTracks)
-                    .Select(p => new {
-                        id = p.Id,
-                        name = p.Name,
-                        isPublic = p.IsPublic,
-                        author = _dbContext.Users.FirstOrDefault(u => u.Id == p.UserId).UserName, // Assuming UserId is available in Playlist
-                        trackCount = p.PlaylistTracks.Count
-                    })
-                    .Where(p => p.name.ToLower().Contains(query))
-                    .ToList();
+                .Include(p => p.PlaylistTracks)
+                .Where(p => p.Name.ToLower().Contains(query) && (p.IsPublic || p.UserId == userId))
+                .ToList() // Przenieś ToList() tutaj, aby pobrać dane z bazy
+                .Select(p => new PlaylistResult
+                {
+                    Id = p.Id,
+                    Name = p.Name + (!p.IsPublic && p.UserId == userId ? " (tylko ty widzisz tę pozycję)" : ""),
+                    IsPublic = p.IsPublic,
+                    Author = _dbContext.Users.FirstOrDefault(u => u.Id == p.UserId).UserName,
+                    TrackCount = p.PlaylistTracks.Count,
+                    VisibilityNote = !p.IsPublic && p.UserId == userId ? "(tylko ty widzisz tę pozycję)" : ""
+                });
+
+
                 return Ok(playlistData);
+
 
             case "albums":
                 var albumData = _dbContext.Albums
@@ -70,6 +85,7 @@ public class SearchController : ControllerBase
                     .ToList();
                 var allPlaylists = _dbContext.Playlists
                     .Where(p => p.Name.ToLower().Contains(query))
+                    .Where(p => p.IsPublic)
                     .Select(p => new { category = "Playlista",id=p.Id, name = p.Name, author = _dbContext.Users.FirstOrDefault(u => u.Id == p.UserId).UserName }) // Assuming UserId is available in Playlist
                     .ToList();
                 var allAlbums = _dbContext.Albums
@@ -81,4 +97,14 @@ public class SearchController : ControllerBase
                 return Ok(combinedResults);
         }
     }
+    public class PlaylistResult
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public bool IsPublic { get; set; }
+        public string Author { get; set; }
+        public int TrackCount { get; set; }
+        public string VisibilityNote { get; set; } // Pole na dopisek
+    }
+
 }
