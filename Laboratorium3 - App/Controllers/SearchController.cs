@@ -66,15 +66,15 @@ public class SearchController : ControllerBase
             default:
                 var allSongs = _dbContext.Tracks
                     .Where(t => t.Name.ToLower().Contains(query))
-                    .Select(t => new { category = "Piosenka", name = t.Name, author = t.Album.BandOrArtist })
+                    .Select(t => new { category = "Piosenka",id=t.Id, name = t.Name, author = t.Album.BandOrArtist })
                     .ToList();
                 var allPlaylists = _dbContext.Playlists
                     .Where(p => p.Name.ToLower().Contains(query))
-                    .Select(p => new { category = "Playlista", name = p.Name, author = _dbContext.Users.FirstOrDefault(u => u.Id == p.UserId).UserName }) // Assuming UserId is available in Playlist
+                    .Select(p => new { category = "Playlista",id=p.Id, name = p.Name, author = _dbContext.Users.FirstOrDefault(u => u.Id == p.UserId).UserName }) // Assuming UserId is available in Playlist
                     .ToList();
                 var allAlbums = _dbContext.Albums
                     .Where(a => a.Name.ToLower().Contains(query))
-                    .Select(a => new { category = "Album", name = a.Name, author = a.BandOrArtist })
+                    .Select(a => new { category = "Album", id = a.Id, name = a.Name, author = a.BandOrArtist })
                     .ToList();
 
                 var combinedResults = allSongs.Concat(allPlaylists).Concat(allAlbums);

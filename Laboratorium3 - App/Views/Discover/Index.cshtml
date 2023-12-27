@@ -228,9 +228,27 @@
 
                         if (currentFilter === 'all') {
                             data.forEach(item => {
+                                    let link = '';
+                                    switch (item.category) {
+                                        case 'Piosenka':
+                                            link = `/Track/Details?id=${item.id}`;
+                                            break;
+                                        case 'Album':
+                                            link = `/Album/Details?id=${item.id}`;
+                                            break;
+                                        case 'Playlista':
+                                            link = `/Playlist/Details?id=${item.id}`;
+                                            break;
+                                        default:
+                                            link = '#'; // Default link if category is unknown
+                                    }
                                 let html = `
                                             <tr>
-                                                <td>${item.name}</td>
+                                                            <td><a class="flexiLink" href="${link}">${item.name}
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-right" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0z"/>
+                                </svg>
+                            </a></td>
                                                 <td>${item.author}</td>
                                                 <td>${item.category}</td>
                                             </tr>
@@ -243,45 +261,57 @@
                                 if (currentFilter === 'songs') {
                                     html = `
                                                     <tr>
-                                                        <td>${item.name}</td>
+                                                        <td><a class="flexiLink" href="/Track/Details?id=${item.id}">${item.name}
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0z"/>
+            </svg>
+                                                        </a>
+                                                        </td>
                                                         <td>${item.genre}</td>
                                                         <td>${item.bandOrArtist}</td>
                                                         <td>${item.duration}</td>
                                                         <td>${item.albumName}</td>
-                                                        <td>
-                                                            <a class="btn btn-outline-info" href="/Track/Details?id=${item.id}">Szczegóły</a>
-                                                        </td>
+                                                       
                                                     </tr>
                                                 `;
                                 } else if (currentFilter === 'albums') {
                                     let tracklistHtml = item.tracklist && item.tracklist.length > 0 ? '<ul>' + item.tracklist.map(song => `<li>${song}</li>`).join('') + '</ul>' : '<p>No tracklist available</p>';
                                     html = `
+                                                
                                                     <tr>
-                                                        <td>${item.name}</td>
+
+                                                        <td>
+                                                            <a class='flexiLink' href="/Album/Details?id=${item.id}">
+                                                                ${item.name}
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-right" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0z"/>
+</svg>
+                                                            </a>
+                                                        </td>
                                                         <td>${item.bandOrArtist}</td>
                                                         <td>${tracklistHtml}</td>
-                                                        <td>
-                                                            <a class="btn btn-outline-secondary" href="/Album/Update?id=${item.id}">Edit</a>
-                                                            <a class="btn btn-outline-info" href="/Album/Details?id=${item.id}">Szczegóły</a>
-                                                            <a class="btn btn-outline-danger" href="/Album/Delete?id=${item.id}">Usuń</a>
-                                                        </td>
+                                                                    
                                                     </tr>
+                                                   
                                                 `;
                                 } else if (currentFilter === 'playlists') {
                                     html = `
                                                     <tr>
                                                         <td class="name">
+                                                                     <a  href="/Playlist/Details?id=${item.id}">
                                                             <div class="playlistIcon"></div>
-                                                            <h4>${item.name}</h4>
+                                                                        <h4 class='flexiLink'>
+                                                            ${item.name}
+                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0z"/>
+            </svg>
+                                                            </h4>
+                                                                        </a>
                                                         </td>
                                                         <td>${item.isPublic ? 'Publiczna' : 'Prywatna'}</td>
                                                         <td>${item.author}</td>
                                                         <td>${item.trackCount}</td>
-                                                        <td>
-                                                            <a class="btn btn-outline-secondary" href="/Playlist/Update?id=${item.id}">Edit</a>
-                                                            <a class="btn btn-outline-info" href="/Playlist/Details?id=${item.id}">Szczegóły</a>
-                                                            <a class="btn btn-outline-danger" href="/Playlist/Delete?id=${item.id}">Usuń</a>
-                                                        </td>
+                                                       
                                                     </tr>
                                                 `;
                                 }
@@ -311,5 +341,32 @@
                 performSearch(''); // Fetch all items on page load
             });
     </script>
+    <style>
+            .flexiLink{
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                align-content: center;
+                justify-content: flex-start;
+                align-items: center;
+                color: #cefee0;
+                text-decoration: none;
 
+            }
+
+            
+
+                .flexiLink:visited {
+                    color: #cefee0;
+                    text-decoration: none;
+                }
+
+                .flexiLink:hover {
+                    color: #419c88;
+                    text-decoration: none;
+                }
+                a,h4{
+                    text-decoration:none;
+                }
+    </style>
 }
