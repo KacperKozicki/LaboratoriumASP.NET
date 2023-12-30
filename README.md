@@ -37,7 +37,7 @@ Projekt realizuje serwis muzyczny w technologii ASP.NET, oferujący funkcjonalno
 ### Zwykły użytkownik
 
 - Login: julia@wsei.edu.pl
-- Hasło: Julia#
+- Hasło: Julia123#
 - Rola: USER
 
 ## Proces Uruchomienia Aplikacji
