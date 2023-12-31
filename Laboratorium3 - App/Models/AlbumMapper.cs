@@ -1,5 +1,7 @@
 ﻿using Data.Entities;
+using System.Globalization;
 using System.Linq;
+using static Laboratorium3___App.Models.Album;
 
 namespace Laboratorium3___App.Models
 {
@@ -7,7 +9,7 @@ namespace Laboratorium3___App.Models
     {
         public static AlbumEntity ToEntity(Album model)
         {
-            return new AlbumEntity()
+            var entity = new AlbumEntity()
             {
                 Created = model.Created,
                 Id = model.Id,
@@ -16,10 +18,28 @@ namespace Laboratorium3___App.Models
                 ReleaseDate = model.ReleaseDate,
                 Duration = model.Duration,
                 ChartRanking = (int)model.ChartRanking,
-                Tracklist = model.Tracklist?.Select(track => new TrackEntity { Name = track }).ToList() ?? new List<TrackEntity>(),
+                Tracklist = new List<TrackEntity>(),
+
                 GenreId = (int)model.GenreId,
 
             };
+            TimeSpan totalDuration = TimeSpan.Zero;
+            foreach (var track in model.Tracklist)
+            {
+                var trackEntity = new TrackEntity
+                {
+                    Name = track.Name,
+                    Duration = track.Duration
+                };
+                entity.Tracklist.Add(trackEntity);
+                totalDuration += track.Duration;
+            }
+
+            
+
+            return entity;
+
+
         }
 
         public static Album FromEntity(AlbumEntity entity)
@@ -33,7 +53,11 @@ namespace Laboratorium3___App.Models
                 ReleaseDate = entity.ReleaseDate,
                 Duration = entity.Duration,
                 ChartRanking = (AlbumChartRanking)entity.ChartRanking,
-                Tracklist = entity.Tracklist?.Select(track => track.Name).ToList() ?? new List<string>(),
+                Tracklist = entity.Tracklist?.Select(track => new Track
+                {
+                    Name = track.Name,
+                    Duration = track.Duration
+                }).ToList() ?? new List<Track>(),
                 GenreId = entity.GenreId,
 
             };

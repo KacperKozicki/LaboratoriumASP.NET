@@ -16,15 +16,17 @@ namespace Laboratorium3___App
 
             builder.Services.AddTransient<IContactService, EFContactService>();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>()       // dodać
-                .AddEntityFrameworkStores<Data.AppDbContext>();
+            
 
             builder.Services.AddTransient<IAlbumService, EFAlbumService>();
             builder.Services.AddTransient<IPlaylistService, EFPlaylistService>();
 
             builder.Services.AddDbContext<AppDbContext>();
 
-            
+
+            builder.Services.AddDefaultIdentity<IdentityUser>()
+                .AddRoles<IdentityRole>()  // Dodano obsługę ról
+                .AddEntityFrameworkStores<AppDbContext>();
 
             builder.Services.AddSingleton<IDateTimeProvider, CurrentDateTimeProvider>();
 

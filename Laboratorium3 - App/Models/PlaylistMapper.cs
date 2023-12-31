@@ -93,21 +93,39 @@ namespace Laboratorium3___App.Models
 
 
 
-        public static void UpdateEntity(PlaylistEntity entity, Playlist playlist)
+        public static void UpdateEntity(PlaylistEntity entity, Playlist playlist, AppDbContext dbContext)
         {
             entity.Name = playlist.Name;
             entity.GenreId = playlist.GenreId;
-            // Usunięcie obsługi pola Tags
-            entity.TotalDuration = playlist.TotalDuration;
             entity.IsPublic = playlist.IsPublic;
-            // Aktualizacja listy utworów może wymagać dodatkowej logiki
             entity.UserId = playlist.UserId;
+
             // Aktualizacja tagów
-            if (playlist.TagIds != null)
+            entity.PlaylistTags.Clear();
+            if (playlist.TagIds != null && playlist.TagIds.Any())
             {
-                entity.PlaylistTags.Clear();
                 entity.PlaylistTags = playlist.TagIds.Select(tagId => new PlaylistTagEntity { PlaylistId = entity.Id, TagId = tagId }).ToList();
             }
+
+            // Aktualizacja utworów
+            var existingTrackIds = entity.PlaylistTracks.Select(pt => pt.TrackId).ToList();
+            var newTrackIds = playlist.TrackIds.Except(existingTrackIds).ToList();
+            var removedTrackIds = existingTrackIds.Except(playlist.TrackIds).ToList();
+
+            foreach (var trackId in newTrackIds)
+            {
+                entity.PlaylistTracks.Add(new PlaylistTrackEntity { PlaylistId = entity.Id, TrackId = trackId });
+            }
+
+            foreach (var trackId in removedTrackIds)
+            {
+                var trackToRemove = entity.PlaylistTracks.FirstOrDefault(pt => pt.TrackId == trackId);
+                if (trackToRemove != null)
+                {
+                    entity.PlaylistTracks.Remove(trackToRemove);
+                }
+            }
         }
+
     }
 }

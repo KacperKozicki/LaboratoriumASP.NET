@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Laboratorium3___App.Models;
 
 
 
@@ -49,18 +50,19 @@ public class SearchController : ControllerBase
               .FirstOrDefault();
 
                 var playlistData = _dbContext.Playlists
-                .Include(p => p.PlaylistTracks)
-                .Where(p => p.Name.ToLower().Contains(query) && (p.IsPublic || p.UserId == userId))
-                .ToList() // Przenieś ToList() tutaj, aby pobrać dane z bazy
-                .Select(p => new PlaylistResult
-                {
-                    Id = p.Id,
-                    Name = p.Name + (!p.IsPublic && p.UserId == userId ? " (tylko ty widzisz tę pozycję)" : ""),
-                    IsPublic = p.IsPublic,
-                    Author = _dbContext.Users.FirstOrDefault(u => u.Id == p.UserId).UserName,
-                    TrackCount = p.PlaylistTracks.Count,
-                    VisibilityNote = !p.IsPublic && p.UserId == userId ? "(tylko ty widzisz tę pozycję)" : ""
-                });
+    .Include(p => p.PlaylistTracks)
+    .Where(p => p.Name.ToLower().Contains(query) && (p.IsPublic || p.UserId == userId))
+    .ToList() // Przenieś ToList() tutaj, aby pobrać dane z bazy
+    .Select(p => new PlaylistResult
+    {
+        Id = p.Id,
+        Name = p.Name + (!p.IsPublic && p.UserId == userId ? "&nbsp;<em class='small'>(tylko ty widzisz tę pozycję)</em>" : ""),
+        IsPublic = p.IsPublic,
+        Author = _dbContext.Users.Where(u => u.Id == p.UserId).Select(u => u.UserName).FirstOrDefault() ?? "Nieznany",
+        TrackCount = p.PlaylistTracks.Count,
+        VisibilityNote = !p.IsPublic && p.UserId == userId ? "&nbsp;<em class='small'>(tylko ty widzisz tę pozycję)</em>" : ""
+    });
+
 
 
                 return Ok(playlistData);
@@ -97,14 +99,6 @@ public class SearchController : ControllerBase
                 return Ok(combinedResults);
         }
     }
-    public class PlaylistResult
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public bool IsPublic { get; set; }
-        public string Author { get; set; }
-        public int TrackCount { get; set; }
-        public string VisibilityNote { get; set; } // Pole na dopisek
-    }
+    
 
 }

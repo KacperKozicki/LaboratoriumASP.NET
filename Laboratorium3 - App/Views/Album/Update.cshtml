@@ -29,7 +29,9 @@
         <div id="tracklistContainer">
             @for (var i = 0; i < Model.Tracklist.Count; i++)
             {
-                <input name="Tracklist[@i]" class="form-control mb-1" value="@Model.Tracklist[i]" />
+                <input name="Tracklist[@i].Name" class="form-control mb-1" value="@Model.Tracklist[i].Name" />
+                <input name="Tracklist[@i].Duration" class="form-control mb-1" value="@Model.Tracklist[i].Duration" />
+
                 <span class="text-danger" asp-validation-for="Tracklist[i]"></span>
             }
         </div>
@@ -48,11 +50,7 @@
         <input asp-for="ReleaseDate" class="form-control" />
         <span class="text-danger" asp-validation-for="ReleaseDate"></span>
     </div>
-    <div class="mb-3">
-        <label class="font-weight-bold" asp-for="Duration"></label>
-        <input asp-for="Duration" class="form-control" />
-        <span class="text-danger" asp-validation-for="Duration"></span>
-    </div>
+    
     <div class="mb-3">
          <label class="font-weight-bold" asp-for="ChartRanking"></label>
          <select class="form-control" asp-for="ChartRanking" asp-items="@Html.GetEnumSelectList<AlbumChartRanking>()"></select>
@@ -72,13 +70,22 @@
     var tracklistContainer = document.getElementById("tracklistContainer");
     var addTracklistButton = document.getElementById("addTracklist");
 
-    addTracklistButton.addEventListener("click", function () {
-        var input = document.createElement("input");
-        input.name = "Tracklist[" + tracklistIndex + "]";
-        input.className = "form-control mb-1";
-        tracklistContainer.appendChild(input);
-        tracklistIndex++;
-    });
+                addTracklistButton.addEventListener("click", function () {
+                    var inputTrack = document.createElement("input");
+                    inputTrack.name = "Tracklist[" + tracklistIndex + "].Name";
+                    inputTrack.className = "form-control mb-1";
+                    inputTrack.placeholder = "Np.: Wehikuł czasu";
+                    tracklistContainer.appendChild(inputTrack);
+
+                    var inputDuration = document.createElement("input");
+                    inputDuration.name = "Tracklist[" + tracklistIndex + "].Duration";
+                    inputDuration.className = "form-control mb-1";
+                    inputDuration.placeholder = "Czas trwania (hh:mm:ss)";
+                    inputDuration.type = "text";
+                    tracklistContainer.appendChild(inputDuration);
+
+                    tracklistIndex++;
+                });
 </script>
 </div>
 </div>

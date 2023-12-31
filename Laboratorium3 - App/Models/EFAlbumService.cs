@@ -3,6 +3,7 @@ using Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using static Laboratorium3___App.Models.Album;
 
 namespace Laboratorium3___App.Models
 {
@@ -20,9 +21,9 @@ namespace Laboratorium3___App.Models
         public int Add(Album album)
         {
             // Filter out empty or null tracks before adding the album
-            album.Tracklist = album.Tracklist
-                .Where(track => !string.IsNullOrEmpty(track))
-                .ToList();
+           album.Tracklist = album.Tracklist
+            .Where(track => !string.IsNullOrEmpty(track.Name))
+            .ToList();
 
             var e = _context.Albums.Add(AlbumMapper.ToEntity(album));
             _context.SaveChanges();
@@ -30,6 +31,7 @@ namespace Laboratorium3___App.Models
 
             return id;
         }
+
         public bool ValidateGenreId(int? genreId)
         {
             // Sprawdzenie, czy genreId istnieje w bazie danych
@@ -96,30 +98,40 @@ namespace Laboratorium3___App.Models
             }
         }
 
-        private void UpdateTracklist(ICollection<TrackEntity> existingTracks, List<string> newTracks)
+        private void UpdateTracklist(ICollection<TrackEntity> existingTracks, List<Track> newTracks)
         {
-            // Remove tracks that are not present in the newTracks list or are empty
-            var tracksToRemove = existingTracks
-                .Where(t => !newTracks.Contains(t.Name) && !string.IsNullOrEmpty(t.Name))
-                .ToList();
+            // Remove tracks that are not in the new tracklist
+            var trackNames = newTracks.Select(t => t.Name).ToList();
+            var tracksToRemove = existingTracks.Where(t => !trackNames.Contains(t.Name)).ToList();
 
             foreach (var track in tracksToRemove)
             {
                 existingTracks.Remove(track);
-                _context.Tracks.Remove(track); // Optionally, you might want to delete the track from the database
+                _context.Tracks.Remove(track);
             }
 
-            // Add new non-empty tracks
-            var tracksToAdd = newTracks
-                .Where(name => !existingTracks.Any(t => t.Name == name) && !string.IsNullOrEmpty(name))
-                .Select(name => new TrackEntity { Name = name })
-                .ToList();
-
-            foreach (var track in tracksToAdd)
+            // Update or add new tracks
+            foreach (var newTrack in newTracks)
             {
-                existingTracks.Add(track);
+                var existingTrack = existingTracks.FirstOrDefault(t => t.Name == newTrack.Name);
+                if (existingTrack != null)
+                {
+                    // Update existing track
+                    existingTrack.Duration = newTrack.Duration;
+                }
+                else
+                {
+                    // Add new track
+                    var trackEntity = new TrackEntity
+                    {
+                        Name = newTrack.Name,
+                        Duration = newTrack.Duration
+                    };
+                    existingTracks.Add(trackEntity);
+                }
             }
         }
+
 
 
         public PagingAlbumList<Album> FindPage(int page, int size)

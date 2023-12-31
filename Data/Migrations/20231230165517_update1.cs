@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Data.Migrations
 {
     /// <inheritdoc />
-    public partial class playlist22339 : Migration
+    public partial class update1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -351,12 +351,23 @@ namespace Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "1bdddeb1-a218-4dcf-b8d3-ef09b95f0725", "1bdddeb1-a218-4dcf-b8d3-ef09b95f0725", "admin", "ADMIN" });
+                values: new object[,]
+                {
+                    { "64ba4eb2-e335-4907-80ef-a281db8445f6", "64ba4eb2-e335-4907-80ef-a281db8445f6", "USER", "USER" },
+                    { "a096b0dc-156d-402e-a4d6-eae2918841ed", "a096b0dc-156d-402e-a4d6-eae2918841ed", "ARTIST", "ARTIST" },
+                    { "b3924cd1-a2d1-48c3-9a2b-470337307e1a", "b3924cd1-a2d1-48c3-9a2b-470337307e1a", "ADMIN", "ADMIN" }
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "25815218-ac00-4188-b8ae-ac79c876010c", 0, "1be4a53c-4b6f-4c6d-8093-d47213dd3ac0", "adam@wsei.edu.pl", true, false, null, "ADAM@WSEI.EDU.PL", "ADAM", "AQAAAAEAACcQAAAAEJNqsXCkTrqDagYwo8D8WXigOyBDNlDaFiYrO/XUwY0mKTaXd3EzsXFkZqVffGWMhA==", null, false, "1848e78e-f6a2-4deb-97fb-efa9f29ac7c8", false, "adam" });
+                values: new object[,]
+                {
+                    { "69961c9f-9c0d-44c2-9d8f-2c870713e312", 0, "324fbd80-92bf-4f78-a11b-a6cdb73150d2", "adam@wsei.edu.pl", true, false, null, "ADAM@WSEI.EDU.PL", "ADAM", "AQAAAAEAACcQAAAAECH7FSuA+hguK0Ds4wh8IjfDmHFL3VxHjs1TgnuiQQpDnpIHDRQdxps6q1j2QGW5Sg==", null, false, "fcc044ae-a322-4728-bfd5-c036c2e66abf", false, "adam" },
+                    { "8bdc2986-9d5f-4be4-b5dc-f62550c1ed8d", 0, "16fd431e-e199-4edd-8e93-078eb5c9621c", "michael@wsei.edu.pl", true, false, null, "MICHAEL@WSEI.EDU.PL", "MICHAEL", "AQAAAAEAACcQAAAAEDxsLJQYCLR6WLa6lujiDn7AmC/gzPjd3tIrl6VV0YRHi2yh9MbbzZTautRXy3OQ0A==", null, false, "64b6f316-5092-42b0-95ea-4db2653b3d84", false, "michael" },
+                    { "df872a0f-8646-4307-93bf-3f7ccbc0e911", 0, "7d97966b-d195-4a5d-bb9e-0992811e9bfe", "julia@wsei.edu.pl", true, false, null, "JULIA@WSEI.EDU.PL", "JULIA", "AQAAAAEAACcQAAAAECgHNUiIeY4xwTKX1XGtQLxcmH6cgYUOBj1ebpDiPp8miBsTy3e45Crk+2NIXjRHmw==", null, false, "b9a5d114-969c-442c-9b17-b9ee3bddcb16", false, "julia" },
+                    { "edf1c309-d578-4514-8674-e45939fac80d", 0, "6abb239a-a80d-4656-ab9f-cf70c239636b", "tomek@wsei.edu.pl", true, false, null, "TOMEK@WSEI.EDU.PL", "TOMEK", "AQAAAAEAACcQAAAAEJU2wkUdubtrGdohdirQmXzFjfSCLd8DCk09g/CNVACtenu9qS1pdNXmJvWVuSzLBw==", null, false, "06b79eba-8528-45e6-ac19-a72f33af1c1a", false, "tomek" }
+                });
 
             migrationBuilder.InsertData(
                 table: "genres",
@@ -410,15 +421,21 @@ namespace Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "1bdddeb1-a218-4dcf-b8d3-ef09b95f0725", "25815218-ac00-4188-b8ae-ac79c876010c" });
+                values: new object[,]
+                {
+                    { "b3924cd1-a2d1-48c3-9a2b-470337307e1a", "69961c9f-9c0d-44c2-9d8f-2c870713e312" },
+                    { "a096b0dc-156d-402e-a4d6-eae2918841ed", "8bdc2986-9d5f-4be4-b5dc-f62550c1ed8d" },
+                    { "64ba4eb2-e335-4907-80ef-a281db8445f6", "df872a0f-8646-4307-93bf-3f7ccbc0e911" },
+                    { "64ba4eb2-e335-4907-80ef-a281db8445f6", "edf1c309-d578-4514-8674-e45939fac80d" }
+                });
 
             migrationBuilder.InsertData(
                 table: "albums",
                 columns: new[] { "Id", "BandOrArtist", "ChartRanking", "Created", "Duration", "GenreId", "Name", "release_date" },
                 values: new object[,]
                 {
-                    { 1, "Artist1", 1, new DateTime(2023, 12, 4, 18, 17, 2, 358, DateTimeKind.Local).AddTicks(5615), null, 1, "Album1", new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, "Artist2", 3, new DateTime(2023, 12, 4, 18, 17, 2, 358, DateTimeKind.Local).AddTicks(5795), null, 2, "Album2", new DateTime(2021, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1, "Artist1", 1, new DateTime(2023, 12, 30, 17, 55, 17, 9, DateTimeKind.Local).AddTicks(8637), null, 1, "Album1", new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, "Artist2", 3, new DateTime(2023, 12, 30, 17, 55, 17, 10, DateTimeKind.Local).AddTicks(58), null, 2, "Album2", new DateTime(2021, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -426,8 +443,8 @@ namespace Data.Migrations
                 columns: new[] { "Id", "birth_date", "Created", "Email", "Name", "OrganizationId", "Phone", "Priority" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2000, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 12, 4, 18, 17, 2, 354, DateTimeKind.Local).AddTicks(1611), "adam@wsei.edu.pl", "Adam", 1, "127813268163", 1 },
-                    { 2, new DateTime(1999, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 12, 4, 18, 17, 2, 354, DateTimeKind.Local).AddTicks(1670), "ewa@wsei.edu.pl", "Ewa", 1, "293443823478", 2 }
+                    { 1, new DateTime(2000, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 12, 30, 17, 55, 17, 6, DateTimeKind.Local).AddTicks(8793), "adam@wsei.edu.pl", "Adam", 1, "127813268163", 1 },
+                    { 2, new DateTime(1999, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 12, 30, 17, 55, 17, 6, DateTimeKind.Local).AddTicks(8849), "ewa@wsei.edu.pl", "Ewa", 1, "293443823478", 2 }
                 });
 
             migrationBuilder.InsertData(
@@ -435,8 +452,8 @@ namespace Data.Migrations
                 columns: new[] { "Id", "Created", "GenreId", "IsPublic", "Name", "TotalDuration", "UserId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2005, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, true, "Summer Hits", new TimeSpan(0, 0, 8, 5, 0), "25815218-ac00-4188-b8ae-ac79c876010c" },
-                    { 2, new DateTime(2022, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, true, "Rock Classics", new TimeSpan(0, 0, 6, 10, 0), "25815218-ac00-4188-b8ae-ac79c876010c" }
+                    { 1, new DateTime(2005, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, true, "Summer Hits", new TimeSpan(0, 0, 8, 5, 0), "69961c9f-9c0d-44c2-9d8f-2c870713e312" },
+                    { 2, new DateTime(2022, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, true, "Rock Classics", new TimeSpan(0, 0, 6, 10, 0), "69961c9f-9c0d-44c2-9d8f-2c870713e312" }
                 });
 
             migrationBuilder.InsertData(

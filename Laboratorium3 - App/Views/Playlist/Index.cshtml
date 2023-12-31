@@ -26,7 +26,6 @@
             <tr>
                 <th>Nazwa</th>
                 <th>Staus</th>
-                <th>Autor</th>
                 <th>Liczba piosenek</th>
 
             </tr>
@@ -42,12 +41,7 @@
                     </td>
                     <td>@PlaylistHelper.ConvertPublicStatus(playlist.IsPublic)</td>
 
-                    <td>
-                        @{
-                            var user = await UserManager.FindByIdAsync(playlist.UserId);
-                                @user?.UserName
-                        }
-                    </td>
+                   
 
                     <td>
                         @if (playlist.TrackIds != null && playlist.TrackIds.Any())

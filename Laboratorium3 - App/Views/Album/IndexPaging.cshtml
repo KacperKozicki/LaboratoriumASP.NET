@@ -1,18 +1,32 @@
 ﻿@model PagingAlbumList<Album>
 
-<h1>Lista albumów</h1>
-<a class="btn btn-primary" asp-controller="Album" asp-action="Create">Dodaj album</a>
-<a class="btn btn-primary" asp-controller="Album" asp-action="CreateApi">Dodaj Album API</a>
+
+<div class="col-md-9">
+    <div class="topIndex">
+
+        <h1 class="dm">Albumy</h1>
+        <div class="leftIndex">
 
 
-<table class="table text-light">
+            <a class="buton" asp-controller="Album" asp-action="CreateApi">Dodaj Album</a>
+
+
+
+        </div>
+    </div>
+
+
+
+
+    <div class="tabela">
+        <table class="table text-light">
+
+
     <tr>
         <th>Nazwa albumu</th>
         <th>Zespół / wykonawca</th>
         <th>Spis piosenek</th>
-        @* <th>Notowanie</th>
-        <th>Data wydania</th>
-        <th>Czas trwania</th> *@
+        
     </tr>
 
     @foreach (var album in @Model.Data)
@@ -33,7 +47,7 @@
                 }
                 else
                 {
-                    <p>No tracklist available</p>
+                    <p>Brak informacji o piosenkach</p>
                 }
             </td>
 
@@ -89,3 +103,146 @@
         }
     </ul>
 </nav>
+        <style>
+            .topIndex {
+                width: 100%;
+                height: auto;
+                padding: 10px;
+                display: flex;
+            }
+
+            .page-item.disabled a {
+                background-color: #333436#131a26;
+                color: white;
+            }
+
+            .page-link {
+                background-color: #131a26;
+                color: white;
+            }
+
+            .pagination {
+                display: flex;
+                padding-left: 0;
+                list-style: none;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .topIndex h1 {
+                width: 40%;
+            }
+
+            .leftIndex {
+                width: 60%;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                align-content: center;
+                justify-content: flex-end;
+                align-items: center;
+            }
+
+            .page-item.disabled .page-link {
+                color: #6c757d;
+                pointer-events: none;
+                background-color: #29303d;
+            }
+
+            .page-link:hover {
+                z-index: 2;
+                background-color: #1d1d20;
+                color: #6e91d1;
+            }
+
+            .playlistIcon {
+                width: 100px;
+                height: 100px;
+                border-radius: 20px;
+                background-image: url(../images/playlist.jpg);
+                background-position: center;
+                background-size: cover;
+            }
+
+                .playlistIcon h4 {
+                    margin-left: 0.5em;
+                }
+
+            .name {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                align-content: center;
+                justify-content: flex-start;
+                align-items: flex-start;
+                width: 100%;
+            }
+
+            .col-md-9 {
+                margin: auto;
+            }
+
+            .serch {
+                margin-right: 2em;
+            }
+
+            .serchinput {
+                border: solid 2px #cefee0;
+                border-radius: 30px;
+                background-color: transparent;
+                color: white;
+                width: 100%;
+                height: 100%;
+                padding: 7px 15px;
+            }
+
+                .serchinput::placeholder {
+                    color: #d2fde145;
+                }
+
+            .buton {
+                background-color: #cefee0;
+                border: none;
+                border-radius: 30px;
+                padding: 7px 20px;
+                color: #419c88;
+                font-weight: 700;
+                text-decoration: none;
+            }
+
+            .tabela {
+                width: 100%;
+                height: 100%;
+                border-radius: 20px;
+                padding: 20px;
+                margin-top: 1em;
+                background-color: #192232;
+            }
+
+            .search-button {
+                border-radius: 50px;
+                padding: 1px 10px;
+                background-color: transparent;
+                color: #c9e4d5;
+                border: solid 2px #7e8d85;
+                margin: 2px;
+            }
+
+            .search-filters {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                align-content: center;
+                justify-content: flex-start;
+                align-items: center;
+            }
+
+            .search-button.active {
+                border-radius: 50px;
+                padding: 1px 10px;
+                background-color: #329d88;
+                color: #d2fde1;
+                font-weight: 600;
+                border: solid 2px #419c88;
+            }
+        </style>

@@ -31,13 +31,67 @@ namespace Laboratorium3___App.Models
 
         public void Update(Playlist playlist)
         {
-            var existingPlaylist = _context.Playlists.Find(playlist.Id);
+            var existingPlaylist = _context.Playlists
+                .Include(p => p.PlaylistTracks)
+                .Include(p => p.PlaylistTags)
+                .FirstOrDefault(p => p.Id == playlist.Id);
+
             if (existingPlaylist != null)
             {
-                PlaylistMapper.UpdateEntity(existingPlaylist, playlist);
+                // Aktualizacja podstawowych informacji o playliście
+                PlaylistMapper.UpdateEntity(existingPlaylist, playlist, _context);
+
+                // Aktualizacja listy utworów
+                UpdatePlaylistTracks(existingPlaylist, playlist);
+
                 _context.SaveChanges();
             }
         }
+
+        private void UpdatePlaylistTracks(PlaylistEntity existingPlaylist, Playlist playlist)
+        {
+            // Uzyskanie obecnych ID utworów
+            var currentTrackIds = existingPlaylist.PlaylistTracks.Select(pt => pt.TrackId).ToList();
+
+            // Uzyskanie nowych ID utworów
+            var newTrackIds = _context.Tracks
+                .Where(t => playlist.TrackNames.Contains(t.Name))
+                .Select(t => t.Id)
+                .ToList();
+
+            // Usuwanie utworów, które nie są już na liście
+            foreach (var trackId in currentTrackIds.Except(newTrackIds))
+            {
+                var trackToRemove = existingPlaylist.PlaylistTracks.FirstOrDefault(pt => pt.TrackId == trackId);
+                if (trackToRemove != null)
+                    existingPlaylist.PlaylistTracks.Remove(trackToRemove);
+            }
+
+            // Dodawanie nowych utworów
+            foreach (var trackId in newTrackIds.Except(currentTrackIds))
+            {
+                existingPlaylist.PlaylistTracks.Add(new PlaylistTrackEntity { TrackId = trackId, PlaylistId = existingPlaylist.Id });
+            }
+
+            // Aktualizacja całkowitego czasu trwania playlisty
+            UpdateTotalDuration(existingPlaylist);
+        }
+
+        private void UpdateTotalDuration(PlaylistEntity existingPlaylist)
+        {
+            var trackDurations = _context.Tracks
+                .Where(t => existingPlaylist.PlaylistTracks.Select(pt => pt.TrackId).Contains(t.Id))
+                .Select(t => t.Duration)
+                .ToList(); // Pobranie wyników do pamięci przed agregacją
+
+            var totalDuration = trackDurations.Aggregate(TimeSpan.Zero, (total, next) => total + next);
+
+            existingPlaylist.TotalDuration = totalDuration;
+        }
+
+
+
+
 
         public void Delete(int playlistId)
         {
@@ -112,11 +166,11 @@ namespace Laboratorium3___App.Models
         public Playlist FindByIdWithTracks(int id)
         {
             var playlistEntity = _context.Playlists
-                                         .Include(p => p.PlaylistTracks)
-                                         .ThenInclude(pt => pt.Track)
-                                         .ThenInclude(track => track.Album)
-                                         .ThenInclude(album => album.Genre)
-                                         .FirstOrDefault(p => p.Id == id);
+                .Include(p => p.PlaylistTracks)
+                .ThenInclude(pt => pt.Track)
+                .ThenInclude(track => track.Album)
+                .ThenInclude(album => album.Genre)
+                .FirstOrDefault(p => p.Id == id);
 
             if (playlistEntity == null)
             {
@@ -131,18 +185,24 @@ namespace Laboratorium3___App.Models
                 var track = pt.Track;
                 var trackDetails = new TrackDetails
                 {
-                    Id=track.Id,
+                    Id = track.Id,
                     Name = track.Name,
-                    Genre = track.Album.Genre.Name, // Nazwa gatunku
-                    BandOrArtist = track.Album.BandOrArtist, // Wykonawca
-                    Duration = track.Duration, // Czas trwania
-                    AlbumName = track.Album.Name // Nazwa albumu
+                    Genre = track.Album.Genre.Name,
+                    BandOrArtist = track.Album.BandOrArtist,
+                    Duration = track.Duration,
+                    AlbumName = track.Album.Name
                 };
                 playlist.TrackDetails.Add(trackDetails);
             }
 
+            // Dodanie nazw utworów
+            playlist.TrackNames = playlistEntity.PlaylistTracks
+                .Select(pt => pt.Track.Name)
+                .ToList();
+
             return playlist;
         }
+
 
 
         public List<string> GetTagsForPlaylist(int playlistId)

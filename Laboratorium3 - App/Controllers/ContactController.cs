@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Laboratorium3___App.Controllers
 {
-    //[Authorize(Roles = "admin")]
     public class ContactController : Controller
     {
         private readonly IContactService _contactService;
@@ -18,7 +17,6 @@ namespace Laboratorium3___App.Controllers
 
         
 
-        //[AllowAnonymous]
         public IActionResult Index()
         {
             List<Contact> contacts = _contactService.FindAll();

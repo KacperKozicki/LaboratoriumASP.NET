@@ -1,9 +1,16 @@
 ﻿@model Album
 
 <div class="col-md-9">
-    <div class="topIndex">
-        <h1 class="dm">Szczegóły Albumu: @Model.Name</h1>
-    </div>
+    <a class="back" asp-action="Index">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+    </svg>
+        Powrót
+    </a>
+
+
+
+   
 
     <div class="tabela">
         <table class="table text-light">
@@ -21,7 +28,7 @@
                     <ol>
                         @foreach (var track in Model.Tracklist)
                         {
-                            <li>@track</li>
+                            <li>@track.Name - @track.Duration</li>
                         }
                     </ol>
                 </td>
@@ -44,7 +51,7 @@
             </tr>
         </table>
 
-        <a class="btn btn-primary" asp-action="Index">Powrót</a>
+        
     </div>
 </div>
 
@@ -87,5 +94,9 @@
         color: #419c88;
         font-weight: 700;
         text-decoration: none;
+    }
+
+    .col-md-9 {
+        margin: auto;
     }
 </style>

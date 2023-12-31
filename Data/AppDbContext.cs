@@ -38,7 +38,16 @@ namespace Data
             base.OnModelCreating(modelBuilder);
 
             string ADMIN_ID = Guid.NewGuid().ToString();
-            string ROLE_ID = Guid.NewGuid().ToString();
+            string ADMIN_ROLE_ID = Guid.NewGuid().ToString();
+
+            string USER_ROLE_ID = Guid.NewGuid().ToString();
+
+            string ARTIST_ROLE_ID = Guid.NewGuid().ToString();
+
+            string JULIA_ID = Guid.NewGuid().ToString();
+            string TOMEK_ID = Guid.NewGuid().ToString();
+            string MICHAEL_ID = Guid.NewGuid().ToString();
+
 
 
             var user = new IdentityUser
@@ -54,35 +63,86 @@ namespace Data
             PasswordHasher<IdentityUser> ph = new PasswordHasher<IdentityUser>();
             user.PasswordHash = ph.HashPassword(user, "Admin123#");
 
+            var julia = new IdentityUser
+            {
+                Id = JULIA_ID,
+                Email = "julia@wsei.edu.pl",
+                EmailConfirmed = true,
+                UserName = "julia",
+                NormalizedEmail = "JULIA@WSEI.EDU.PL",
+                NormalizedUserName = "JULIA"
+
+            };
+            PasswordHasher<IdentityUser> pr = new PasswordHasher<IdentityUser>();
+            julia.PasswordHash = pr.HashPassword(julia, "Julia123#");
+
+            var tomek = new IdentityUser
+            {
+                Id = TOMEK_ID,
+                Email = "tomek@wsei.edu.pl",
+                EmailConfirmed = true,
+                UserName = "tomek",
+                NormalizedEmail = "TOMEK@WSEI.EDU.PL",
+                NormalizedUserName = "TOMEK"
+            };
+            tomek.PasswordHash = ph.HashPassword(tomek, "Tomek123#");
+
+            var michael = new IdentityUser
+            {
+                Id = MICHAEL_ID,
+                Email = "michael@wsei.edu.pl",
+                EmailConfirmed = true,
+                UserName = "michael",
+                NormalizedEmail = "MICHAEL@WSEI.EDU.PL",
+                NormalizedUserName = "MICHAEL"
+            };
+            michael.PasswordHash = ph.HashPassword(michael, "Michael123#");
 
 
-            modelBuilder.Entity<IdentityUser>()
-                .HasData(user);
+
+           
 
             var adminRole = new IdentityRole
             {
-                Name = "admin",
+                Name = "ADMIN",
                 NormalizedName = "ADMIN",
-                Id = ROLE_ID,
-                ConcurrencyStamp = ROLE_ID
+                Id = ADMIN_ROLE_ID,
+                ConcurrencyStamp = ADMIN_ROLE_ID
+            };
+
+           
+
+            var userRole = new IdentityRole
+            {
+                Name = "USER",
+                NormalizedName = "USER",
+                Id = USER_ROLE_ID,
+                ConcurrencyStamp = USER_ROLE_ID
+            };
+
+
+            var artistRole = new IdentityRole
+            {
+                Name = "ARTIST",
+                NormalizedName = "ARTIST",
+                Id = ARTIST_ROLE_ID,
+                ConcurrencyStamp = ARTIST_ROLE_ID
             };
 
 
 
-          
 
 
+            modelBuilder.Entity<IdentityUser>().HasData(user, julia, tomek, michael);
+            modelBuilder.Entity<IdentityRole>().HasData(adminRole, userRole, artistRole);
 
-            modelBuilder.Entity<IdentityRole>()
-                .HasData(adminRole);
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData(
+                new IdentityUserRole<string> { RoleId = ADMIN_ROLE_ID, UserId = ADMIN_ID },
+                new IdentityUserRole<string> { RoleId = USER_ROLE_ID, UserId = JULIA_ID },
+                new IdentityUserRole<string> { RoleId = USER_ROLE_ID, UserId = TOMEK_ID },
+                new IdentityUserRole<string> { RoleId = ARTIST_ROLE_ID, UserId = MICHAEL_ID }
+            );
 
-            modelBuilder.Entity<IdentityUserRole<string>>()
-                .HasData(
-                new IdentityUserRole<string>
-                {
-                    RoleId = ROLE_ID,
-                    UserId = ADMIN_ID,
-                });
 
             modelBuilder.Entity<ContactEntity>()
                 .HasOne(c => c.Ogranization)
@@ -232,7 +292,12 @@ namespace Data
                     ChartRanking = 3,
                     GenreId = 2
 
-                });
+                },
+                new AlbumEntity() { Id = 3, Name = "Echoes of Nature", BandOrArtist = "Nature Sound Band", ReleaseDate = new DateTime(2021, 5, 1), GenreId = 3, Created = DateTime.Now, ChartRanking = 2 },
+                new AlbumEntity() { Id = 4, Name = "Rhythms of Space", BandOrArtist = "Galaxy Explorers", ReleaseDate = new DateTime(2022, 2, 15), GenreId = 4, Created = DateTime.Now, ChartRanking = 1 },
+                new AlbumEntity() { Id = 5, Name = "Journey Through Time", BandOrArtist = "History Makers", ReleaseDate = new DateTime(2020, 12, 25), GenreId = 2, Created = DateTime.Now, ChartRanking = 3 }
+   
+                );
 
             modelBuilder.Entity<TrackEntity>().HasData(
                  new TrackEntity { Id = 1, Name = "Magical", AlbumEntityId = 1, Duration = TimeSpan.FromSeconds(225) },
@@ -241,7 +306,15 @@ namespace Data
                  new TrackEntity { Id = 4, Name = "Shirtsleeves", AlbumEntityId = 2, Duration = TimeSpan.FromSeconds(195) },
                  new TrackEntity { Id = 5, Name = "One", AlbumEntityId = 2, Duration = TimeSpan.FromSeconds(280) },
                  new TrackEntity { Id = 6, Name = "The Man", AlbumEntityId = 2, Duration = TimeSpan.FromSeconds(210) }
-             );
+                 new TrackEntity { Id = 7, Name = "Forest Whisper", AlbumEntityId = 3, Duration = TimeSpan.FromSeconds(180) },
+                new TrackEntity { Id = 8, Name = "Ocean Wave", AlbumEntityId = 3, Duration = TimeSpan.FromSeconds(210) },
+                new TrackEntity { Id = 9, Name = "Mountain Echo", AlbumEntityId = 3, Duration = TimeSpan.FromSeconds(200) },
+                new TrackEntity { Id = 10, Name = "Starry Night", AlbumEntityId = 4, Duration = TimeSpan.FromSeconds(240) },
+                new TrackEntity { Id = 11, Name = "Mystery of Nebula", AlbumEntityId = 4, Duration = TimeSpan.FromSeconds(260) },
+                new TrackEntity { Id = 12, Name = "Ancient Roads", AlbumEntityId = 5, Duration = TimeSpan.FromSeconds(190) },
+                new TrackEntity { Id = 13, Name = "Timeless Memories", AlbumEntityId = 5, Duration = TimeSpan.FromSeconds(220) },
+                new TrackEntity { Id = 14, Name = "Sands of History", AlbumEntityId = 5, Duration = TimeSpan.FromSeconds(180) }
+            );
 
             modelBuilder.Entity<PlaylistEntity>()
                 .HasKey(p => p.Id);
@@ -301,11 +374,12 @@ namespace Data
                      TotalDuration = TimeSpan.FromSeconds(370),
                      Created = new DateTime(2022, 11, 8),
                      UserId = ADMIN_ID,
-                 }
-             // Dodaj więcej playlist według potrzeb
-             );;
+                 },
+                new PlaylistEntity { Id = 3, Name = "Morning Vibes", GenreId = 1, IsPublic = true, TotalDuration = TimeSpan.FromSeconds(600), Created = DateTime.Now, UserId = JULIA_ID },
+                new PlaylistEntity { Id = 4, Name = "Workout Energy", GenreId = 4, IsPublic = false, TotalDuration = TimeSpan.FromSeconds(500), Created = DateTime.Now, UserId = TOMEK_ID }
+            );
 
-           
+
 
 
 
@@ -314,12 +388,16 @@ namespace Data
                 new {  PlaylistId = 1, TrackId = 1 }, // Zakładając, że TrackId = 1 istnieje
                 new {  PlaylistId = 1, TrackId = 2 }, // Zakładając, że TrackId = 2 istnieje
                 new {  PlaylistId = 2, TrackId = 3 }, // Zakładając, że TrackId = 3 istnieje
-                new {  PlaylistId = 2, TrackId = 4 }  // Zakładając, że TrackId = 4 istnieje
+                new {  PlaylistId = 2, TrackId = 4 } , // Zakładając, że TrackId = 4 istnieje
+                     new { PlaylistId = 3, TrackId = 7 },
+                new { PlaylistId = 3, TrackId = 8 },
+                new { PlaylistId = 4, TrackId = 10 },
+                new { PlaylistId = 4, TrackId = 11 }
             );
 
 
 
-            
+
 
             // Dodanie tagów do playlist
             modelBuilder.Entity<PlaylistTagEntity>().HasData(
@@ -331,7 +409,15 @@ namespace Data
                 // Przypisanie tagów do playlisty "Rock Classics"
                 new { PlaylistId = 2, TagId = 1 }, // Tag "Radosny"
                 new { PlaylistId = 2, TagId = 4 }, // Tag "Romantyczny"
-                new { PlaylistId = 2, TagId = 14 }  // Tag "Do tańca"
+                new { PlaylistId = 2, TagId = 14 },  // Tag "Do tańca"
+
+                 new { PlaylistId = 3, TagId = 2 }, // Tag "Radosny"
+                new { PlaylistId = 3, TagId = 5 }, // Tag "Romantyczny"
+                new { PlaylistId = 3, TagId = 4 },  // Tag "Do tańca"
+
+                 new { PlaylistId = 4, TagId = 10 }, // Tag "Radosny"
+                new { PlaylistId = 4, TagId = 7 }, // Tag "Romantyczny"
+                new { PlaylistId = 4, TagId = 3 }  // Tag "Do tańca"
                                                     // Dodaj więcej przypisań według potrzeb
             );
         }

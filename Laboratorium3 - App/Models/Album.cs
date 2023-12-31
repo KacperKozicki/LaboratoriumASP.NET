@@ -26,7 +26,8 @@ namespace Laboratorium3___App.Models
         [Required(ErrorMessage = "Musisz podać conajmniej jeden utwór!")]
         [MinLength(1, ErrorMessage = "Musisz podać conajmniej jeden utwór!")]
         [Display(Name = "Lista piosenek")]
-        public List<string> Tracklist { get; set; }
+        public List<Track> Tracklist { get; set; }
+
 
         [Display(Name = "Notowania")]
         public AlbumChartRanking ChartRanking { get; set; } 
@@ -34,9 +35,18 @@ namespace Laboratorium3___App.Models
         [DataType(DataType.Date)]
         [Display(Name = "Data wydania")]
         public DateTime? ReleaseDate { get; set; }
-        [Display(Name = "Czas trwania")]
-        public TimeSpan? Duration { get; set; }
+        [ValidateNever]
+        public TimeSpan? Duration
+        {
+            get
+            {
+                if (Tracklist == null || !Tracklist.Any())
+                    return null;
 
+                return TimeSpan.FromSeconds(Tracklist.Sum(track => track.Duration.TotalSeconds));
+            }
+            set { }
+        }
 
 
 
@@ -53,8 +63,17 @@ namespace Laboratorium3___App.Models
 
         public Album()
         {
-            Tracklist = new List<string>();
+            Tracklist = new List<Track>();
         }
 
+        public class Track
+        {
+            [Required(ErrorMessage = "Musisz podać nazwę utworu!")]
+            public string Name { get; set; }
+
+            [Required(ErrorMessage = "Musisz podać czas trwania utworu!")]
+            public TimeSpan Duration { get; set; }
+        }
     }
+    
 }
