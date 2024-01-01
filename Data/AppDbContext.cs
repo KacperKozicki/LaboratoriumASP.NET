@@ -305,7 +305,7 @@ namespace Data
                  new TrackEntity { Id = 3, Name = "Punchline", AlbumEntityId = 1, Duration = TimeSpan.FromSeconds(175) },
                  new TrackEntity { Id = 4, Name = "Shirtsleeves", AlbumEntityId = 2, Duration = TimeSpan.FromSeconds(195) },
                  new TrackEntity { Id = 5, Name = "One", AlbumEntityId = 2, Duration = TimeSpan.FromSeconds(280) },
-                 new TrackEntity { Id = 6, Name = "The Man", AlbumEntityId = 2, Duration = TimeSpan.FromSeconds(210) }
+                 new TrackEntity { Id = 6, Name = "The Man", AlbumEntityId = 2, Duration = TimeSpan.FromSeconds(210) },
                  new TrackEntity { Id = 7, Name = "Forest Whisper", AlbumEntityId = 3, Duration = TimeSpan.FromSeconds(180) },
                 new TrackEntity { Id = 8, Name = "Ocean Wave", AlbumEntityId = 3, Duration = TimeSpan.FromSeconds(210) },
                 new TrackEntity { Id = 9, Name = "Mountain Echo", AlbumEntityId = 3, Duration = TimeSpan.FromSeconds(200) },
@@ -375,7 +375,7 @@ namespace Data
                      Created = new DateTime(2022, 11, 8),
                      UserId = ADMIN_ID,
                  },
-                new PlaylistEntity { Id = 3, Name = "Morning Vibes", GenreId = 1, IsPublic = true, TotalDuration = TimeSpan.FromSeconds(600), Created = DateTime.Now, UserId = JULIA_ID },
+                new PlaylistEntity { Id = 3, Name = "Morning Vibes", GenreId = 1, IsPublic = true, TotalDuration = TimeSpan.FromSeconds(390), Created = DateTime.Now, UserId = JULIA_ID },
                 new PlaylistEntity { Id = 4, Name = "Workout Energy", GenreId = 4, IsPublic = false, TotalDuration = TimeSpan.FromSeconds(500), Created = DateTime.Now, UserId = TOMEK_ID }
             );
 

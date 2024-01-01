@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231230165517_update1")]
+    [Migration("20240101203236_update1")]
     partial class update1
     {
         /// <inheritdoc />
@@ -64,7 +64,7 @@ namespace Data.Migrations
                             Id = 1,
                             BandOrArtist = "Artist1",
                             ChartRanking = 1,
-                            Created = new DateTime(2023, 12, 30, 17, 55, 17, 9, DateTimeKind.Local).AddTicks(8637),
+                            Created = new DateTime(2024, 1, 1, 21, 32, 36, 270, DateTimeKind.Local).AddTicks(2783),
                             GenreId = 1,
                             Name = "Album1",
                             ReleaseDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -74,10 +74,40 @@ namespace Data.Migrations
                             Id = 2,
                             BandOrArtist = "Artist2",
                             ChartRanking = 3,
-                            Created = new DateTime(2023, 12, 30, 17, 55, 17, 10, DateTimeKind.Local).AddTicks(58),
+                            Created = new DateTime(2024, 1, 1, 21, 32, 36, 270, DateTimeKind.Local).AddTicks(2863),
                             GenreId = 2,
                             Name = "Album2",
                             ReleaseDate = new DateTime(2021, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            BandOrArtist = "Nature Sound Band",
+                            ChartRanking = 2,
+                            Created = new DateTime(2024, 1, 1, 21, 32, 36, 270, DateTimeKind.Local).AddTicks(2868),
+                            GenreId = 3,
+                            Name = "Echoes of Nature",
+                            ReleaseDate = new DateTime(2021, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 4,
+                            BandOrArtist = "Galaxy Explorers",
+                            ChartRanking = 1,
+                            Created = new DateTime(2024, 1, 1, 21, 32, 36, 270, DateTimeKind.Local).AddTicks(2875),
+                            GenreId = 4,
+                            Name = "Rhythms of Space",
+                            ReleaseDate = new DateTime(2022, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 5,
+                            BandOrArtist = "History Makers",
+                            ChartRanking = 3,
+                            Created = new DateTime(2024, 1, 1, 21, 32, 36, 270, DateTimeKind.Local).AddTicks(2880),
+                            GenreId = 2,
+                            Name = "Journey Through Time",
+                            ReleaseDate = new DateTime(2020, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -125,7 +155,7 @@ namespace Data.Migrations
                         {
                             Id = 1,
                             Birth = new DateTime(2000, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Created = new DateTime(2023, 12, 30, 17, 55, 17, 6, DateTimeKind.Local).AddTicks(8793),
+                            Created = new DateTime(2024, 1, 1, 21, 32, 36, 265, DateTimeKind.Local).AddTicks(7191),
                             Email = "adam@wsei.edu.pl",
                             Name = "Adam",
                             OrganizationId = 1,
@@ -136,7 +166,7 @@ namespace Data.Migrations
                         {
                             Id = 2,
                             Birth = new DateTime(1999, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Created = new DateTime(2023, 12, 30, 17, 55, 17, 6, DateTimeKind.Local).AddTicks(8849),
+                            Created = new DateTime(2024, 1, 1, 21, 32, 36, 265, DateTimeKind.Local).AddTicks(7326),
                             Email = "ewa@wsei.edu.pl",
                             Name = "Ewa",
                             OrganizationId = 1,
@@ -277,7 +307,7 @@ namespace Data.Migrations
                             IsPublic = true,
                             Name = "Summer Hits",
                             TotalDuration = new TimeSpan(0, 0, 8, 5, 0),
-                            UserId = "69961c9f-9c0d-44c2-9d8f-2c870713e312"
+                            UserId = "75eee478-a030-489f-9e40-3ad96fbfbc1b"
                         },
                         new
                         {
@@ -287,7 +317,27 @@ namespace Data.Migrations
                             IsPublic = true,
                             Name = "Rock Classics",
                             TotalDuration = new TimeSpan(0, 0, 6, 10, 0),
-                            UserId = "69961c9f-9c0d-44c2-9d8f-2c870713e312"
+                            UserId = "75eee478-a030-489f-9e40-3ad96fbfbc1b"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Created = new DateTime(2024, 1, 1, 21, 32, 36, 271, DateTimeKind.Local).AddTicks(7100),
+                            GenreId = 1,
+                            IsPublic = true,
+                            Name = "Morning Vibes",
+                            TotalDuration = new TimeSpan(0, 0, 10, 0, 0),
+                            UserId = "b327fc8b-827d-4a4b-bbe1-bdb624302eb3"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Created = new DateTime(2024, 1, 1, 21, 32, 36, 271, DateTimeKind.Local).AddTicks(7134),
+                            GenreId = 4,
+                            IsPublic = false,
+                            Name = "Workout Energy",
+                            TotalDuration = new TimeSpan(0, 0, 8, 20, 0),
+                            UserId = "2229335b-be2d-4825-a55f-c91252bb6cb2"
                         });
                 });
 
@@ -335,6 +385,36 @@ namespace Data.Migrations
                         {
                             PlaylistId = 2,
                             TagId = 14
+                        },
+                        new
+                        {
+                            PlaylistId = 3,
+                            TagId = 2
+                        },
+                        new
+                        {
+                            PlaylistId = 3,
+                            TagId = 5
+                        },
+                        new
+                        {
+                            PlaylistId = 3,
+                            TagId = 4
+                        },
+                        new
+                        {
+                            PlaylistId = 4,
+                            TagId = 10
+                        },
+                        new
+                        {
+                            PlaylistId = 4,
+                            TagId = 7
+                        },
+                        new
+                        {
+                            PlaylistId = 4,
+                            TagId = 3
                         });
                 });
 
@@ -372,6 +452,26 @@ namespace Data.Migrations
                         {
                             PlaylistId = 2,
                             TrackId = 4
+                        },
+                        new
+                        {
+                            PlaylistId = 3,
+                            TrackId = 7
+                        },
+                        new
+                        {
+                            PlaylistId = 3,
+                            TrackId = 8
+                        },
+                        new
+                        {
+                            PlaylistId = 4,
+                            TrackId = 10
+                        },
+                        new
+                        {
+                            PlaylistId = 4,
+                            TrackId = 11
                         });
                 });
 
@@ -557,6 +657,62 @@ namespace Data.Migrations
                             AlbumEntityId = 2,
                             Duration = new TimeSpan(0, 0, 3, 30, 0),
                             Name = "The Man"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            AlbumEntityId = 3,
+                            Duration = new TimeSpan(0, 0, 3, 0, 0),
+                            Name = "Forest Whisper"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            AlbumEntityId = 3,
+                            Duration = new TimeSpan(0, 0, 3, 30, 0),
+                            Name = "Ocean Wave"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            AlbumEntityId = 3,
+                            Duration = new TimeSpan(0, 0, 3, 20, 0),
+                            Name = "Mountain Echo"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            AlbumEntityId = 4,
+                            Duration = new TimeSpan(0, 0, 4, 0, 0),
+                            Name = "Starry Night"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            AlbumEntityId = 4,
+                            Duration = new TimeSpan(0, 0, 4, 20, 0),
+                            Name = "Mystery of Nebula"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            AlbumEntityId = 5,
+                            Duration = new TimeSpan(0, 0, 3, 10, 0),
+                            Name = "Ancient Roads"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            AlbumEntityId = 5,
+                            Duration = new TimeSpan(0, 0, 3, 40, 0),
+                            Name = "Timeless Memories"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            AlbumEntityId = 5,
+                            Duration = new TimeSpan(0, 0, 3, 0, 0),
+                            Name = "Sands of History"
                         });
                 });
 
@@ -588,22 +744,22 @@ namespace Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b3924cd1-a2d1-48c3-9a2b-470337307e1a",
-                            ConcurrencyStamp = "b3924cd1-a2d1-48c3-9a2b-470337307e1a",
+                            Id = "e62b00a8-2d92-46e3-803a-628b8d997d2f",
+                            ConcurrencyStamp = "e62b00a8-2d92-46e3-803a-628b8d997d2f",
                             Name = "ADMIN",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "64ba4eb2-e335-4907-80ef-a281db8445f6",
-                            ConcurrencyStamp = "64ba4eb2-e335-4907-80ef-a281db8445f6",
+                            Id = "b371a530-8def-40d7-bb6f-eabe3482fc5d",
+                            ConcurrencyStamp = "b371a530-8def-40d7-bb6f-eabe3482fc5d",
                             Name = "USER",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "a096b0dc-156d-402e-a4d6-eae2918841ed",
-                            ConcurrencyStamp = "a096b0dc-156d-402e-a4d6-eae2918841ed",
+                            Id = "0832b66e-81ac-4238-994a-39be288341d9",
+                            ConcurrencyStamp = "0832b66e-81ac-4238-994a-39be288341d9",
                             Name = "ARTIST",
                             NormalizedName = "ARTIST"
                         });
@@ -698,65 +854,65 @@ namespace Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "69961c9f-9c0d-44c2-9d8f-2c870713e312",
+                            Id = "75eee478-a030-489f-9e40-3ad96fbfbc1b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "324fbd80-92bf-4f78-a11b-a6cdb73150d2",
+                            ConcurrencyStamp = "0abd5016-6a17-4858-95ac-fafc2dbfaf21",
                             Email = "adam@wsei.edu.pl",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADAM@WSEI.EDU.PL",
                             NormalizedUserName = "ADAM",
-                            PasswordHash = "AQAAAAEAACcQAAAAECH7FSuA+hguK0Ds4wh8IjfDmHFL3VxHjs1TgnuiQQpDnpIHDRQdxps6q1j2QGW5Sg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFh80vgRnCooj0j+HnktHkksgnMI31PI7jvvZ/F4slCcTiW4mmel1PT/pg5IFzcRXg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "fcc044ae-a322-4728-bfd5-c036c2e66abf",
+                            SecurityStamp = "386fbe5b-6b6a-4c49-bcb3-0c388d56a1f3",
                             TwoFactorEnabled = false,
                             UserName = "adam"
                         },
                         new
                         {
-                            Id = "df872a0f-8646-4307-93bf-3f7ccbc0e911",
+                            Id = "b327fc8b-827d-4a4b-bbe1-bdb624302eb3",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7d97966b-d195-4a5d-bb9e-0992811e9bfe",
+                            ConcurrencyStamp = "491574c0-f615-48a1-8279-f14a6bbd4f36",
                             Email = "julia@wsei.edu.pl",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "JULIA@WSEI.EDU.PL",
                             NormalizedUserName = "JULIA",
-                            PasswordHash = "AQAAAAEAACcQAAAAECgHNUiIeY4xwTKX1XGtQLxcmH6cgYUOBj1ebpDiPp8miBsTy3e45Crk+2NIXjRHmw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOGRBunZunH0iEbLEWFMkwFBqADwzjgYQqAEfU825rCUiGohS04k7kD8Hu+LpyoT3g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b9a5d114-969c-442c-9b17-b9ee3bddcb16",
+                            SecurityStamp = "73bb6de5-f911-4588-be91-0e68578e2817",
                             TwoFactorEnabled = false,
                             UserName = "julia"
                         },
                         new
                         {
-                            Id = "edf1c309-d578-4514-8674-e45939fac80d",
+                            Id = "2229335b-be2d-4825-a55f-c91252bb6cb2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6abb239a-a80d-4656-ab9f-cf70c239636b",
+                            ConcurrencyStamp = "19b453a3-ea05-41a7-8aa3-af71e6edaa6b",
                             Email = "tomek@wsei.edu.pl",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "TOMEK@WSEI.EDU.PL",
                             NormalizedUserName = "TOMEK",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJU2wkUdubtrGdohdirQmXzFjfSCLd8DCk09g/CNVACtenu9qS1pdNXmJvWVuSzLBw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJtUpQClmducr1yayVrXkp+WBMWCrR3elF3vrwOkkl5dPqXZesXeebj1rdHc5bbuDg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "06b79eba-8528-45e6-ac19-a72f33af1c1a",
+                            SecurityStamp = "2097ab36-a863-49c7-a8cc-641f0e5811b8",
                             TwoFactorEnabled = false,
                             UserName = "tomek"
                         },
                         new
                         {
-                            Id = "8bdc2986-9d5f-4be4-b5dc-f62550c1ed8d",
+                            Id = "e0ad3fb3-3fc0-43cf-993f-b1df98cd29a4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "16fd431e-e199-4edd-8e93-078eb5c9621c",
+                            ConcurrencyStamp = "46a36b2b-92be-4b75-9553-e3f3d09c74c3",
                             Email = "michael@wsei.edu.pl",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MICHAEL@WSEI.EDU.PL",
                             NormalizedUserName = "MICHAEL",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDxsLJQYCLR6WLa6lujiDn7AmC/gzPjd3tIrl6VV0YRHi2yh9MbbzZTautRXy3OQ0A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELFmjT+JkP/FgEgdIeh5gP67l5F5filtjB9L/O1nbD5vMqHOoNBK/E1lHLQ2t6kmVQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "64b6f316-5092-42b0-95ea-4db2653b3d84",
+                            SecurityStamp = "101842e1-d826-444c-839a-9e7fd9da9f9b",
                             TwoFactorEnabled = false,
                             UserName = "michael"
                         });
@@ -824,23 +980,23 @@ namespace Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "69961c9f-9c0d-44c2-9d8f-2c870713e312",
-                            RoleId = "b3924cd1-a2d1-48c3-9a2b-470337307e1a"
+                            UserId = "75eee478-a030-489f-9e40-3ad96fbfbc1b",
+                            RoleId = "e62b00a8-2d92-46e3-803a-628b8d997d2f"
                         },
                         new
                         {
-                            UserId = "df872a0f-8646-4307-93bf-3f7ccbc0e911",
-                            RoleId = "64ba4eb2-e335-4907-80ef-a281db8445f6"
+                            UserId = "b327fc8b-827d-4a4b-bbe1-bdb624302eb3",
+                            RoleId = "b371a530-8def-40d7-bb6f-eabe3482fc5d"
                         },
                         new
                         {
-                            UserId = "edf1c309-d578-4514-8674-e45939fac80d",
-                            RoleId = "64ba4eb2-e335-4907-80ef-a281db8445f6"
+                            UserId = "2229335b-be2d-4825-a55f-c91252bb6cb2",
+                            RoleId = "b371a530-8def-40d7-bb6f-eabe3482fc5d"
                         },
                         new
                         {
-                            UserId = "8bdc2986-9d5f-4be4-b5dc-f62550c1ed8d",
-                            RoleId = "a096b0dc-156d-402e-a4d6-eae2918841ed"
+                            UserId = "e0ad3fb3-3fc0-43cf-993f-b1df98cd29a4",
+                            RoleId = "0832b66e-81ac-4238-994a-39be288341d9"
                         });
                 });
 

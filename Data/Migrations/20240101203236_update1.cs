@@ -353,9 +353,9 @@ namespace Data.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "64ba4eb2-e335-4907-80ef-a281db8445f6", "64ba4eb2-e335-4907-80ef-a281db8445f6", "USER", "USER" },
-                    { "a096b0dc-156d-402e-a4d6-eae2918841ed", "a096b0dc-156d-402e-a4d6-eae2918841ed", "ARTIST", "ARTIST" },
-                    { "b3924cd1-a2d1-48c3-9a2b-470337307e1a", "b3924cd1-a2d1-48c3-9a2b-470337307e1a", "ADMIN", "ADMIN" }
+                    { "0832b66e-81ac-4238-994a-39be288341d9", "0832b66e-81ac-4238-994a-39be288341d9", "ARTIST", "ARTIST" },
+                    { "b371a530-8def-40d7-bb6f-eabe3482fc5d", "b371a530-8def-40d7-bb6f-eabe3482fc5d", "USER", "USER" },
+                    { "e62b00a8-2d92-46e3-803a-628b8d997d2f", "e62b00a8-2d92-46e3-803a-628b8d997d2f", "ADMIN", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -363,10 +363,10 @@ namespace Data.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "69961c9f-9c0d-44c2-9d8f-2c870713e312", 0, "324fbd80-92bf-4f78-a11b-a6cdb73150d2", "adam@wsei.edu.pl", true, false, null, "ADAM@WSEI.EDU.PL", "ADAM", "AQAAAAEAACcQAAAAECH7FSuA+hguK0Ds4wh8IjfDmHFL3VxHjs1TgnuiQQpDnpIHDRQdxps6q1j2QGW5Sg==", null, false, "fcc044ae-a322-4728-bfd5-c036c2e66abf", false, "adam" },
-                    { "8bdc2986-9d5f-4be4-b5dc-f62550c1ed8d", 0, "16fd431e-e199-4edd-8e93-078eb5c9621c", "michael@wsei.edu.pl", true, false, null, "MICHAEL@WSEI.EDU.PL", "MICHAEL", "AQAAAAEAACcQAAAAEDxsLJQYCLR6WLa6lujiDn7AmC/gzPjd3tIrl6VV0YRHi2yh9MbbzZTautRXy3OQ0A==", null, false, "64b6f316-5092-42b0-95ea-4db2653b3d84", false, "michael" },
-                    { "df872a0f-8646-4307-93bf-3f7ccbc0e911", 0, "7d97966b-d195-4a5d-bb9e-0992811e9bfe", "julia@wsei.edu.pl", true, false, null, "JULIA@WSEI.EDU.PL", "JULIA", "AQAAAAEAACcQAAAAECgHNUiIeY4xwTKX1XGtQLxcmH6cgYUOBj1ebpDiPp8miBsTy3e45Crk+2NIXjRHmw==", null, false, "b9a5d114-969c-442c-9b17-b9ee3bddcb16", false, "julia" },
-                    { "edf1c309-d578-4514-8674-e45939fac80d", 0, "6abb239a-a80d-4656-ab9f-cf70c239636b", "tomek@wsei.edu.pl", true, false, null, "TOMEK@WSEI.EDU.PL", "TOMEK", "AQAAAAEAACcQAAAAEJU2wkUdubtrGdohdirQmXzFjfSCLd8DCk09g/CNVACtenu9qS1pdNXmJvWVuSzLBw==", null, false, "06b79eba-8528-45e6-ac19-a72f33af1c1a", false, "tomek" }
+                    { "2229335b-be2d-4825-a55f-c91252bb6cb2", 0, "19b453a3-ea05-41a7-8aa3-af71e6edaa6b", "tomek@wsei.edu.pl", true, false, null, "TOMEK@WSEI.EDU.PL", "TOMEK", "AQAAAAEAACcQAAAAEJtUpQClmducr1yayVrXkp+WBMWCrR3elF3vrwOkkl5dPqXZesXeebj1rdHc5bbuDg==", null, false, "2097ab36-a863-49c7-a8cc-641f0e5811b8", false, "tomek" },
+                    { "75eee478-a030-489f-9e40-3ad96fbfbc1b", 0, "0abd5016-6a17-4858-95ac-fafc2dbfaf21", "adam@wsei.edu.pl", true, false, null, "ADAM@WSEI.EDU.PL", "ADAM", "AQAAAAEAACcQAAAAEFh80vgRnCooj0j+HnktHkksgnMI31PI7jvvZ/F4slCcTiW4mmel1PT/pg5IFzcRXg==", null, false, "386fbe5b-6b6a-4c49-bcb3-0c388d56a1f3", false, "adam" },
+                    { "b327fc8b-827d-4a4b-bbe1-bdb624302eb3", 0, "491574c0-f615-48a1-8279-f14a6bbd4f36", "julia@wsei.edu.pl", true, false, null, "JULIA@WSEI.EDU.PL", "JULIA", "AQAAAAEAACcQAAAAEOGRBunZunH0iEbLEWFMkwFBqADwzjgYQqAEfU825rCUiGohS04k7kD8Hu+LpyoT3g==", null, false, "73bb6de5-f911-4588-be91-0e68578e2817", false, "julia" },
+                    { "e0ad3fb3-3fc0-43cf-993f-b1df98cd29a4", 0, "46a36b2b-92be-4b75-9553-e3f3d09c74c3", "michael@wsei.edu.pl", true, false, null, "MICHAEL@WSEI.EDU.PL", "MICHAEL", "AQAAAAEAACcQAAAAELFmjT+JkP/FgEgdIeh5gP67l5F5filtjB9L/O1nbD5vMqHOoNBK/E1lHLQ2t6kmVQ==", null, false, "101842e1-d826-444c-839a-9e7fd9da9f9b", false, "michael" }
                 });
 
             migrationBuilder.InsertData(
@@ -423,10 +423,10 @@ namespace Data.Migrations
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { "b3924cd1-a2d1-48c3-9a2b-470337307e1a", "69961c9f-9c0d-44c2-9d8f-2c870713e312" },
-                    { "a096b0dc-156d-402e-a4d6-eae2918841ed", "8bdc2986-9d5f-4be4-b5dc-f62550c1ed8d" },
-                    { "64ba4eb2-e335-4907-80ef-a281db8445f6", "df872a0f-8646-4307-93bf-3f7ccbc0e911" },
-                    { "64ba4eb2-e335-4907-80ef-a281db8445f6", "edf1c309-d578-4514-8674-e45939fac80d" }
+                    { "b371a530-8def-40d7-bb6f-eabe3482fc5d", "2229335b-be2d-4825-a55f-c91252bb6cb2" },
+                    { "e62b00a8-2d92-46e3-803a-628b8d997d2f", "75eee478-a030-489f-9e40-3ad96fbfbc1b" },
+                    { "b371a530-8def-40d7-bb6f-eabe3482fc5d", "b327fc8b-827d-4a4b-bbe1-bdb624302eb3" },
+                    { "0832b66e-81ac-4238-994a-39be288341d9", "e0ad3fb3-3fc0-43cf-993f-b1df98cd29a4" }
                 });
 
             migrationBuilder.InsertData(
@@ -434,8 +434,11 @@ namespace Data.Migrations
                 columns: new[] { "Id", "BandOrArtist", "ChartRanking", "Created", "Duration", "GenreId", "Name", "release_date" },
                 values: new object[,]
                 {
-                    { 1, "Artist1", 1, new DateTime(2023, 12, 30, 17, 55, 17, 9, DateTimeKind.Local).AddTicks(8637), null, 1, "Album1", new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, "Artist2", 3, new DateTime(2023, 12, 30, 17, 55, 17, 10, DateTimeKind.Local).AddTicks(58), null, 2, "Album2", new DateTime(2021, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1, "Artist1", 1, new DateTime(2024, 1, 1, 21, 32, 36, 270, DateTimeKind.Local).AddTicks(2783), null, 1, "Album1", new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, "Artist2", 3, new DateTime(2024, 1, 1, 21, 32, 36, 270, DateTimeKind.Local).AddTicks(2863), null, 2, "Album2", new DateTime(2021, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, "Nature Sound Band", 2, new DateTime(2024, 1, 1, 21, 32, 36, 270, DateTimeKind.Local).AddTicks(2868), null, 3, "Echoes of Nature", new DateTime(2021, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 4, "Galaxy Explorers", 1, new DateTime(2024, 1, 1, 21, 32, 36, 270, DateTimeKind.Local).AddTicks(2875), null, 4, "Rhythms of Space", new DateTime(2022, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 5, "History Makers", 3, new DateTime(2024, 1, 1, 21, 32, 36, 270, DateTimeKind.Local).AddTicks(2880), null, 2, "Journey Through Time", new DateTime(2020, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -443,8 +446,8 @@ namespace Data.Migrations
                 columns: new[] { "Id", "birth_date", "Created", "Email", "Name", "OrganizationId", "Phone", "Priority" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2000, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 12, 30, 17, 55, 17, 6, DateTimeKind.Local).AddTicks(8793), "adam@wsei.edu.pl", "Adam", 1, "127813268163", 1 },
-                    { 2, new DateTime(1999, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 12, 30, 17, 55, 17, 6, DateTimeKind.Local).AddTicks(8849), "ewa@wsei.edu.pl", "Ewa", 1, "293443823478", 2 }
+                    { 1, new DateTime(2000, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2024, 1, 1, 21, 32, 36, 265, DateTimeKind.Local).AddTicks(7191), "adam@wsei.edu.pl", "Adam", 1, "127813268163", 1 },
+                    { 2, new DateTime(1999, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2024, 1, 1, 21, 32, 36, 265, DateTimeKind.Local).AddTicks(7326), "ewa@wsei.edu.pl", "Ewa", 1, "293443823478", 2 }
                 });
 
             migrationBuilder.InsertData(
@@ -452,8 +455,10 @@ namespace Data.Migrations
                 columns: new[] { "Id", "Created", "GenreId", "IsPublic", "Name", "TotalDuration", "UserId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2005, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, true, "Summer Hits", new TimeSpan(0, 0, 8, 5, 0), "69961c9f-9c0d-44c2-9d8f-2c870713e312" },
-                    { 2, new DateTime(2022, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, true, "Rock Classics", new TimeSpan(0, 0, 6, 10, 0), "69961c9f-9c0d-44c2-9d8f-2c870713e312" }
+                    { 1, new DateTime(2005, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, true, "Summer Hits", new TimeSpan(0, 0, 8, 5, 0), "75eee478-a030-489f-9e40-3ad96fbfbc1b" },
+                    { 2, new DateTime(2022, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, true, "Rock Classics", new TimeSpan(0, 0, 6, 10, 0), "75eee478-a030-489f-9e40-3ad96fbfbc1b" },
+                    { 3, new DateTime(2024, 1, 1, 21, 32, 36, 271, DateTimeKind.Local).AddTicks(7100), 1, true, "Morning Vibes", new TimeSpan(0, 0, 10, 0, 0), "b327fc8b-827d-4a4b-bbe1-bdb624302eb3" },
+                    { 4, new DateTime(2024, 1, 1, 21, 32, 36, 271, DateTimeKind.Local).AddTicks(7134), 4, false, "Workout Energy", new TimeSpan(0, 0, 8, 20, 0), "2229335b-be2d-4825-a55f-c91252bb6cb2" }
                 });
 
             migrationBuilder.InsertData(
@@ -466,7 +471,13 @@ namespace Data.Migrations
                     { 1, 20 },
                     { 2, 1 },
                     { 2, 4 },
-                    { 2, 14 }
+                    { 2, 14 },
+                    { 3, 2 },
+                    { 3, 4 },
+                    { 3, 5 },
+                    { 4, 3 },
+                    { 4, 7 },
+                    { 4, 10 }
                 });
 
             migrationBuilder.InsertData(
@@ -479,7 +490,15 @@ namespace Data.Migrations
                     { 3, 1, new TimeSpan(0, 0, 2, 55, 0), "Punchline" },
                     { 4, 2, new TimeSpan(0, 0, 3, 15, 0), "Shirtsleeves" },
                     { 5, 2, new TimeSpan(0, 0, 4, 40, 0), "One" },
-                    { 6, 2, new TimeSpan(0, 0, 3, 30, 0), "The Man" }
+                    { 6, 2, new TimeSpan(0, 0, 3, 30, 0), "The Man" },
+                    { 7, 3, new TimeSpan(0, 0, 3, 0, 0), "Forest Whisper" },
+                    { 8, 3, new TimeSpan(0, 0, 3, 30, 0), "Ocean Wave" },
+                    { 9, 3, new TimeSpan(0, 0, 3, 20, 0), "Mountain Echo" },
+                    { 10, 4, new TimeSpan(0, 0, 4, 0, 0), "Starry Night" },
+                    { 11, 4, new TimeSpan(0, 0, 4, 20, 0), "Mystery of Nebula" },
+                    { 12, 5, new TimeSpan(0, 0, 3, 10, 0), "Ancient Roads" },
+                    { 13, 5, new TimeSpan(0, 0, 3, 40, 0), "Timeless Memories" },
+                    { 14, 5, new TimeSpan(0, 0, 3, 0, 0), "Sands of History" }
                 });
 
             migrationBuilder.InsertData(
@@ -490,7 +509,11 @@ namespace Data.Migrations
                     { 1, 1 },
                     { 1, 2 },
                     { 2, 3 },
-                    { 2, 4 }
+                    { 2, 4 },
+                    { 3, 7 },
+                    { 3, 8 },
+                    { 4, 10 },
+                    { 4, 11 }
                 });
 
             migrationBuilder.CreateIndex(
