@@ -139,6 +139,7 @@ namespace Laboratorium3___App.Controllers
         //    return View(); // ponowne wyświetlenie formualrza po dodaniu jeśli są błędy
         //}
 
+        [AuthorizeRoles("ADMIN,ARTIST,USER", "Nie masz odpowiednich uprawnień do zarządzania playlistami")]
         [HttpGet]
         public IActionResult Create()
         {
