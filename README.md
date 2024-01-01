@@ -21,6 +21,24 @@ Projekt realizuje serwis muzyczny w technologii ASP.NET, oferujący funkcjonalno
 - Identity Framework – dla autentykacji i zarządzania rolami użytkowników
 
 ---
+Aby uruchomić tę aplikację ASP.NET, musisz spełnić następujące wymagania:
+
+1. **.NET 6.0**: Upewnij się, że masz zainstalowane środowisko .NET w wersji 6.0. Możesz pobrać je ze strony [oficjalnej witryny .NET](https://dotnet.microsoft.com/download/dotnet/6.0).
+
+2. **Entity Framework**: Aplikacja korzysta z frameworka Entity Framework, dlatego konieczne jest zainstalowanie odpowiedniej wersji tego narzędzia.
+
+---
+Projekt wykorzystuje następujące pakiety NuGet:
+
+- **Microsoft.EntityFrameworkCore** w wersji 7.0.13: Główna biblioteka Entity Framework Core, która umożliwia dostęp do bazy danych i mapowanie obiektowo-relacyjne.
+
+- **Microsoft.EntityFrameworkCore.Design** w wersji 7.0.13: Pakiet ten zawiera narzędzia projektowe (np. polecenia CLI) do zarządzania migracjami i modelem danych w Entity Framework Core.
+
+- **Microsoft.EntityFrameworkCore.Sqlite** w wersji 7.0.13: Ten pakiet pozwala korzystać z bazy danych SQLite w ramach aplikacji, co może być przydatne do przechowywania danych lokalnie.
+
+- **Microsoft.AspNetCore.Identity.EntityFrameworkCore** w wersji 6.0.25: Ten pakiet jest częścią ASP.NET Core Identity i pozwala na zarządzanie kontami użytkowników, uwierzytelnianie i autoryzację w aplikacji.
+
+---
 
 ## Użytkownicy
 
